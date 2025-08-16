@@ -1,2 +1,2 @@
-from .black_scholes_module import BlackScholesModel
-from .implied_volatility_module import ImpliedVolatilityCalculator
+from .black_scholes import BlackScholesModel
+from .implied_volatility import ImpliedVolatilityCalculator
