@@ -1,11 +1,12 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Union
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.value_function import ValueFunction
+from data.data_types import MarketData
 
 class Evaluator:
     """Evaluate trained policy performance"""
@@ -16,15 +17,20 @@ class Evaluator:
         self.value_func = ValueFunction(policy_network)
     
     def evaluate_trajectory(self,
-                           prices: torch.Tensor,
-                           holdings: torch.Tensor) -> Dict[str, float]:
+                           data: Union[MarketData, Tuple[torch.Tensor, torch.Tensor]]) -> Dict[str, float]:
         """Evaluate policy on a single trajectory"""
         self.policy.eval()
         
         with torch.no_grad():
-            # Move to device
-            prices = prices.to(self.device)
-            holdings = holdings.to(self.device)
+            # Handle both MarketData and tuple formats
+            if isinstance(data, MarketData):
+                prices = data.prices.to(self.device)
+                holdings = data.holdings.to(self.device)
+            else:
+                # Legacy tuple format
+                prices, holdings = data
+                prices = prices.to(self.device)
+                holdings = holdings.to(self.device)
             
             # Get initial holding
             if len(holdings.shape) == 3:
@@ -50,13 +56,19 @@ class Evaluator:
         return metrics
     
     def compare_policies(self,
-                        prices: torch.Tensor,
-                        holdings: torch.Tensor) -> Dict[str, Dict[str, float]]:
+                        data: Union[MarketData, Tuple[torch.Tensor, torch.Tensor]]) -> Dict[str, Dict[str, float]]:
         """Compare trained policy vs baseline strategies"""
         results = {}
         
+        # Handle data format conversion for legacy baseline methods
+        if isinstance(data, MarketData):
+            prices = data.prices
+            holdings = data.holdings
+        else:
+            prices, holdings = data
+        
         # Evaluate trained policy
-        results['trained'] = self.evaluate_trajectory(prices, holdings)
+        results['trained'] = self.evaluate_trajectory(data)
         
         # Evaluate "execute all" baseline
         results['execute_all'] = self._evaluate_execute_all(prices, holdings)

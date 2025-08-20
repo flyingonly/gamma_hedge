@@ -8,11 +8,11 @@ import argparse
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from data.market_simulator import MarketConfig, MarketSimulator
-from data.data_loader import create_data_loader
+from data.data_loader import create_data_loader, create_delta_data_loader, check_delta_availability, DeltaHedgeDataset
 from models.policy_network import PolicyNetwork
 from training.trainer import Trainer
 from training.evaluator import Evaluator
-from utils.config import get_config
+from utils.config import get_config, create_unified_config
 from utils.visualization import plot_training_history, plot_execution_pattern, plot_results
 
 def parse_args():
@@ -29,6 +29,14 @@ def parse_args():
                        help='Only evaluate the model without training')
     parser.add_argument('--load-best', action='store_true',
                        help='Load best model for evaluation')
+    parser.add_argument('--delta-hedge', action='store_true',
+                       help='Use delta hedge mode for training')
+    parser.add_argument('--underlying-codes', nargs='+', default=['USU5', 'FVU5'],
+                       help='Underlying asset codes for delta hedge')
+    parser.add_argument('--weekly-codes', nargs='+', default=['3CN5'],
+                       help='Weekly option codes for delta hedge')
+    parser.add_argument('--sequence-length', type=int, default=100,
+                       help='Sequence length for delta hedge data')
     return parser.parse_args()
 
 def main():
@@ -39,12 +47,19 @@ def main():
     torch.manual_seed(42)
     np.random.seed(42)
     
-    # Get configuration
-    config = get_config()
+    # Get unified configuration
+    config = create_unified_config(args)
     
-    # Override epochs if specified
-    if args.epochs is not None:
-        config['training'].n_epochs = args.epochs
+    # Check delta hedge mode
+    use_delta_hedge = config['delta_hedge'].enable_delta
+    if args.delta_hedge and not use_delta_hedge:
+        print("Warning: Delta hedge requested but not available. Falling back to traditional mode.")
+    
+    print(f"Training mode: {'Delta Hedge' if use_delta_hedge else 'Traditional'}")
+    if use_delta_hedge:
+        print(f"Underlying codes: {config['delta_hedge'].underlying_codes}")
+        print(f"Weekly codes: {config['delta_hedge'].weekly_codes}")
+        print(f"Sequence length: {config['delta_hedge'].sequence_length}")
     
     # Check GPU availability
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -52,12 +67,20 @@ def main():
     if device == 'cuda':
         print(f"GPU: {torch.cuda.get_device_name(0)}")
     
-    # Calculate input dimension
-    n_assets = config['market'].n_assets
-    input_dim = n_assets * 3  # prev_holding, current_holding, price
+    # Calculate input dimension and create model
+    if use_delta_hedge:
+        # Create a temporary dataset to determine n_assets
+        temp_dataset = DeltaHedgeDataset(
+            weekly_positions=config['delta_hedge'].weekly_codes
+        )
+        n_assets = temp_dataset.n_assets
+        print(f"\nInitializing delta hedge model with {n_assets} underlying assets...")
+        print(f"Derived underlyings: {temp_dataset.underlying_codes}")
+    else:
+        n_assets = config['market'].n_assets
+        print("\nInitializing traditional model...")
     
-    # Create model
-    print("\nInitializing model...")
+    input_dim = n_assets * 3  # prev_holding, current_holding, price
     policy_net = PolicyNetwork(
         input_dim=input_dim,
         hidden_dims=config['model'].hidden_dims,
@@ -91,17 +114,28 @@ def main():
     if not args.eval_only:
         # Create data loaders
         print("\nCreating data loaders...")
-        train_loader = create_data_loader(
-            config['market'],
-            config['training'].n_train_samples,
-            config['training'].batch_size
-        )
-        
-        val_loader = create_data_loader(
-            config['market'],
-            config['training'].n_val_samples,
-            config['training'].batch_size
-        )
+        if use_delta_hedge:
+            train_loader = create_delta_data_loader(
+                batch_size=config['training'].batch_size,
+                weekly_positions=config['delta_hedge'].weekly_codes
+            )
+            
+            val_loader = create_delta_data_loader(
+                batch_size=config['training'].batch_size,
+                weekly_positions=config['delta_hedge'].weekly_codes
+            )
+        else:
+            train_loader = create_data_loader(
+                config['market'],
+                config['training'].n_train_samples,
+                config['training'].batch_size
+            )
+            
+            val_loader = create_data_loader(
+                config['market'],
+                config['training'].n_val_samples,
+                config['training'].batch_size
+            )
         
         # Train model
         print("\nStarting training...")
@@ -129,10 +163,21 @@ def main():
     evaluator = Evaluator(policy_net, device=device)
     
     # Generate test data
-    test_simulator = MarketSimulator(config['market'])
-    test_prices, test_holdings = test_simulator.generate_batch(1)
+    if use_delta_hedge:
+        # For delta hedge mode, generate test data using delta hedge system
+        from data.data_loader import DeltaHedgeDataset
+        test_dataset = DeltaHedgeDataset(
+            weekly_positions=config['delta_hedge'].weekly_codes
+        )
+        test_data = test_dataset[0]  # Returns MarketData
+        # Extract tensors and add batch dimension for evaluation
+        test_prices = test_data.prices.unsqueeze(0)
+        test_holdings = test_data.holdings.unsqueeze(0)
+    else:
+        test_simulator = MarketSimulator(config['market'])
+        test_prices, test_holdings = test_simulator.generate_batch(1)
     
-    # Compare strategies
+    # Compare strategies - unified interface
     comparison = evaluator.compare_policies(test_prices, test_holdings)
     
     print("\nStrategy Comparison:")
@@ -147,11 +192,21 @@ def main():
     if not args.eval_only:
         print("\nSaving final model...")
         final_save_path = 'optimal_execution_model.pth'
-        torch.save({
+        save_data = {
             'model_state_dict': policy_net.state_dict(),
             'config': config,
-            'history': history
-        }, final_save_path)
+            'history': history,
+            'delta_hedge_mode': use_delta_hedge
+        }
+        
+        if use_delta_hedge:
+            save_data.update({
+                'underlying_codes': config['delta_hedge'].underlying_codes,
+                'weekly_codes': config['delta_hedge'].weekly_codes,
+                'sequence_length': config['delta_hedge'].sequence_length
+            })
+        
+        torch.save(save_data, final_save_path)
         print(f"Final model saved to: {final_save_path}")
     
     print("\nComplete!")

@@ -36,3 +36,13 @@ venv/
 *.tmp
 *.log
 .DS_Store
+
+validation_results/
+
+*.xlsm
+.claude/
+csv_process/underlying_npz/
+csv_process/weekly_options_data/
+
+docs/archive/
+examples/

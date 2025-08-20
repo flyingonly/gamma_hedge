@@ -8,6 +8,11 @@ import numpy as np
 import os
 from datetime import datetime
 
+# Import new interfaces (no sys.path needed)
+from common.interfaces import DataResult
+from common.adapters import to_data_result
+from data.data_types import MarketData
+
 class Trainer:
     """Trainer for policy network"""
     
@@ -71,7 +76,7 @@ class Trainer:
             return {}
         
         print(f"Loading checkpoint from: {checkpoint_path}")
-        checkpoint = torch.load(checkpoint_path, map_location=self.device)
+        checkpoint = torch.load(checkpoint_path, map_location=self.device, weights_only=False)
         
         # Load model state
         self.policy.load_state_dict(checkpoint['model_state_dict'])
@@ -87,58 +92,81 @@ class Trainer:
         return checkpoint
         
     def compute_policy_loss(self,
-                           prices: torch.Tensor,
-                           holdings: torch.Tensor) -> torch.Tensor:
+                           data: DataResult) -> torch.Tensor:
         """
-        Compute policy loss using REINFORCE-style gradient estimation
+        Compute policy loss using REINFORCE algorithm with cumulative cost.
+        The reward is the negative of the total cost over the entire trajectory.
         """
+        prices = data.prices
+        holdings = data.holdings
         batch_size, n_timesteps, n_assets = prices.shape
-        
-        # Initial holding (from data)
-        initial_holding = holdings[:, 0, :]
-        current_holding = initial_holding.clone()
-        
-        total_loss = torch.zeros(1, device=self.device)
-        
+
+        # Initial holding from data
+        current_holding = holdings[:, 0, :].clone()
+
+        log_probs = []
+        rewards = []
+
+        # --- Simulation Step ---
+        # Simulate the policy over the entire sequence to collect trajectories
         for t in range(n_timesteps):
             current_price = prices[:, t, :]
             required_holding = holdings[:, t, :]
-            
-            # Get policy output
+
+            # Get policy output (execution probability)
             exec_prob = self.policy(
                 current_holding,
                 required_holding,
                 current_price
             )
-            
-            # Compute advantage (simplified - could use baseline)
+
+            # Sample action and store log probability
+            # Use a Bernoulli distribution for discrete action sampling
+            dist = torch.distributions.Bernoulli(exec_prob)
+            action = dist.sample()  # action=1 means execute, 0 means wait
+            log_probs.append(dist.log_prob(action))
+
+            # Calculate immediate cost for this step if action is taken
             holding_change = required_holding - current_holding
             immediate_cost = -(holding_change * current_price).sum(dim=-1, keepdim=True)
             
-            # Policy gradient loss
-            loss = -exec_prob * immediate_cost.detach()
-            total_loss = total_loss + loss.mean()
-            
-            # Update holdings (using exec_prob for differentiability)
-            current_holding = exec_prob * required_holding + \
-                            (1 - exec_prob) * current_holding
-        
-        return total_loss / n_timesteps
+            # The cost is only incurred if the action is to execute
+            cost_t = action * immediate_cost
+            rewards.append(-cost_t) # Reward is the negative of the cost
+
+            # Update holdings based on the sampled action
+            current_holding = action * required_holding + (1 - action) * current_holding
+
+        # --- Loss Calculation Step ---
+        # Stack collected data
+        log_probs = torch.stack(log_probs, dim=1)
+        rewards = torch.stack(rewards, dim=1)
+
+        # Calculate the cumulative reward (G_t) for the whole trajectory
+        # In this simplified REINFORCE, we use the total reward for every step
+        total_reward = torch.sum(rewards, dim=1, keepdim=True)
+
+        # Policy gradient loss: - (log_prob * total_reward)
+        # We use .detach() on total_reward as per REINFORCE algorithm
+        policy_loss = -(log_probs * total_reward.detach()).mean()
+
+        return policy_loss
     
     def train_epoch(self, data_loader: DataLoader) -> Dict[str, float]:
         """Train for one epoch"""
         self.policy.train()
         epoch_losses = []
         
-        for prices, holdings in tqdm(data_loader, desc="Training"):
-            prices = prices.to(self.device)
-            holdings = holdings.to(self.device)
+        for batch_data in tqdm(data_loader, desc="Training"):
+            # Convert to unified DataResult format
+            data_result = to_data_result(batch_data)
+            data_result = data_result.to(self.device)
             
             # Zero gradients
             self.optimizer.zero_grad()
             
             # Compute loss
-            loss = self.compute_policy_loss(prices, holdings)
+            loss = self.compute_policy_loss(data_result)
             
             # Backward pass
             loss.backward()
@@ -221,11 +249,12 @@ class Trainer:
         losses = []
         
         with torch.no_grad():
-            for prices, holdings in data_loader:
-                prices = prices.to(self.device)
-                holdings = holdings.to(self.device)
+            for batch_data in data_loader:
+                # Convert to unified DataResult format
+                data_result = to_data_result(batch_data)
+                data_result = data_result.to(self.device)
                 
-                loss = self.compute_policy_loss(prices, holdings)
+                loss = self.compute_policy_loss(data_result)
                 losses.append(loss.item())
         
         return {

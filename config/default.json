@@ -1,0 +1,33 @@
+{
+  "market": {
+    "n_assets": 3,
+    "n_timesteps": 50,
+    "initial_price": 100.0,
+    "volatility": 0.2,
+    "dt": 0.01,
+    "drift": 0.05,
+    "initial_holding": [0.0, 0.0, 0.0],
+    "target_holding": [1.0, 1.0, 1.0]
+  },
+  "training": {
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "n_epochs": 10,
+    "n_train_samples": 10000,
+    "n_val_samples": 2000,
+    "device": "cuda",
+    "checkpoint_interval": 10,
+    "early_stopping_patience": null
+  },
+  "model": {
+    "hidden_dims": [128, 64, 32],
+    "dropout_rate": 0.1,
+    "input_dim": null
+  },
+  "delta_hedge": {
+    "enable_delta": false,
+    "underlying_codes": ["USU5", "FVU5"],
+    "weekly_codes": ["3CN5"],
+    "sequence_length": 100
+  }
+}

@@ -8,7 +8,7 @@ Implements Newton-Raphson, Brent's method, and other numerical approaches for IV
 
 import numpy as np
 from scipy.optimize import brentq, minimize_scalar
-from black_scholes import BlackScholesModel
+from .black_scholes import BlackScholesModel
 import warnings
 warnings.filterwarnings('ignore')
 

@@ -1,0 +1,13 @@
+{
+  "training": {
+    "batch_size": 8,
+    "n_epochs": 5,
+    "n_train_samples": 100,
+    "n_val_samples": 50,
+    "device": "cpu",
+    "checkpoint_interval": 2
+  },
+  "model": {
+    "hidden_dims": [64, 32]
+  }
+}
