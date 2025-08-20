@@ -1,4 +1,38 @@
 # Python cache
-__pycache__
+__pycache__/
+*.py[cod]
+*$py.class
 
-checkpoints
+# PyTorch checkpoints
+checkpoints/
+*.pth
+*.pt
+
+# Data files
+*.npz
+*.csv
+*.xlsx
+data/
+raw_data/
+processed_data/
+
+# Test outputs (keep structure but ignore large logs)
+tests/**/test_execution_log.txt
+tests/**/*_debug.txt
+tests/**/*_log.txt
+tests/**/test_report.txt
+
+# Environment
+.env
+.venv
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
+.DS_Store
