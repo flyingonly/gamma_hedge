@@ -1,0 +1,24 @@
+{
+  "name": "Best Liquidity Single",
+  "description": "Single option with best data quality and size for robust training",
+  "selection_criteria": {
+    "weekly_codes": ["3CN5", "3CQ5", "3IN5", "3IQ5", "3MN5", "3MQ5"],
+    "min_data_size": 5000,
+    "sort_by": "data_size"
+  },
+  "max_options": 1,
+  "position_weights": {
+    "primary": 1.0
+  },
+  "training_params": {
+    "sequence_length": 120,
+    "batch_size": 64,
+    "learning_rate": 0.0015,
+    "n_epochs": 100,
+    "checkpoint_interval": 5,
+    "validation_split": 0.2,
+    "entropy_weight": 0.01,
+    "base_execution_cost": 0.001,
+    "variable_execution_cost": 0.0001
+  }
+}

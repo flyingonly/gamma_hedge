@@ -19,6 +19,22 @@ class TrainingConfig(BaseConfig):
     checkpoint_interval: int = 10
     early_stopping_patience: int = None
     
+    # Regularization parameters - unified defaults based on typical usage
+    entropy_weight: float = 0.01  # Default from trainer.py - encourages exploration
+    base_execution_cost: float = 0.001  # Default from trainer.py - base transaction cost
+    variable_execution_cost: float = 0.0001  # Default from trainer.py - variable transaction cost
+    market_impact_scale: float = 0.01  # Scale factor for market impact cost to control reward magnitude
+    
+    # Value function parameters
+    value_learning_rate: float = 1e-3  # Learning rate for value function
+    value_loss_weight: float = 0.5  # Weight for value function loss in total loss
+    value_hidden_dims: List[int] = None  # Hidden dimensions for value function network
+    value_dropout_rate: float = 0.1  # Dropout rate for value function network
+    
+    def __post_init__(self):
+        if self.value_hidden_dims is None:
+            self.value_hidden_dims = [128, 64, 32]
+    
     def validate(self) -> bool:
         """Validate configuration parameters"""
         return (self.batch_size > 0 and
@@ -27,7 +43,15 @@ class TrainingConfig(BaseConfig):
                 self.n_train_samples > 0 and
                 self.n_val_samples > 0 and
                 self.checkpoint_interval > 0 and
-                self.device in ['cpu', 'cuda'])
+                self.device in ['cpu', 'cuda'] and
+                self.entropy_weight >= 0 and
+                self.base_execution_cost >= 0 and
+                self.variable_execution_cost >= 0 and
+                self.value_learning_rate > 0 and
+                self.value_loss_weight >= 0 and
+                self.value_dropout_rate >= 0 and
+                self.value_dropout_rate <= 1 and
+                all(dim > 0 for dim in self.value_hidden_dims))
     
     def to_dict(self) -> dict:
         """Convert to dictionary"""
@@ -39,7 +63,14 @@ class TrainingConfig(BaseConfig):
             'n_val_samples': self.n_val_samples,
             'device': self.device,
             'checkpoint_interval': self.checkpoint_interval,
-            'early_stopping_patience': self.early_stopping_patience
+            'early_stopping_patience': self.early_stopping_patience,
+            'entropy_weight': self.entropy_weight,
+            'base_execution_cost': self.base_execution_cost,
+            'variable_execution_cost': self.variable_execution_cost,
+            'value_learning_rate': self.value_learning_rate,
+            'value_loss_weight': self.value_loss_weight,
+            'value_hidden_dims': self.value_hidden_dims,
+            'value_dropout_rate': self.value_dropout_rate
         }
     
     @classmethod

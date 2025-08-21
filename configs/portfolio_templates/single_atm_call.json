@@ -1,0 +1,29 @@
+{
+  "name": "Single ATM Call",
+  "description": "Single at-the-money call option for basic delta hedging training",
+  "selection_criteria": {
+    "option_type": "CALL",
+    "strike_range": {
+      "min_percentile": 45,
+      "max_percentile": 55
+    },
+    "weekly_codes": ["3CN5", "3IN5", "3MN5"],
+    "min_data_size": 1000,
+    "sort_by": "data_size"
+  },
+  "max_options": 1,
+  "position_weights": {
+    "primary": 1.0
+  },
+  "training_params": {
+    "sequence_length": 100,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "n_epochs": 50,
+    "checkpoint_interval": 10,
+    "entropy_weight": 0.001,
+    "base_execution_cost": 0.01,
+    "variable_execution_cost": 0.1,
+    "market_impact_scale": 0.01
+  }
+}

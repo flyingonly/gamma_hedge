@@ -70,7 +70,8 @@ class DataResult:
     def __init__(self, 
                  prices: torch.Tensor, 
                  holdings: torch.Tensor,
-                 metadata: Optional[Dict[str, Any]] = None):
+                 metadata: Optional[Dict[str, Any]] = None,
+                 time_features: Optional[torch.Tensor] = None):
         # Validate tensor shapes match
         if prices.shape != holdings.shape:
             raise ValueError(f"Shape mismatch: prices {prices.shape} vs holdings {holdings.shape}")
@@ -78,6 +79,7 @@ class DataResult:
         self.prices = prices
         self.holdings = holdings  
         self.metadata = metadata or {}
+        self.time_features = time_features
         
     @property
     def shape(self) -> torch.Size:
@@ -104,7 +106,8 @@ class DataResult:
         return DataResult(
             self.prices.to(device),
             self.holdings.to(device),
-            self.metadata.copy()
+            self.metadata.copy(),
+            self.time_features.to(device) if self.time_features is not None else None
         )
         
     def extract_tensors(self) -> tuple[torch.Tensor, torch.Tensor]:
@@ -116,7 +119,8 @@ class DataResult:
         return DataResult(
             self.prices.unsqueeze(0),
             self.holdings.unsqueeze(0),
-            self.metadata.copy()
+            self.metadata.copy(),
+            self.time_features.unsqueeze(0) if self.time_features is not None else None
         )
     
     def remove_batch_dim(self) -> 'DataResult':
@@ -124,7 +128,8 @@ class DataResult:
         return DataResult(
             self.prices.squeeze(0),
             self.holdings.squeeze(0),
-            self.metadata.copy()
+            self.metadata.copy(),
+            self.time_features.squeeze(0) if self.time_features is not None else None
         )
 
 class DatasetInterface(ABC):

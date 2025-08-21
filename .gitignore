@@ -46,3 +46,6 @@ csv_process/weekly_options_data/
 
 docs/archive/
 examples/
+
+outputs/
+logs/
