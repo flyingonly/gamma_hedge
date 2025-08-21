@@ -3,7 +3,7 @@ Training layer specific configurations
 """
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 from common.interfaces import BaseConfig
 from common.enhanced_config_manager import register_config_type
 
@@ -18,6 +18,15 @@ class TrainingConfig(BaseConfig):
     device: str = 'cuda'
     checkpoint_interval: int = 10
     early_stopping_patience: int = None
+    
+    # Validation control parameters
+    validation_interval: int = 1  # Validate every N epochs (1 = every epoch)
+    validation_batch_size_factor: float = 0.5  # Validation batch size as fraction of training batch size
+    
+    # Time series parameters
+    align_to_daily: bool = False  # Align sequences to trading day boundaries
+    split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1)  # (train, val, test) ratios
+    min_daily_sequences: int = 50  # Minimum data points required per trading day
     
     # Regularization parameters - unified defaults based on typical usage
     entropy_weight: float = 0.01  # Default from trainer.py - encourages exploration
@@ -43,6 +52,12 @@ class TrainingConfig(BaseConfig):
                 self.n_train_samples > 0 and
                 self.n_val_samples > 0 and
                 self.checkpoint_interval > 0 and
+                self.validation_interval > 0 and
+                self.validation_batch_size_factor > 0 and
+                self.validation_batch_size_factor <= 1 and
+                self.min_daily_sequences > 0 and
+                abs(sum(self.split_ratios) - 1.0) < 1e-6 and
+                all(ratio >= 0 for ratio in self.split_ratios) and
                 self.device in ['cpu', 'cuda'] and
                 self.entropy_weight >= 0 and
                 self.base_execution_cost >= 0 and
@@ -64,6 +79,11 @@ class TrainingConfig(BaseConfig):
             'device': self.device,
             'checkpoint_interval': self.checkpoint_interval,
             'early_stopping_patience': self.early_stopping_patience,
+            'validation_interval': self.validation_interval,
+            'validation_batch_size_factor': self.validation_batch_size_factor,
+            'align_to_daily': self.align_to_daily,
+            'split_ratios': self.split_ratios,
+            'min_daily_sequences': self.min_daily_sequences,
             'entropy_weight': self.entropy_weight,
             'base_execution_cost': self.base_execution_cost,
             'variable_execution_cost': self.variable_execution_cost,

@@ -7,8 +7,18 @@ gamma hedging policies with real option data, comprehensive monitoring,
 and professional-grade workflow management.
 
 Usage:
+    # Basic training
     python run_production_training.py --portfolio single_atm_call --epochs 50
-    python run_production_training.py --portfolio best_liquidity_single --batch-size 64 --lr 0.002
+    
+    # Advanced training with time series features
+    python run_production_training.py --portfolio single_atm_call --epochs 50 \\
+        --align-to-daily --split-ratios 0.6 0.3 0.1 --underlying-dense-mode
+    
+    # Custom configuration
+    python run_production_training.py --portfolio best_liquidity_single \\
+        --batch-size 64 --lr 0.002 --min-daily-sequences 100
+    
+    # List available portfolios
     python run_production_training.py --list-portfolios
 """
 
@@ -26,6 +36,7 @@ sys.path.append(project_root)
 
 # Import production training components
 from training.production_trainer import ProductionTrainer
+from training.config import TrainingConfig
 from data.option_portfolio_manager import OptionPortfolioManager
 from training.training_monitor import TrainingMonitor
 
@@ -87,6 +98,22 @@ Examples:
                                help='Save checkpoint every N epochs (default: 10)')
     training_group.add_argument('--validation-split', type=float, default=0.2,
                                help='Validation data split ratio (default: 0.2)')
+    training_group.add_argument('--underlying-dense-mode', action='store_true',
+                               help='Use underlying data density for training (greatly increases data volume)')
+    training_group.add_argument('--auto-dense-mode', action='store_true', default=True,
+                               help='Automatically enable dense mode if sparse data is insufficient (default: True)')
+    
+    # Time series parameters
+    timeseries_group = parser.add_argument_group('Time Series Configuration')
+    timeseries_group.add_argument('--align-to-daily', action='store_true',
+                                 help='Align sequences to trading day boundaries (enables variable-length sequences)')
+    timeseries_group.add_argument('--split-ratios', nargs=3, type=float, default=[0.7, 0.2, 0.1],
+                                 metavar=('TRAIN', 'VAL', 'TEST'),
+                                 help='Time-based split ratios for train/val/test (default: 0.7 0.2 0.1)')
+    timeseries_group.add_argument('--min-daily-sequences', type=int, default=50,
+                                 help='Minimum data points required per trading day (default: 50)')
+    timeseries_group.add_argument('--disable-time-split', action='store_true',
+                                 help='Disable time-based splitting (legacy mode)')
     
     # Model configuration
     model_group = parser.add_argument_group('Model Configuration')
@@ -196,6 +223,60 @@ def show_portfolio_info(portfolio_manager: OptionPortfolioManager, config_name: 
         print(f"Error generating portfolio report: {e}")
         sys.exit(1)
 
+def create_training_config(portfolio_manager: OptionPortfolioManager, 
+                          portfolio_name: str, 
+                          cli_args) -> TrainingConfig:
+    """
+    Create unified training configuration with clear priority hierarchy:
+    CLI Arguments > Portfolio Template > TrainingConfig Defaults
+    
+    This function eliminates parameter conflicts and ensures consistent configuration.
+    """
+    
+    # Step 1: Start with TrainingConfig defaults
+    training_config = TrainingConfig()
+    
+    # Step 2: Load and apply portfolio template parameters
+    portfolio_config = portfolio_manager.load_portfolio_config(portfolio_name)
+    
+    # Apply training_params from portfolio template
+    training_params = portfolio_config.get('training_params', {})
+    for key, value in training_params.items():
+        if hasattr(training_config, key):
+            setattr(training_config, key, value)
+    
+    # Apply time_series_params from portfolio template  
+    time_series_params = portfolio_config.get('time_series_params', {})
+    for key, value in time_series_params.items():
+        if hasattr(training_config, key):
+            setattr(training_config, key, value)
+    
+    # Step 3: Apply CLI arguments (highest priority)
+    # Define parameter mapping for CLI args that have different names
+    cli_overrides = {
+        # Core training parameters
+        'epochs': 'n_epochs',
+        'batch_size': 'batch_size', 
+        'learning_rate': 'learning_rate',
+        'checkpoint_interval': 'checkpoint_interval',
+        
+        # Time series parameters
+        'split_ratios': 'split_ratios',
+        'min_daily_sequences': 'min_daily_sequences'
+    }
+    
+    # Apply CLI overrides only if the argument was actually provided
+    for cli_param, config_param in cli_overrides.items():
+        if hasattr(cli_args, cli_param):
+            cli_value = getattr(cli_args, cli_param)
+            if cli_value is not None:  # Only override if value was provided
+                if cli_param == 'split_ratios':
+                    setattr(training_config, config_param, tuple(cli_value))
+                else:
+                    setattr(training_config, config_param, cli_value)
+    
+    return training_config
+
 def main():
     """Main training workflow"""
     
@@ -285,19 +366,46 @@ def main():
         logger.info(f"Enable Visualization: {enable_visualization}")
         logger.info(f"Checkpoint Interval: {args.checkpoint_interval}")
         logger.info(f"Random Seed: {args.seed}")
+        logger.info(f"Underlying Dense Mode: {args.underlying_dense_mode}")
+        logger.info(f"Auto Dense Mode: {args.auto_dense_mode}")
         
-        # Execute training
+        # Determine data mode  
+        underlying_dense_mode = args.underlying_dense_mode
+        if args.auto_dense_mode and not underlying_dense_mode:
+            # Auto-enable dense mode for better training stability
+            underlying_dense_mode = True
+            logger.info("Auto-enabling underlying dense mode for optimal training data")
+        
+        # Validate split ratios
+        if abs(sum(args.split_ratios) - 1.0) > 1e-6:
+            logger.error(f"Split ratios must sum to 1.0, got: {args.split_ratios} (sum={sum(args.split_ratios)})")
+            return 1
+        
+        # Create unified training configuration with clear priority: CLI > Portfolio > Defaults
+        training_config = create_training_config(
+            portfolio_manager=production_trainer.portfolio_manager,
+            portfolio_name=args.portfolio,
+            cli_args=args
+        )
+        
+        logger.info(f"Final Training Configuration:")
+        logger.info(f"  Epochs: {training_config.n_epochs}")
+        logger.info(f"  Batch Size: {training_config.batch_size}")
+        logger.info(f"  Learning Rate: {training_config.learning_rate}")
+        logger.info(f"  Align to Daily: {training_config.align_to_daily}")
+        logger.info(f"  Split Ratios: {training_config.split_ratios}")
+        logger.info(f"  Min Daily Sequences: {training_config.min_daily_sequences}")
+        
+        # Execute training with complete training_config
         results = production_trainer.train(
             config_name=args.portfolio,
-            epochs=args.epochs,
-            batch_size=args.batch_size,
-            learning_rate=args.learning_rate,
-            checkpoint_interval=args.checkpoint_interval,
+            training_config=training_config,
             enable_tracking=enable_tracking,
             enable_visualization=enable_visualization,
             model_config=model_config,
             sequence_length=args.sequence_length,
-            validation_split=args.validation_split
+            validation_split=args.validation_split,
+            underlying_dense_mode=underlying_dense_mode
         )
         
         # Display results summary

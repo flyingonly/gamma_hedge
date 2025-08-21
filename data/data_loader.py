@@ -94,7 +94,7 @@ def create_data_loader(config: MarketConfig, n_samples: int, batch_size: int) ->
     Returns:
         DataLoader with market simulation data
     """
-    from common.collate import data_result_collate_fn
+    from common.collate import data_result_collate_fn, variable_length_collate_fn
     
     simulator = MarketSimulator(config)
     dataset = TradingDataset(simulator, n_samples)
@@ -106,7 +106,14 @@ def create_delta_data_loader(batch_size: int,
                            option_positions: Dict[str, float],
                            start_date: Optional[str] = None,
                            end_date: Optional[str] = None,
-                           sequence_length: int = 100) -> TorchDataLoader:
+                           sequence_length: int = 100,
+                           underlying_dense_mode: bool = False,
+                           underlying_data_path: str = "csv_process/underlying_npz",
+                           # New time series parameters
+                           data_split: str = 'all',
+                           split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1),
+                           align_to_daily: bool = False,
+                           min_daily_sequences: int = 50) -> TorchDataLoader:
     """
     Create a data loader for delta hedge data using precomputed Greeks.
     
@@ -118,17 +125,72 @@ def create_delta_data_loader(batch_size: int,
             Values are position quantities
         start_date: Start date for data (YYYY-MM-DD) - currently unused, reserved for future
         end_date: End date for data (YYYY-MM-DD) - currently unused, reserved for future  
-        sequence_length: Length of training sequences
+        sequence_length: Length of training sequences (ignored if align_to_daily=True)
+        underlying_dense_mode: If True, use underlying data density with interpolated IV
+        underlying_data_path: Path to underlying NPZ data files
+        data_split: Which data split to use ('all', 'train', 'val', 'test')
+        split_ratios: (train_ratio, val_ratio, test_ratio) for time-based splitting
+        align_to_daily: If True, align sequences to trading day boundaries
+        min_daily_sequences: Minimum data points required per trading day
         
     Returns:
         DataLoader with precomputed Greeks-based training data
     """
-    from common.collate import data_result_collate_fn
+    from common.collate import data_result_collate_fn, variable_length_collate_fn
     from .precomputed_data_loader import PrecomputedGreeksDataset
     
     dataset = PrecomputedGreeksDataset(
         portfolio_positions=option_positions,
-        sequence_length=sequence_length
+        sequence_length=sequence_length,
+        underlying_dense_mode=underlying_dense_mode,
+        underlying_data_path=underlying_data_path,
+        data_split=data_split,
+        split_ratios=split_ratios,
+        align_to_daily=align_to_daily,
+        min_daily_sequences=min_daily_sequences
     )
+    # Choose collate function based on alignment mode
+    collate_fn = variable_length_collate_fn if align_to_daily else data_result_collate_fn
+    
     return TorchDataLoader(dataset, batch_size=batch_size, shuffle=True, 
-                          collate_fn=data_result_collate_fn)
+                          collate_fn=collate_fn)
+
+
+def create_underlying_dense_data_loader(batch_size: int,
+                                       option_positions: Dict[str, float],
+                                       sequence_length: int = 1000,
+                                       underlying_data_path: str = "csv_process/underlying_npz",
+                                       # New time series parameters
+                                       data_split: str = 'all',
+                                       split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1),
+                                       align_to_daily: bool = False,
+                                       min_daily_sequences: int = 50) -> TorchDataLoader:
+    """
+    Create a data loader using underlying dense mode for maximum training data.
+    This is a convenience function that automatically enables underlying_dense_mode.
+    
+    Args:
+        batch_size: Batch size for training
+        option_positions: Specific option positions in format:
+            {'3CN5/CALL_111.0': 1.0, '3CN5/PUT_111.5': -0.5}
+        sequence_length: Length of training sequences (default 1000 for dense data)
+        underlying_data_path: Path to underlying NPZ data files
+        data_split: Which data split to use ('all', 'train', 'val', 'test')
+        split_ratios: (train_ratio, val_ratio, test_ratio) for time-based splitting
+        align_to_daily: If True, align sequences to trading day boundaries
+        min_daily_sequences: Minimum data points required per trading day
+        
+    Returns:
+        DataLoader with underlying dense training data
+    """
+    return create_delta_data_loader(
+        batch_size=batch_size,
+        option_positions=option_positions,
+        sequence_length=sequence_length,
+        underlying_dense_mode=True,
+        underlying_data_path=underlying_data_path,
+        data_split=data_split,
+        split_ratios=split_ratios,
+        align_to_daily=align_to_daily,
+        min_daily_sequences=min_daily_sequences
+    )

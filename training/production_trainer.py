@@ -111,12 +111,26 @@ class ProductionTrainer:
     def prepare_training_data(self, 
                             batch_size: int = 32,
                             validation_split: float = 0.2,
-                            sequence_length: int = 100) -> Tuple[torch.utils.data.DataLoader, torch.utils.data.DataLoader]:
+                            sequence_length: int = 100,
+                            underlying_dense_mode: bool = False,
+                            training_config: TrainingConfig = None,
+                            # New time series parameters
+                            align_to_daily: bool = False,
+                            split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1)) -> Tuple[torch.utils.data.DataLoader, torch.utils.data.DataLoader]:
         """
-        Prepare training and validation data loaders
+        Prepare training and validation data loaders with proper time-based splitting
         
+        Args:
+            batch_size: Batch size for training
+            validation_split: Fraction for validation (legacy, ignored in favor of split_ratios)
+            sequence_length: Length of training sequences
+            underlying_dense_mode: If True, use underlying data density for training
+            training_config: Training configuration object
+            align_to_daily: If True, align sequences to trading day boundaries
+            split_ratios: (train_ratio, val_ratio, test_ratio) for time-based splitting
+            
         Returns:
-            Tuple of (train_loader, val_loader)
+            Tuple of (train_loader, val_loader) with proper time-based splits
         """
         if not self.current_portfolio:
             raise ValueError("No portfolio selected. Call select_portfolio() first.")
@@ -126,17 +140,37 @@ class ProductionTrainer:
         try:
             positions = self.current_portfolio['positions']
             
-            # Create training data loader
+            # Log data mode selection
+            mode_str = "underlying dense" if underlying_dense_mode else "option sparse"
+            alignment_str = "daily-aligned" if align_to_daily else "sliding window"
+            self.logger.info(f"Using {mode_str} data mode with {alignment_str} sequences")
+            self.logger.info(f"Time-based split ratios: train={split_ratios[0]:.1f}, val={split_ratios[1]:.1f}, test={split_ratios[2]:.1f}")
+            
+            # Create training data loader with time-based split
             train_loader = create_delta_data_loader(
                 batch_size=batch_size,
-                option_positions=positions
+                option_positions=positions,
+                sequence_length=sequence_length,
+                underlying_dense_mode=underlying_dense_mode,
+                data_split='train',
+                split_ratios=split_ratios,
+                align_to_daily=align_to_daily,
+                min_daily_sequences=getattr(training_config, 'min_daily_sequences', 50)
             )
             
             # Create validation data loader (smaller batch size for memory efficiency)
-            val_batch_size = max(1, batch_size // 2)
+            # Use validation_batch_size_factor from training config if available
+            val_batch_size_factor = getattr(training_config, 'validation_batch_size_factor', 0.5)
+            val_batch_size = max(1, int(batch_size * val_batch_size_factor))
             val_loader = create_delta_data_loader(
                 batch_size=val_batch_size,
-                option_positions=positions
+                option_positions=positions,
+                sequence_length=sequence_length,
+                underlying_dense_mode=underlying_dense_mode,
+                data_split='val',
+                split_ratios=split_ratios,
+                align_to_daily=align_to_daily,
+                min_daily_sequences=getattr(training_config, 'min_daily_sequences', 50)
             )
             
             self.logger.info(f"Training data loader created: batch_size={batch_size}")
@@ -196,21 +230,25 @@ class ProductionTrainer:
     
     def train(self, 
               config_name: str,
-              training_config: Optional[TrainingConfig] = None,
+              training_config: TrainingConfig,
               enable_tracking: bool = True,
               enable_visualization: bool = True,
               model_config: Optional[Dict] = None,
-              **kwargs) -> Dict[str, Any]:
+              underlying_dense_mode: bool = False,
+              sequence_length: int = 100,
+              validation_split: float = 0.2) -> Dict[str, Any]:
         """
         Execute complete training workflow
         
         Args:
             config_name: Portfolio configuration name
-            training_config: Training configuration (will be created from portfolio template if None)
+            training_config: Training configuration object (required)
             enable_tracking: Enable policy decision tracking
             enable_visualization: Enable real-time visualization
             model_config: Model architecture configuration
-            **kwargs: Additional training parameters
+            underlying_dense_mode: Use underlying data density for training
+            sequence_length: Length of training sequences
+            validation_split: Validation data split ratio
             
         Returns:
             Training results dictionary
@@ -224,40 +262,23 @@ class ProductionTrainer:
             self.logger.info("STARTING PRODUCTION TRAINING WORKFLOW")
             self.logger.info("="*60)
             
-            # Create or merge training configuration
+            # Ensure we have a valid training configuration
             if training_config is None:
-                # Load configuration from portfolio template
-                portfolio_info = self.select_portfolio(config_name)
-                portfolio_config = self.portfolio_manager.load_portfolio_config(config_name)
-                training_params = portfolio_config.get('training_params', {})
-                
-                # Create TrainingConfig from portfolio template
-                training_config = TrainingConfig()
-                for key, value in training_params.items():
-                    if hasattr(training_config, key):
-                        setattr(training_config, key, value)
-                
-                # Override with any kwargs (handle parameter name mapping)
-                param_mapping = {
-                    'epochs': 'n_epochs',  # Map epochs -> n_epochs
-                }
-                
-                for key, value in kwargs.items():
-                    # Use mapped key if available, otherwise use original key
-                    config_key = param_mapping.get(key, key)
-                    if hasattr(training_config, config_key):
-                        setattr(training_config, config_key, value)
-            else:
-                # Use provided configuration but still need portfolio info
-                portfolio_info = self.select_portfolio(config_name)
+                raise ValueError("training_config is required. Use create_training_config() to generate a proper configuration.")
             
+            # Select portfolio (this is always needed for data preparation)
+            portfolio_info = self.select_portfolio(config_name)
             self.current_config = training_config
             
             # Step 2: Data Preparation
             train_loader, val_loader = self.prepare_training_data(
                 batch_size=training_config.batch_size,
-                sequence_length=getattr(training_config, 'sequence_length', 100),
-                validation_split=kwargs.get('validation_split', 0.2)
+                sequence_length=sequence_length,
+                validation_split=validation_split,
+                underlying_dense_mode=underlying_dense_mode,
+                training_config=training_config,
+                align_to_daily=training_config.align_to_daily,
+                split_ratios=training_config.split_ratios
             )
             
             # Step 3: Model Creation
@@ -316,9 +337,21 @@ class ProductionTrainer:
                 
                 # Training step
                 train_metrics = self.current_trainer.train_epoch(train_loader)
+                self.logger.info(f"[INFO] Epoch {epoch + 1} training completed - Loss: {train_metrics['loss']:.6f}")
                 
-                # Validation step
-                val_metrics = self.current_trainer.evaluate(val_loader)
+                # Validation step (controlled by validation_interval)
+                validation_interval = getattr(training_config, 'validation_interval', 1)
+                if (epoch + 1) % validation_interval == 0:
+                    self.logger.info("[INFO] Starting validation...")
+                    val_metrics = self.current_trainer.evaluate(val_loader)
+                    self.logger.info(f"[INFO] Validation completed - Loss: {val_metrics['loss']:.6f}")
+                else:
+                    # Skip validation but use previous validation metrics if available
+                    val_metrics = history[-1] if history and any(k.startswith('val_') for k in history[-1].keys()) else {'loss': float('inf')}
+                    val_metrics = {k.replace('val_', ''): v for k, v in val_metrics.items() if k.startswith('val_')}
+                    if not val_metrics:
+                        val_metrics = {'loss': float('inf')}
+                    self.logger.info(f"[INFO] Skipping validation (interval={validation_interval})")
                 
                 epoch_time = time.time() - epoch_start_time
                 
@@ -356,20 +389,25 @@ class ProductionTrainer:
                 
                 # Checkpoint saving
                 if (epoch + 1) % training_config.checkpoint_interval == 0:
+                    self.logger.info("[INFO] Saving checkpoint...")
                     self.current_trainer.save_checkpoint(epoch, history)
+                    self.logger.info("[INFO] Checkpoint saved")
                 
                 # Best model tracking
                 current_val_loss = val_metrics['loss']
                 if current_val_loss < best_val_loss:
                     best_val_loss = current_val_loss
+                    self.logger.info("[INFO] Saving new best model...")
                     self.current_trainer.save_checkpoint(epoch, history, 'best_model.pth')
-                    self.logger.info(f"New best model saved (val_loss: {current_val_loss:.6f})")
+                    self.logger.info(f"[INFO] New best model saved (val_loss: {current_val_loss:.6f})")
             
             # Step 7: Training Completion
             training_time = time.time() - training_start_time
             
             # Save final checkpoint
+            self.logger.info("[INFO] Saving final checkpoint...")
             self.current_trainer.save_checkpoint(training_config.n_epochs - 1, history, 'final_model.pth')
+            self.logger.info("[INFO] Final checkpoint saved")
             
             # End monitoring session
             self.training_monitor.end_session("completed")

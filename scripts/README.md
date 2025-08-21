@@ -7,7 +7,7 @@ This directory contains the main executable scripts for the Gamma Hedge project.
 ### Production Scripts
 
 #### `run_production_training.py`
-**Purpose**: Main production training interface for gamma hedging strategies
+**Purpose**: Main production training interface for gamma hedging strategies with dual data modes
 **Usage**:
 ```bash
 # List available portfolios
@@ -16,20 +16,37 @@ python scripts/run_production_training.py --list-portfolios
 # Get portfolio information
 python scripts/run_production_training.py --portfolio-info single_atm_call
 
-# Run training
+# Standard training (sparse option data mode)
 python scripts/run_production_training.py --portfolio single_atm_call --epochs 50
 
-# Custom training parameters
+# Dense data mode training (recommended for optimal training stability)
 python scripts/run_production_training.py --portfolio single_atm_call \
-    --epochs 100 --batch-size 64 --learning-rate 0.001 --disable-realtime-plots
+    --epochs 50 --underlying-dense-mode --sequence-length 1000
+
+# Custom training with dense mode and specific parameters
+python scripts/run_production_training.py --portfolio single_atm_call \
+    --epochs 100 --batch-size 32 --learning-rate 0.001 \
+    --underlying-dense-mode --sequence-length 500 --disable-realtime-plots
+
+# Disable auto-dense mode (force sparse mode)
+python scripts/run_production_training.py --portfolio single_atm_call \
+    --epochs 50 --no-auto-dense-mode
 ```
 
 **Features**:
+- **Dual Data Modes**: Option sparse mode (46 points) vs Underlying dense mode (20K+ points)
+- **Automatic Mode Selection**: Auto-enables dense mode when sparse data is insufficient
+- **Training Data Optimization**: 442x density increase with underlying data interpolation
 - Option portfolio selection and management
 - Real-time training monitoring and alerting
 - Comprehensive visualization generation
 - Professional-grade error handling and logging
 - Results export and archival
+
+**New Parameters (2025-08-21)**:
+- `--underlying-dense-mode`: Enable underlying data density for training (greatly increases data volume)
+- `--auto-dense-mode`: Automatically enable dense mode if sparse data is insufficient (default: True)
+- `--sequence-length`: Adjust sequence length for dense mode (recommended: 500-1000 for dense, 100 for sparse)
 
 #### `run_tests.py`
 **Purpose**: Unified test runner for the entire project

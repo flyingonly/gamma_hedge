@@ -28,6 +28,8 @@ class PortfolioConfig:
     max_options: int = 1
     position_weights: Optional[Dict[str, float]] = None
     training_params: Optional[Dict] = None
+    dense_mode_params: Optional[Dict] = None
+    time_series_params: Optional[Dict] = None
 
 class OptionPortfolioManager:
     """

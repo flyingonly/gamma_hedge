@@ -530,7 +530,8 @@ class Trainer:
         losses = []
         
         with torch.no_grad():
-            for batch_data in data_loader:
+            # Add progress bar for validation step
+            for batch_data in tqdm(data_loader, desc="Validating", leave=False):
                 # Convert to unified DataResult format
                 data_result = to_data_result(batch_data)
                 data_result = data_result.to(self.device)
