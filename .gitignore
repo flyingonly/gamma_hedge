@@ -12,9 +12,8 @@ checkpoints/
 *.npz
 *.csv
 *.xlsx
-data/
 raw_data/
-processed_data/
+preprocessed_greeks/
 
 # Test outputs (keep structure but ignore large logs)
 tests/**/test_execution_log.txt
