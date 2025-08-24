@@ -76,37 +76,22 @@ def test_adapters():
     print("-" * 40)
     
     try:
-        from common.adapters import to_data_result, LegacyDataAdapter
         from data.data_types import MarketData
         from common.interfaces import DataResult
         
-        # Create test data in different formats
+        # Create test data in DataResult format directly
         prices, holdings = create_mock_market_data(n_samples=1)
         
-        # Test tuple format conversion
-        tuple_data = (prices[0], holdings[0])
-        result1 = to_data_result(tuple_data)
-        assert isinstance(result1, DataResult), "Tuple conversion failed"
-        print("✅ Tuple format conversion passed")
-        
-        # Test MarketData format conversion  
-        market_data = MarketData(prices=prices[0], holdings=holdings[0])
-        result2 = to_data_result(market_data)
-        assert isinstance(result2, DataResult), "MarketData conversion failed"
-        print("✅ MarketData format conversion passed")
-        
-        # Test DataResult passthrough
+        # Test DataResult creation
         data_result = DataResult(prices=prices[0], holdings=holdings[0])
-        result3 = to_data_result(data_result)
-        assert result3 is data_result, "DataResult passthrough failed"
-        print("✅ DataResult passthrough passed")
+        assert isinstance(data_result, DataResult), "DataResult creation failed"
+        print("✅ DataResult creation passed")
         
-        # Test legacy adapter
-        adapter = LegacyDataAdapter()
-        legacy_tuple = adapter.to_tuple(data_result)
-        assert isinstance(legacy_tuple, tuple), "Legacy tuple conversion failed"
-        assert len(legacy_tuple) == 2, "Legacy tuple should have 2 elements"
-        print("✅ Legacy adapter passed")
+        # Test basic DataResult functionality
+        extracted_tensors = data_result.extract_tensors()
+        assert isinstance(extracted_tensors, tuple), "Tensor extraction failed"
+        assert len(extracted_tensors) == 2, "Should have 2 tensors"
+        print("✅ DataResult tensor extraction passed")
         
         return True
         

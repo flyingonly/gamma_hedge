@@ -63,7 +63,6 @@ def test_policy_network_integration():
     
     try:
         from models.policy_network import PolicyNetwork
-        from common.adapters import to_data_result
         
         # Create mock data
         prices, holdings = create_mock_market_data(
@@ -81,7 +80,7 @@ def test_policy_network_integration():
         network = PolicyNetwork(input_dim=input_dim)
         
         # Test with batch data
-        sample_data = data[0]  # Get first sample
+        sample_data = data  # Use DataResult directly
         batch_size, n_timesteps, n_assets = sample_data.prices.shape
         
         # Simulate trading loop
@@ -117,19 +116,14 @@ def test_policy_network_backwards_compatibility():
     try:
         from models.policy_network import PolicyNetwork
         from data.data_types import MarketData
-        from common.adapters import to_data_result
-        
         # Create network
         input_dim = TEST_CONFIG.n_assets * 3
         network = PolicyNetwork(input_dim=input_dim)
         
-        # Test with legacy MarketData format
+        # Test with DataResult format directly
         prices, holdings = create_mock_market_data(n_samples=1)
-        legacy_data = MarketData(prices=prices[0], holdings=holdings[0])
-        
-        # Convert to new format
-        data_result = to_data_result(legacy_data)
-        print("✅ Legacy format conversion successful")
+        data_result = DataResult(prices=prices[0], holdings=holdings[0])
+        print("✅ DataResult format creation successful")
         
         # Test network with converted data
         batch_data = data_result.prices[:1]  # Single timestep

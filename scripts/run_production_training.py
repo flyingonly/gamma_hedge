@@ -6,20 +6,38 @@ This script provides a complete production-ready interface for training
 gamma hedging policies with real option data, comprehensive monitoring,
 and professional-grade workflow management.
 
-Usage:
-    # Basic training
-    python run_production_training.py --portfolio single_atm_call --epochs 50
-    
-    # Advanced training with time series features
-    python run_production_training.py --portfolio single_atm_call --epochs 50 \\
-        --align-to-daily --split-ratios 0.6 0.3 0.1 --underlying-dense-mode
-    
-    # Custom configuration
-    python run_production_training.py --portfolio best_liquidity_single \\
-        --batch-size 64 --lr 0.002 --min-daily-sequences 100
-    
+Key Features:
+- Preprocessing-based Greeks calculation (sparse, dense_interpolated, dense_daily_recalc)
+- Time-series aligned training with variable-length sequences
+- Portfolio-based option selection and management
+- Unified configuration system (CLI > Portfolio > Defaults)
+- Real-time training monitoring and visualization
+- Professional error handling and logging
+
+Usage Examples:
     # List available portfolios
-    python run_production_training.py --list-portfolios
+    python scripts/run_production_training.py --list-portfolios
+    
+    # Get portfolio information
+    python scripts/run_production_training.py --portfolio-info single_atm_call
+    
+    # Basic training with precomputed Greeks
+    python scripts/run_production_training.py --portfolio single_atm_call --epochs 50
+    
+    # Advanced training with time series alignment
+    python scripts/run_production_training.py --portfolio single_atm_call \\
+        --epochs 50 --align-to-daily --split-ratios 0.6 0.3 0.1
+    
+    # High-density preprocessing mode
+    python scripts/run_production_training.py --portfolio single_atm_call \\
+        --preprocessing-mode dense_interpolated --epochs 100
+    
+    # Custom training parameters
+    python scripts/run_production_training.py --portfolio best_liquidity_single \\
+        --batch-size 64 --learning-rate 0.002 --min-daily-sequences 100
+
+Configuration Priority:
+    CLI Arguments > Portfolio Templates > TrainingConfig Defaults
 """
 
 import argparse
@@ -98,10 +116,6 @@ Examples:
                                help='Save checkpoint every N epochs (default: 10)')
     training_group.add_argument('--validation-split', type=float, default=0.2,
                                help='Validation data split ratio (default: 0.2)')
-    training_group.add_argument('--underlying-dense-mode', action='store_true',
-                               help='Use underlying data density for training (greatly increases data volume)')
-    training_group.add_argument('--auto-dense-mode', action='store_true', default=True,
-                               help='Automatically enable dense mode if sparse data is insufficient (default: True)')
     
     # Time series parameters
     timeseries_group = parser.add_argument_group('Time Series Configuration')
@@ -114,6 +128,12 @@ Examples:
                                  help='Minimum data points required per trading day (default: 50)')
     timeseries_group.add_argument('--disable-time-split', action='store_true',
                                  help='Disable time-based splitting (legacy mode)')
+    
+    # Data configuration
+    data_group = parser.add_argument_group('Data Configuration')
+    data_group.add_argument('--preprocessing-mode', choices=['sparse', 'dense_interpolated', 'dense_daily_recalc'], 
+                           default='sparse',
+                           help='Preprocessing mode to use (default: sparse)')
     
     # Model configuration
     model_group = parser.add_argument_group('Model Configuration')
@@ -366,15 +386,6 @@ def main():
         logger.info(f"Enable Visualization: {enable_visualization}")
         logger.info(f"Checkpoint Interval: {args.checkpoint_interval}")
         logger.info(f"Random Seed: {args.seed}")
-        logger.info(f"Underlying Dense Mode: {args.underlying_dense_mode}")
-        logger.info(f"Auto Dense Mode: {args.auto_dense_mode}")
-        
-        # Determine data mode  
-        underlying_dense_mode = args.underlying_dense_mode
-        if args.auto_dense_mode and not underlying_dense_mode:
-            # Auto-enable dense mode for better training stability
-            underlying_dense_mode = True
-            logger.info("Auto-enabling underlying dense mode for optimal training data")
         
         # Validate split ratios
         if abs(sum(args.split_ratios) - 1.0) > 1e-6:
@@ -395,6 +406,7 @@ def main():
         logger.info(f"  Align to Daily: {training_config.align_to_daily}")
         logger.info(f"  Split Ratios: {training_config.split_ratios}")
         logger.info(f"  Min Daily Sequences: {training_config.min_daily_sequences}")
+        logger.info(f"  Preprocessing Mode: {args.preprocessing_mode}")
         
         # Execute training with complete training_config
         results = production_trainer.train(
@@ -405,7 +417,7 @@ def main():
             model_config=model_config,
             sequence_length=args.sequence_length,
             validation_split=args.validation_split,
-            underlying_dense_mode=underlying_dense_mode
+            preprocessing_mode=args.preprocessing_mode,
         )
         
         # Display results summary

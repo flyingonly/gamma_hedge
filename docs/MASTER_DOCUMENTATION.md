@@ -2,7 +2,7 @@
 
 **Status**: Active Master Document
 **Created**: 2025-08-19
-**Last Updated**: 2025-08-21 (Underlying Dense Data Architecture Implementation Completed)
+**Last Updated**: 2025-08-22 (Dense Mode Preprocessing Refactor Completed)
 **Owner**: Claude Code
 **Version**: 2.0
 
@@ -27,7 +27,7 @@ The Gamma Hedge project implements machine learning-based optimal execution stra
 - Unified configuration management system
 - **Policy behavior visualization and analysis** (2025-08-20)
 - **Production-ready training pipeline with option portfolio management** (2025-08-20)
-- **Dual-mode data processing: Sparse vs Dense underlying data architecture** (NEW: 2025-08-21)
+- **Preprocessing-based Greeks calculation with three modes** (UPDATED: 2025-08-22)
 
 ## Current System Architecture
 
@@ -179,6 +179,15 @@ target_holding = -portfolio_delta
    - **Resolution**: FIXED (2025-08-21) - Implemented variable_length_collate_fn with attention masking
    - **Impact**: Daily-aligned training now fully functional, preserving time-series alignment theory
    - **Status**: COMPLETED - Verified with successful training (67 sequences, 34.9s training time)
+
+5. **Daily-Aligned Data Split Zero Sequences** 🔴 **NEW (2025-08-23)**
+   - **Issue**: Production training fails with `num_samples=0` when using daily alignment
+   - **Root Cause**: Daily alignment creates only 1 sequence, train split (70%) = 0 sequences
+   - **Error**: `ValueError: num_samples should be a positive integer value, but got num_samples=0`
+   - **Impact**: Prevents training execution with daily alignment enabled
+   - **Status**: ACTIVE - Detailed investigation document created
+   - **Workaround**: Disable daily alignment for small datasets
+   - **Priority**: HIGH - Affects production training workflow
 
 #### Medium Priority Issues
 1. **Excel Data Processing Robustness**
@@ -455,6 +464,28 @@ Two external analysis reports have been evaluated:
 
 **Key Technical Achievements**:
 - Created `create_training_config()` function for unified parameter management
+
+### 2025-08-22: Dense Mode Preprocessing Refactor (MAJOR ARCHITECTURE SIMPLIFICATION)
+**Impact**: Complete architectural refactoring from runtime to preprocessing approach
+**Components Modified**: 6 files extensively refactored, 505 lines of code removed
+**Benefits**:
+- **Architectural Clarity**: Dense mode moved from data loading to preprocessing stage
+- **Code Simplification**: Eliminated 505 lines of complex runtime logic
+- **Preprocessing Modes**: Three new modes (sparse, dense_interpolated, dense_daily_recalc)
+- **System Optimization**: Removed auto_dense_mode mechanism completely
+- **Algorithmic Innovation**: Daily recalculation mode with gamma-based intraday updates
+
+**Key Technical Achievements**:
+- Enhanced `GreeksPreprocessor` with three preprocessing modes
+- Simplified `PrecomputedGreeksDataset` from 863 to 426 lines (437 lines removed)
+- Removed `auto_dense_mode` mechanism from production training pipeline
+- Unified configuration system with preprocessing_mode parameter
+- New daily recalculation algorithm: `delta_new = delta_old + gamma * (S_new - S_old)`
+
+**Architecture Impact**:
+- **Before**: Dense calculations performed at runtime during data loading
+- **After**: Dense data pre-generated during preprocessing, runtime focuses on weight generation
+- **Result**: Clear separation of concerns, improved maintainability, reduced system complexity
 - Implemented `variable_length_collate_fn` with torch.nn.utils.rnn.pad_sequence and attention masks
 - Established conditional collate function selection based on alignment mode
 - Achieved 100% test success rate for variable-length sequence handling

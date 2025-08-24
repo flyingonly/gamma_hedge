@@ -26,13 +26,7 @@ def initialize_all_configs():
     try:
         # Import modules to register their config types
         import data.config  # Registers 'market' config
-        import training.config  # Registers 'training', 'model', 'delta_hedge' configs
-        
-        # Try to import delta_hedge config if available
-        try:
-            import delta_hedge.config  # May register additional delta configs
-        except ImportError:
-            pass  # Delta hedge not available, skip
+        import training.config  # Registers 'training', 'model' configs
             
     except ImportError as e:
         # Handle missing modules gracefully
@@ -200,27 +194,7 @@ def apply_args_overrides(config: Dict[str, BaseConfig], args) -> Dict[str, BaseC
     
     return config
 
-def check_delta_availability_safe() -> bool:
-    """
-    Check delta hedge availability without circular imports
-    
-    Returns:
-        True if delta hedge is available, False otherwise
-    """
-    try:
-        import delta_hedge
-        return True
-    except ImportError:
-        return False
 
-# Legacy compatibility functions
-def get_default_config():
-    """Legacy compatibility function"""
-    return get_config()
-
-def update_config_from_args(config_dict, args):
-    """Legacy compatibility function"""
-    return apply_args_overrides(config_dict, args)
 
 # Configuration setup helper
 def setup_config_system(config_files: Optional[Dict[str, str]] = None,

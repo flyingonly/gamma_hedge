@@ -15,18 +15,4 @@ TEST_CONFIG = {
     'timeout': 300,  # 5 minutes
     'mock_data': True,
     'gpu_tests': False,  # Disable GPU tests by default
-    'delta_hedge_tests': True,  # Enable delta hedge tests if available
 }
-
-def check_delta_availability():
-    """Check if delta hedge modules are available for testing"""
-    try:
-        import delta_hedge
-        return True
-    except ImportError:
-        return False
-
-# Global test settings
-DELTA_AVAILABLE = check_delta_availability()
-if not DELTA_AVAILABLE:
-    print("⚠️  Delta hedge modules not available - some tests will be skipped")

@@ -13,7 +13,6 @@ import os
 from .market_simulator import MarketSimulator
 from .config import MarketConfig
 from common.interfaces import DataResult, DatasetInterface, DataProviderInterface
-from common.adapters import to_data_result, LegacyDataAdapter
 from common.exceptions import DataProviderError, MissingDependencyError
 
 # Data types for backward compatibility  
@@ -70,15 +69,6 @@ class TradingDataset(DatasetInterface):
         """Get a sample data point for testing/validation"""
         return self[0]
         
-    # Backward compatibility method
-    def get_legacy_format(self, idx: int) -> MarketData:
-        """Get data in legacy MarketData format for backward compatibility"""
-        data_result = self[idx]
-        return MarketData(
-            prices=data_result.prices,
-            holdings=data_result.holdings,
-            metadata=data_result.metadata
-        )
 
 
 
@@ -107,8 +97,7 @@ def create_delta_data_loader(batch_size: int,
                            start_date: Optional[str] = None,
                            end_date: Optional[str] = None,
                            sequence_length: int = 100,
-                           underlying_dense_mode: bool = False,
-                           underlying_data_path: str = "csv_process/underlying_npz",
+                           preprocessing_mode: str = "sparse",
                            # New time series parameters
                            data_split: str = 'all',
                            split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1),
@@ -126,8 +115,7 @@ def create_delta_data_loader(batch_size: int,
         start_date: Start date for data (YYYY-MM-DD) - currently unused, reserved for future
         end_date: End date for data (YYYY-MM-DD) - currently unused, reserved for future  
         sequence_length: Length of training sequences (ignored if align_to_daily=True)
-        underlying_dense_mode: If True, use underlying data density with interpolated IV
-        underlying_data_path: Path to underlying NPZ data files
+        preprocessing_mode: Which preprocessing mode data to use ('sparse', 'dense_interpolated', 'dense_daily_recalc')
         data_split: Which data split to use ('all', 'train', 'val', 'test')
         split_ratios: (train_ratio, val_ratio, test_ratio) for time-based splitting
         align_to_daily: If True, align sequences to trading day boundaries
@@ -142,8 +130,7 @@ def create_delta_data_loader(batch_size: int,
     dataset = PrecomputedGreeksDataset(
         portfolio_positions=option_positions,
         sequence_length=sequence_length,
-        underlying_dense_mode=underlying_dense_mode,
-        underlying_data_path=underlying_data_path,
+        preprocessing_mode=preprocessing_mode,
         data_split=data_split,
         split_ratios=split_ratios,
         align_to_daily=align_to_daily,
@@ -157,38 +144,101 @@ def create_delta_data_loader(batch_size: int,
 
 
 def create_underlying_dense_data_loader(batch_size: int,
-                                       option_positions: Dict[str, float],
-                                       sequence_length: int = 1000,
-                                       underlying_data_path: str = "csv_process/underlying_npz",
-                                       # New time series parameters
-                                       data_split: str = 'all',
-                                       split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1),
-                                       align_to_daily: bool = False,
-                                       min_daily_sequences: int = 50) -> TorchDataLoader:
+                                      option_positions: Dict[str, float],
+                                      start_date: Optional[str] = None,
+                                      end_date: Optional[str] = None,
+                                      sequence_length: int = 1000,
+                                      preprocessing_mode: str = "dense_interpolated",
+                                      # Time series parameters
+                                      data_split: str = 'all',
+                                      split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1),
+                                      align_to_daily: bool = False,
+                                      min_daily_sequences: int = 50) -> TorchDataLoader:
     """
-    Create a data loader using underlying dense mode for maximum training data.
-    This is a convenience function that automatically enables underlying_dense_mode.
+    Convenience function for creating data loader with dense underlying data.
+    Uses dense_interpolated mode by default for high-density training data.
     
     Args:
-        batch_size: Batch size for training
-        option_positions: Specific option positions in format:
-            {'3CN5/CALL_111.0': 1.0, '3CN5/PUT_111.5': -0.5}
-        sequence_length: Length of training sequences (default 1000 for dense data)
-        underlying_data_path: Path to underlying NPZ data files
-        data_split: Which data split to use ('all', 'train', 'val', 'test')
-        split_ratios: (train_ratio, val_ratio, test_ratio) for time-based splitting
-        align_to_daily: If True, align sequences to trading day boundaries
-        min_daily_sequences: Minimum data points required per trading day
+        Same as create_delta_data_loader but with dense defaults
         
     Returns:
-        DataLoader with underlying dense training data
+        DataLoader with dense underlying data (20k+ data points vs ~50 sparse)
     """
     return create_delta_data_loader(
         batch_size=batch_size,
         option_positions=option_positions,
+        start_date=start_date,
+        end_date=end_date,
         sequence_length=sequence_length,
-        underlying_dense_mode=True,
-        underlying_data_path=underlying_data_path,
+        preprocessing_mode=preprocessing_mode,
+        data_split=data_split,
+        split_ratios=split_ratios,
+        align_to_daily=align_to_daily,
+        min_daily_sequences=min_daily_sequences
+    )
+
+
+def create_sparse_data_loader(batch_size: int,
+                            option_positions: Dict[str, float],
+                            start_date: Optional[str] = None,
+                            end_date: Optional[str] = None,
+                            sequence_length: int = 100,
+                            # Time series parameters
+                            data_split: str = 'all',
+                            split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1),
+                            align_to_daily: bool = False,
+                            min_daily_sequences: int = 50) -> TorchDataLoader:
+    """
+    Convenience function for creating data loader with sparse option data.
+    Uses sparse mode explicitly for traditional option-based training.
+    
+    Args:
+        Same as create_delta_data_loader but forces sparse mode
+        
+    Returns:
+        DataLoader with sparse option data (~50 data points per option)
+    """
+    return create_delta_data_loader(
+        batch_size=batch_size,
+        option_positions=option_positions,
+        start_date=start_date,
+        end_date=end_date,
+        sequence_length=sequence_length,
+        preprocessing_mode="sparse",
+        data_split=data_split,
+        split_ratios=split_ratios,
+        align_to_daily=align_to_daily,
+        min_daily_sequences=min_daily_sequences
+    )
+
+
+def create_daily_recalc_data_loader(batch_size: int,
+                                  option_positions: Dict[str, float],
+                                  start_date: Optional[str] = None,
+                                  end_date: Optional[str] = None,
+                                  sequence_length: int = 1000,
+                                  # Time series parameters
+                                  data_split: str = 'all',
+                                  split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1),
+                                  align_to_daily: bool = False,
+                                  min_daily_sequences: int = 50) -> TorchDataLoader:
+    """
+    Convenience function for creating data loader with daily recalculated Greeks.
+    Uses dense_daily_recalc mode for realistic trading scenario simulation.
+    
+    Args:
+        Same as create_delta_data_loader but forces dense_daily_recalc mode
+        
+    Returns:
+        DataLoader with daily recalculated Greeks data
+    """
+    return create_delta_data_loader(
+        batch_size=batch_size,
+        option_positions=option_positions,
+        start_date=start_date,
+        end_date=end_date,
+        sequence_length=sequence_length,
+        preprocessing_mode="dense_daily_recalc",
         data_split=data_split,
         split_ratios=split_ratios,
         align_to_daily=align_to_daily,

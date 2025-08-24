@@ -20,6 +20,10 @@ class UnifiedDataConfig:
     options_data_dir: str = "csv_process/weekly_options_data"
     mapping_file: str = "csv_process/weekly_options_data/weekly_mapping.json"
     preprocessed_greeks_dir: str = "data/preprocessed_greeks"
+    output_dir: str = "data/preprocessed_greeks"  # Alias for backwards compatibility
+    
+    # Preprocessing mode configuration
+    preprocessing_mode: str = "sparse"  # Options: 'sparse', 'dense_interpolated', 'dense_daily_recalc'
     
     # Black-Scholes parameters
     risk_free_rate: float = 0.05
@@ -37,6 +41,12 @@ class UnifiedDataConfig:
     # Output settings
     compression: bool = True
     verbose: bool = True
+    
+    def __post_init__(self):
+        """Validate configuration after initialization"""
+        valid_modes = ['sparse', 'dense_interpolated', 'dense_daily_recalc']
+        if self.preprocessing_mode not in valid_modes:
+            raise ValueError(f"preprocessing_mode must be one of {valid_modes}, got: {self.preprocessing_mode}")
 
 
 # Primary configuration class used by all modules

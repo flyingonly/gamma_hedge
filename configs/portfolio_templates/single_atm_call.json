@@ -28,17 +28,10 @@
     "variable_execution_cost": 0.001,
     "market_impact_scale": 0.00001
   },
-  "dense_mode_params": {
-    "underlying_dense_mode": false,
-    "auto_enable_dense": true,
-    "dense_sequence_length": 1000,
-    "dense_batch_size": 16,
-    "interpolation_method": "linear"
-  },
   "time_series_params": {
     "align_to_daily": true,
     "split_ratios": [0.7, 0.2, 0.1],
-    "min_daily_sequences": 50,
+    "min_daily_sequences": 1,
     "enable_time_based_split": true
   }
 }

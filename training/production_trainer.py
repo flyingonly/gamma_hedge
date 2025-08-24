@@ -112,8 +112,8 @@ class ProductionTrainer:
                             batch_size: int = 32,
                             validation_split: float = 0.2,
                             sequence_length: int = 100,
-                            underlying_dense_mode: bool = False,
                             training_config: TrainingConfig = None,
+                            preprocessing_mode: str = "sparse",
                             # New time series parameters
                             align_to_daily: bool = False,
                             split_ratios: Tuple[float, float, float] = (0.7, 0.2, 0.1)) -> Tuple[torch.utils.data.DataLoader, torch.utils.data.DataLoader]:
@@ -124,7 +124,6 @@ class ProductionTrainer:
             batch_size: Batch size for training
             validation_split: Fraction for validation (legacy, ignored in favor of split_ratios)
             sequence_length: Length of training sequences
-            underlying_dense_mode: If True, use underlying data density for training
             training_config: Training configuration object
             align_to_daily: If True, align sequences to trading day boundaries
             split_ratios: (train_ratio, val_ratio, test_ratio) for time-based splitting
@@ -141,9 +140,8 @@ class ProductionTrainer:
             positions = self.current_portfolio['positions']
             
             # Log data mode selection
-            mode_str = "underlying dense" if underlying_dense_mode else "option sparse"
             alignment_str = "daily-aligned" if align_to_daily else "sliding window"
-            self.logger.info(f"Using {mode_str} data mode with {alignment_str} sequences")
+            self.logger.info(f"Using precomputed Greeks data ({preprocessing_mode} mode) with {alignment_str} sequences")
             self.logger.info(f"Time-based split ratios: train={split_ratios[0]:.1f}, val={split_ratios[1]:.1f}, test={split_ratios[2]:.1f}")
             
             # Create training data loader with time-based split
@@ -151,11 +149,11 @@ class ProductionTrainer:
                 batch_size=batch_size,
                 option_positions=positions,
                 sequence_length=sequence_length,
-                underlying_dense_mode=underlying_dense_mode,
+                preprocessing_mode=preprocessing_mode,
                 data_split='train',
                 split_ratios=split_ratios,
                 align_to_daily=align_to_daily,
-                min_daily_sequences=getattr(training_config, 'min_daily_sequences', 50)
+                min_daily_sequences=getattr(training_config, 'min_daily_sequences', 1)
             )
             
             # Create validation data loader (smaller batch size for memory efficiency)
@@ -166,11 +164,11 @@ class ProductionTrainer:
                 batch_size=val_batch_size,
                 option_positions=positions,
                 sequence_length=sequence_length,
-                underlying_dense_mode=underlying_dense_mode,
+                preprocessing_mode=preprocessing_mode,
                 data_split='val',
                 split_ratios=split_ratios,
                 align_to_daily=align_to_daily,
-                min_daily_sequences=getattr(training_config, 'min_daily_sequences', 50)
+                min_daily_sequences=getattr(training_config, 'min_daily_sequences', 1)
             )
             
             self.logger.info(f"Training data loader created: batch_size={batch_size}")
@@ -234,9 +232,9 @@ class ProductionTrainer:
               enable_tracking: bool = True,
               enable_visualization: bool = True,
               model_config: Optional[Dict] = None,
-              underlying_dense_mode: bool = False,
               sequence_length: int = 100,
-              validation_split: float = 0.2) -> Dict[str, Any]:
+              validation_split: float = 0.2,
+              preprocessing_mode: str = "sparse") -> Dict[str, Any]:
         """
         Execute complete training workflow
         
@@ -246,7 +244,6 @@ class ProductionTrainer:
             enable_tracking: Enable policy decision tracking
             enable_visualization: Enable real-time visualization
             model_config: Model architecture configuration
-            underlying_dense_mode: Use underlying data density for training
             sequence_length: Length of training sequences
             validation_split: Validation data split ratio
             
@@ -275,8 +272,8 @@ class ProductionTrainer:
                 batch_size=training_config.batch_size,
                 sequence_length=sequence_length,
                 validation_split=validation_split,
-                underlying_dense_mode=underlying_dense_mode,
                 training_config=training_config,
+                preprocessing_mode=preprocessing_mode,
                 align_to_daily=training_config.align_to_daily,
                 split_ratios=training_config.split_ratios
             )

@@ -19,14 +19,11 @@ The codebase implements reinforcement learning approaches to optimize trade exec
 # Production training pipeline (recommended - auto-enables dense mode)
 python scripts/run_production_training.py --portfolio single_atm_call --epochs 50
 
-# Dense data mode training (explicit - 442x more training data)
-python scripts/run_production_training.py --portfolio single_atm_call --epochs 50 --underlying-dense-mode --sequence-length 1000
-
-# Time-series aligned training with proper train/val/test split
+# Time-series aligned training with proper train/val/test split (recommended)
 python scripts/run_production_training.py --portfolio single_atm_call --epochs 50 --align-to-daily --split-ratios 0.7 0.2 0.1
 
-# Advanced training with dense mode and daily alignment
-python scripts/run_production_training.py --portfolio single_atm_call --epochs 50 --underlying-dense-mode --align-to-daily --min-daily-sequences 100
+# Advanced training with daily alignment and custom parameters
+python scripts/run_production_training.py --portfolio single_atm_call --epochs 50 --align-to-daily --min-daily-sequences 100 --batch-size 64
 
 # List available portfolios
 python scripts/run_production_training.py --list-portfolios
@@ -69,17 +66,20 @@ python scripts/run_tests.py --type all --verbose
 
 ### Data Processing
 ```bash
-# Preprocess Greeks for performance optimization (default: force reprocess all)
+# Preprocess Greeks with default sparse mode
 python scripts/preprocess_greeks.py
 
+# Preprocess with dense interpolated mode (high-density data)
+python scripts/preprocess_greeks.py --mode dense_interpolated
+
+# Preprocess with daily recalculation mode (gamma-based updates)
+python scripts/preprocess_greeks.py --mode dense_daily_recalc
+
 # Preprocess specific weekly codes
-python scripts/preprocess_greeks.py --codes 3CN5 3IN5
+python scripts/preprocess_greeks.py --codes 3CN5 3IN5 --mode dense_interpolated
 
 # Resume from existing cache (skip already processed files)
 python scripts/preprocess_greeks.py --codes 3CN5 --resume
-
-# Process all available weekly codes
-python scripts/preprocess_greeks.py --all
 
 # Process weekly options data
 python csv_process/weekly_options_processor.py
@@ -275,7 +275,6 @@ python scripts/preprocess_greeks.py --codes 3CN5 --resume
 - **100% Processing Success Rate**: Fixed timestamp conversion and time matching issues
 - **Cache Reuse**: Same option Greeks can be reused across different portfolios
 - **Memory Efficiency**: Only loads required date ranges and options
-- **Backward Compatibility**: Legacy weekly position formats automatically converted
 - **Multi-Underlying Support**: Single portfolio can include options from different underlying assets
 
 ### Multi-Underlying Asset Support
@@ -295,61 +294,108 @@ portfolio = {
 # Portfolio delta is calculated by aggregating across all options
 ```
 
-## Dense Data Architecture (2025-08-21 Update)
+## Preprocessing-Based Greeks Architecture (2025-08-22 Update)
 
-The system now supports **dual data processing modes** to address training data sparsity issues:
+The system now uses **preprocessing-based Greeks calculation** with three distinct modes to optimize training data generation:
 
-### Data Modes Comparison
+### Preprocessing Modes Comparison
 
-| Mode | Data Points | Training Sequences | Data Source | Use Case |
-|------|-------------|-------------------|-------------|----------|
-| **Sparse** | 46 | 1 | Option Greeks only | Legacy compatibility |
-| **Dense** | 20,335+ | 19,836+ | Underlying + IV interpolation | Recommended for training |
+| Mode | Algorithm | Data Density | Use Case |
+|------|-----------|--------------|----------|
+| **Sparse** | Option Greeks only | Standard | Basic training |
+| **Dense Interpolated** | Underlying + IV interpolation | High density | Recommended for training |
+| **Dense Daily Recalc** | Daily recalc + gamma updates | High density | Realistic trading scenarios |
 
-### Dense Mode Technical Implementation
+### Preprocessing Architecture Implementation
 
-**Core Innovation**: Uses underlying asset data density (442x more points) with interpolated implied volatility to generate realistic option deltas at each underlying timestamp.
+**Core Innovation**: Moves dense data generation from runtime to preprocessing stage, enabling three specialized calculation modes.
 
-**Algorithm Flow**:
+**Architecture Flow**:
 ```
-1. Load underlying data (USU5.npz): 20,335 price points
-2. Load option IV data (sparse): 46 IV points  
-3. Interpolate IV to underlying timestamps (linear/spline)
-4. Calculate Black-Scholes delta at each underlying point
-5. Generate sliding window training sequences (19,836 sequences)
+1. Raw Options Data → NPZ Format
+2. GreeksPreprocessor applies selected mode:
+   - sparse: Traditional option Greeks calculation
+   - dense_interpolated: High-density underlying + IV interpolation  
+   - dense_daily_recalc: Daily base + gamma intraday updates
+3. Preprocessed Greeks → NPZ files
+4. Training uses precomputed Greeks directly
 ```
 
 **Performance Benefits**:
-- **Training Stability**: Eliminates extreme loss swings (2.79 → 0.004)
-- **Data Utilization**: 442x density increase vs sparse mode
-- **Sequence Generation**: 19,836x more training sequences
-- **Convergence**: Enables proper time-series learning patterns
+- **Preprocessing Efficiency**: Greeks calculated once, reused for multiple training runs
+- **Runtime Optimization**: No complex calculations during data loading
+- **Code Simplification**: 505 lines of dense runtime logic removed
+- **Algorithm Innovation**: Daily recalculation mode supports realistic trading scenarios
 
 ### Technical Components
 
-**New Modules**:
-- `tools/vectorized_bs.py`: 19M+ calculations/second Black-Scholes
-- Enhanced `data/precomputed_data_loader.py`: Dual-mode support
-- `tests/test_underlying_dense_loader.py`: Comprehensive validation
+**Enhanced Modules**:
+- `data/greeks_preprocessor.py`: Three preprocessing modes support
+- `scripts/preprocess_greeks.py`: Mode selection and batch processing
+- `common/greeks_config.py`: Unified preprocessing configuration
+- Simplified `data/precomputed_data_loader.py`: Focus on weight generation only
 
-**Integration Points**:
-- `--underlying-dense-mode`: Command-line activation
-- `--auto-dense-mode`: Automatic sparse→dense fallback (default: enabled)
-- `dense_mode_params`: Configuration template support
+**Configuration Integration**:
+- `--mode`: Preprocessing mode selection (sparse/dense_interpolated/dense_daily_recalc)
+- `preprocessing_mode`: Configuration parameter for mode selection
+- Removed complex auto_dense_mode mechanism
 
 ### Usage Recommendations
 
-**For Training**:
-- Use dense mode for production training: `--underlying-dense-mode`
-- Increase sequence length: `--sequence-length 1000` (vs 100 for sparse)
-- Adjust batch size if needed: `--batch-size 16-32`
+**For Preprocessing**:
+- Use `dense_interpolated` for high-density training data
+- Use `dense_daily_recalc` for realistic trading scenario simulation
+- Use `sparse` for basic functionality and testing
 
-**Backward Compatibility**:
-- All existing sparse mode workflows unchanged
-- Auto-dense mode provides seamless upgrade path
-- Original API preserved for legacy integrations
+**For Training**:
+- All training now uses precomputed Greeks automatically
+- Focus on time series alignment: `--align-to-daily`
+- Configure data splits: `--split-ratios 0.7 0.2 0.1`
 
 ## Development Standards and Guidelines
+
+### Core Development Principles
+
+**KISS (Keep It Simple, Stupid)**:
+- Prioritize simple, understandable solutions over complex ones
+- Write code that can be easily understood by other developers
+- Avoid unnecessary abstractions or over-engineering
+- Choose straightforward algorithms unless complexity provides clear benefits
+- Prefer clear variable names and simple function signatures
+
+**YAGNI (You Aren't Gonna Need It)**:
+- Implement only currently required features
+- Resist adding functionality for hypothetical future needs
+- Remove unused code, imports, and dependencies
+- Avoid premature optimization unless performance issues are demonstrated
+- Focus development effort on immediate, validated requirements
+
+**SOLID Principles**:
+1. **Single Responsibility Principle (SRP)**: Each class/function should have one reason to change
+2. **Open/Closed Principle (OCP)**: Open for extension, closed for modification
+3. **Liskov Substitution Principle (LSP)**: Derived classes must be substitutable for base classes
+4. **Interface Segregation Principle (ISP)**: Clients shouldn't depend on interfaces they don't use
+5. **Dependency Inversion Principle (DIP)**: Depend on abstractions, not concretions
+
+**Principle Application Checklist**:
+- Before adding new features: "Is this actually needed now?" (YAGNI)
+- During implementation: "What's the simplest solution that works?" (KISS)
+- During refactoring: "Does this follow SOLID principles?"
+- Code review: "Can this be simplified without losing functionality?"
+
+**Long-term Adherence Guidelines**:
+- Review and refactor code monthly against these principles
+- Reject pull requests that violate KISS/YAGNI/SOLID without clear justification
+- Document any complexity with clear rationale for future developers
+- Regularly audit codebase for unused features, dependencies, and over-engineering
+- Train new team members on these principles before code contributions
+
+**Enforcement Mechanisms**:
+- All major features must pass principle compliance review
+- Code complexity metrics should trend downward over time
+- Regular technical debt sessions focused on simplification
+- Automated tools to detect unused code and dependencies
+- Peer review checklist includes principle adherence verification
 
 ### Code and Output Standards
 

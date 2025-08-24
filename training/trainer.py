@@ -10,7 +10,6 @@ from datetime import datetime
 
 # Import new interfaces (no sys.path needed)
 from common.interfaces import DataResult
-from common.adapters import to_data_result
 from data.data_types import MarketData
 from utils.policy_tracker import global_policy_tracker
 from training.config import TrainingConfig
@@ -430,9 +429,8 @@ class Trainer:
         epoch_losses = []
         
         for batch_data in tqdm(data_loader, desc="Training"):
-            # Convert to unified DataResult format
-            data_result = to_data_result(batch_data)
-            data_result = data_result.to(self.device)
+            # Use DataResult format directly
+            data_result = batch_data.to(self.device)
             
             # Zero gradients for both networks
             self.optimizer.zero_grad()
@@ -532,9 +530,8 @@ class Trainer:
         with torch.no_grad():
             # Add progress bar for validation step
             for batch_data in tqdm(data_loader, desc="Validating", leave=False):
-                # Convert to unified DataResult format
-                data_result = to_data_result(batch_data)
-                data_result = data_result.to(self.device)
+                # Use DataResult format directly
+                data_result = batch_data.to(self.device)
                 
                 loss_dict = self.compute_policy_loss_with_advantage(data_result)
                 losses.append(loss_dict['total_loss'].item())

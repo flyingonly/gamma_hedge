@@ -143,6 +143,42 @@ class BlackScholesModel:
             'rho': rho
         }
     
+    def calculate_all(self, S, K, T, r, sigma, option_type='call'):
+        """
+        Calculate option price and all Greeks using Black-Scholes model.
+        
+        Parameters:
+        -----------
+        S : float
+            Current underlying asset price
+        K : float
+            Strike price
+        T : float
+            Time to expiration in years
+        r : float
+            Risk-free interest rate
+        sigma : float
+            Volatility (annualized)
+        option_type : str
+            'call' or 'put'
+            
+        Returns:
+        --------
+        dict
+            Dictionary containing option_price, Delta, Gamma, Theta, Vega, Rho
+        """
+        # Calculate option price
+        option_price = self.option_price(S, K, T, r, sigma, option_type)
+        
+        # Calculate Greeks
+        greeks = self.calculate_greeks(S, K, T, r, sigma, option_type)
+        
+        # Combine results
+        result = {'option_price': option_price}
+        result.update(greeks)
+        
+        return result
+    
     def delta(self, S, K, T, r, sigma, option_type='call'):
         """Calculate option Delta."""
         return self.calculate_greeks(S, K, T, r, sigma, option_type)['delta']

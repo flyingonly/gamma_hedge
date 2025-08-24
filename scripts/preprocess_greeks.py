@@ -88,14 +88,15 @@ def process_weekly_code_with_stats(preprocessor: GreeksPreprocessor, weekly_code
     
     return stats
 
-def main(resume: bool = False):
+def main(resume: bool = False, config: GreeksPreprocessingConfig = None):
     """Main preprocessing function"""
     print("Greeks Preprocessing Script")
     print("=" * 40)
     
     try:
         # Initialize preprocessor
-        config = GreeksPreprocessingConfig()
+        if config is None:
+            config = GreeksPreprocessingConfig()
         preprocessor = GreeksPreprocessor(config)
         
         # Discover all available weekly codes
@@ -148,13 +149,14 @@ def main(resume: bool = False):
         traceback.print_exc()
         sys.exit(1)
 
-def preprocess_specific_codes(weekly_codes: List[str], resume: bool = False):
+def preprocess_specific_codes(weekly_codes: List[str], resume: bool = False, config: GreeksPreprocessingConfig = None):
     """Preprocess specific weekly codes"""
     print(f"Greeks Preprocessing for codes: {weekly_codes}")
     print("=" * 40)
     
     try:
-        config = GreeksPreprocessingConfig()
+        if config is None:
+            config = GreeksPreprocessingConfig()
         preprocessor = GreeksPreprocessor(config)
         
         total_processed = 0
@@ -208,10 +210,18 @@ if __name__ == "__main__":
     parser.add_argument('--codes', nargs='+', help='Specific weekly codes to process')
     parser.add_argument('--all', action='store_true', help='Process all available codes')
     parser.add_argument('--resume', action='store_true', help='Resume from existing cache (default: force reprocess all)')
+    parser.add_argument('--mode', choices=['sparse', 'dense_interpolated', 'dense_daily_recalc'], 
+                       default='sparse', help='Preprocessing mode (default: sparse)')
     
     args = parser.parse_args()
     
+    # Set preprocessing mode in configuration
+    config = GreeksPreprocessingConfig()
+    config.preprocessing_mode = args.mode
+    
+    print(f"Using preprocessing mode: {args.mode}")
+    
     if args.codes:
-        preprocess_specific_codes(args.codes, resume=args.resume)
+        preprocess_specific_codes(args.codes, resume=args.resume, config=config)
     else:
-        main(resume=args.resume)
+        main(resume=args.resume, config=config)
