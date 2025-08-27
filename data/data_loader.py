@@ -13,7 +13,7 @@ import os
 from .market_simulator import MarketSimulator
 from core.interfaces import DataResult, DatasetInterface, DataProviderInterface
 from core.config import MarketConfig
-from common.exceptions import DataProviderError, MissingDependencyError
+from core.exceptions import DataProviderError, MissingDependencyError
 
 # Data types for backward compatibility  
 from .data_types import MarketData, BaseDataset
@@ -84,7 +84,7 @@ def create_data_loader(config: MarketConfig, n_samples: int, batch_size: int) ->
     Returns:
         DataLoader with market simulation data
     """
-    from common.collate import data_result_collate_fn, variable_length_collate_fn
+    from utils.collate import data_result_collate_fn, variable_length_collate_fn
     
     simulator = MarketSimulator(config)
     dataset = TradingDataset(simulator, n_samples)
@@ -124,7 +124,7 @@ def create_delta_data_loader(batch_size: int,
     Returns:
         DataLoader with precomputed Greeks-based training data
     """
-    from common.collate import data_result_collate_fn, variable_length_collate_fn
+    from utils.collate import data_result_collate_fn, variable_length_collate_fn
     from .precomputed_data_loader import PrecomputedGreeksDataset
     
     dataset = PrecomputedGreeksDataset(

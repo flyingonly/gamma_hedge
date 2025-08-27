@@ -1,15 +1,17 @@
 """
 Core module for Gamma Hedge system
 
-This module provides the foundational components for the modular architecture:
+This module provides the foundational components:
 - Unified configuration management
-- Standard data exchange interfaces  
-- Application orchestration
+- Standard data exchange interfaces
 """
 
 from .config import Config, create_config
 from .interfaces import TrainingData, DataProvider, TrainingPhase
-from .orchestrator import ApplicationOrchestrator, WorkflowType, create_orchestrator
+from .exceptions import (
+    GammaHedgeException, ConfigurationError, DataProviderError, 
+    ModelError, TrainingError, MissingDependencyError
+)
 
 __all__ = [
     # Configuration system
@@ -21,8 +23,11 @@ __all__ = [
     'DataProvider', 
     'TrainingPhase',
     
-    # Application orchestration
-    'ApplicationOrchestrator',
-    'WorkflowType',
-    'create_orchestrator'
+    # Exceptions
+    'GammaHedgeException',
+    'ConfigurationError', 
+    'DataProviderError',
+    'ModelError',
+    'TrainingError',
+    'MissingDependencyError'
 ]

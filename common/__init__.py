@@ -1,1 +1,0 @@
-# Common interfaces and utilities for gamma hedge project

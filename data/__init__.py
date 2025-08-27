@@ -1,39 +1,22 @@
 """
-Unified Data Processing Module for Gamma Hedge
+Data Processing Module for Gamma Hedge
 
-This module provides the unified data processing interface, consolidating
-all data loading, processing, and portfolio management functionality.
+This module provides data loading, processing, and simulation functionality.
 """
 
-# Core unified interfaces (recommended)
-from .loaders import (
-    UnifiedDataProvider, 
-    create_unified_data_provider,
-    MarketSimulationDataset,
-    PrecomputedGreeksDataset
-)
-from .portfolio import PortfolioManager, create_portfolio_manager
-from .processors import TimeSeriesProcessor, DataValidator, FormatConverter
-
-# Backward compatibility imports
+# Core data processing components
 from .market_simulator import MarketSimulator
-from .loaders import create_data_loader, create_delta_data_loader, check_delta_availability
+from .data_loader import create_data_loader, create_delta_data_loader, check_delta_availability
+from .precomputed_data_loader import PrecomputedGreeksDataset
+from .greeks_preprocessor import GreeksPreprocessor
+from .option_portfolio_manager import OptionPortfolioManager
 
 __all__ = [
-    # New unified interfaces (preferred)
-    'UnifiedDataProvider',
-    'create_unified_data_provider', 
-    'PortfolioManager',
-    'create_portfolio_manager',
-    'MarketSimulationDataset',
-    'PrecomputedGreeksDataset',
-    'TimeSeriesProcessor',
-    'DataValidator',
-    'FormatConverter',
-    
-    # Backward compatibility
     'MarketSimulator',
     'create_data_loader',
-    'create_delta_data_loader',
-    'check_delta_availability'
+    'create_delta_data_loader', 
+    'check_delta_availability',
+    'PrecomputedGreeksDataset',
+    'GreeksPreprocessor',
+    'OptionPortfolioManager'
 ]
