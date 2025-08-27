@@ -1,6 +1,5 @@
 import time
 import json
-import logging
 from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -11,6 +10,9 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import threading
 from collections import deque
+
+# Unified logging
+from utils.logger import get_logger
 
 @dataclass
 class TrainingMetrics:
@@ -91,30 +93,9 @@ class TrainingMonitor:
             self._setup_realtime_plots()
     
     def _setup_logging(self):
-        """Setup comprehensive logging system"""
-        self.logger = logging.getLogger("TrainingMonitor")
-        self.logger.setLevel(logging.INFO)
-        
-        # Create formatter
-        formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-        
-        # File handler for training logs
-        log_file = self.log_dir / f"training_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        file_handler = logging.FileHandler(log_file)
-        file_handler.setLevel(logging.INFO)
-        file_handler.setFormatter(formatter)
-        
-        # Console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
-        console_handler.setFormatter(formatter)
-        
-        self.logger.addHandler(file_handler)
-        self.logger.addHandler(console_handler)
-        
-        self.logger.info(f"Training monitor initialized. Logs: {log_file}")
+        """Setup comprehensive logging system using unified logger"""
+        self.logger = get_logger("TrainingMonitor")
+        self.logger.info(f"Training monitor initialized. Logs dir: {self.log_dir}")
     
     def _setup_realtime_plots(self):
         """Setup real-time plotting infrastructure"""

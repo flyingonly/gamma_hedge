@@ -5,7 +5,15 @@ from typing import Optional
 
 class PolicyNetwork(nn.Module):
     """
-    Neural network for execution policy u*(θ; W(t_{i-1}), W, S, H)
+    Neural network for execution policy u*(θ; W(t_{i-1}), W, S, H, Δ)
+    
+    Enhanced with delta features for improved time sensitivity:
+    - Basic features: prev_holding, current_holding, price (3 dims)
+    - Time features: time_remaining (1 dim)
+    - History features: market history (14 dims)
+    - Delta features: current_delta, delta_change, delta_acceleration (3 dims)
+    
+    Total input dimensions: 3 + 1 + 14 + 3 = 21 dims (when all features enabled)
     """
     
     def __init__(self, 
@@ -32,7 +40,8 @@ class PolicyNetwork(nn.Module):
                 current_holding: torch.Tensor,
                 price: torch.Tensor,
                 history: Optional[torch.Tensor] = None,
-                time_features: Optional[torch.Tensor] = None) -> torch.Tensor:
+                time_features: Optional[torch.Tensor] = None,
+                delta_features: Optional[torch.Tensor] = None) -> torch.Tensor:
         """
         Forward pass
         Args:
@@ -41,6 +50,7 @@ class PolicyNetwork(nn.Module):
             price: Current asset prices A(t_i)
             history: Market history H (optional)
             time_features: Time-based features like time_remaining (optional)
+            delta_features: Delta-based features [current_delta, delta_change, delta_acceleration] (optional)
         Returns:
             Execution probability (0 to 1)
         """
@@ -50,6 +60,8 @@ class PolicyNetwork(nn.Module):
             inputs.append(history)
         if time_features is not None:
             inputs.append(time_features)
+        if delta_features is not None:
+            inputs.append(delta_features)
         
         x = torch.cat(inputs, dim=-1)
         

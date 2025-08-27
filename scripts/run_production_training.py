@@ -43,7 +43,6 @@ Configuration Priority:
 import argparse
 import sys
 import os
-import logging
 import json
 from pathlib import Path
 from typing import Dict, Optional
@@ -54,27 +53,14 @@ sys.path.append(project_root)
 
 # Import production training components
 from training.production_trainer import ProductionTrainer
-from training.config import TrainingConfig
+from core.config import TrainingConfig
 from data.option_portfolio_manager import OptionPortfolioManager
 from training.training_monitor import TrainingMonitor
+from utils.logger import get_logger, configure_logging
 
 def setup_logging(log_level: str = "INFO", log_file: Optional[str] = None):
-    """Setup logging configuration"""
-    
-    log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    
-    # Configure root logger
-    logging.basicConfig(
-        level=getattr(logging, log_level.upper()),
-        format=log_format
-    )
-    
-    # Add file handler if specified
-    if log_file:
-        file_handler = logging.FileHandler(log_file)
-        file_handler.setLevel(getattr(logging, log_level.upper()))
-        file_handler.setFormatter(logging.Formatter(log_format))
-        logging.getLogger().addHandler(file_handler)
+    """Setup logging configuration using unified logger"""
+    configure_logging(log_level=log_level, log_file=log_file)
 
 def parse_arguments():
     """Parse command line arguments"""
@@ -104,16 +90,16 @@ Examples:
     
     # Training parameters
     training_group = parser.add_argument_group('Training Parameters')
-    training_group.add_argument('--epochs', '-e', type=int, default=50,
-                               help='Number of training epochs (default: 50)')
-    training_group.add_argument('--batch-size', '-b', type=int, default=32,
-                               help='Batch size for training (default: 32)')
-    training_group.add_argument('--learning-rate', '--lr', type=float, default=1e-3,
-                               help='Learning rate (default: 0.001)')
-    training_group.add_argument('--sequence-length', type=int, default=100,
-                               help='Sequence length for time series (default: 100)')
-    training_group.add_argument('--checkpoint-interval', type=int, default=10,
-                               help='Save checkpoint every N epochs (default: 10)')
+    training_group.add_argument('--epochs', '-e', type=int, default=None,
+                               help='Number of training epochs (default: from config file or 10)')
+    training_group.add_argument('--batch-size', '-b', type=int, default=None,
+                               help='Batch size for training (default: from config file or 32)')
+    training_group.add_argument('--learning-rate', '--lr', type=float, default=None,
+                               help='Learning rate (default: from config file or 0.001)')
+    training_group.add_argument('--sequence-length', type=int, default=None,
+                               help='Sequence length for time series (default: from config file or 100)')
+    training_group.add_argument('--checkpoint-interval', type=int, default=None,
+                               help='Save checkpoint every N epochs (default: from config file or 10)')
     training_group.add_argument('--validation-split', type=float, default=0.2,
                                help='Validation data split ratio (default: 0.2)')
     
@@ -304,7 +290,7 @@ def main():
     
     # Setup logging
     setup_logging(args.log_level, args.log_file)
-    logger = logging.getLogger(__name__)
+    logger = get_logger(__name__)
     
     # Set random seeds
     set_random_seeds(args.seed)

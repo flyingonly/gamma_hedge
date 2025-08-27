@@ -6,15 +6,19 @@ import torch
 import sys
 import os
 import numpy as np
+from utils.logger import get_logger
+
 
 # Add project root to path
+logger = get_logger(__name__)
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from training.trainer import Trainer
-from training.config import TrainingConfig
+from core.config import TrainingConfig
 from models.policy_network import PolicyNetwork
 from models.value_function import ValueFunction
-from common.interfaces import DataResult
+from core.interfaces import DataResult
 import torch.nn.functional as F
 
 def create_test_data(batch_size=2, n_timesteps=5, n_assets=1, device='cpu'):
@@ -65,11 +69,11 @@ def test_value_function_network():
         assert value_pred.shape == (batch_size, 1), f"Expected shape ({batch_size}, 1), got {value_pred.shape}"
         assert torch.isfinite(value_pred).all(), "Value predictions contain infinite or NaN values"
         
-        print(f"[PASS] Value function network test")
+        logger.info("PASS: " + Value function network test)
         print(f"       Value predictions: {value_pred.flatten()}")
         
     except Exception as e:
-        print(f"[FAIL] Value function network test failed: {e}")
+        logger.error("FAIL: " + Value function network test failed: {e})
         raise
 
 def test_returns_to_go_calculation():
@@ -100,14 +104,14 @@ def test_returns_to_go_calculation():
             assert key in loss_dict, f"Missing expected loss component: {key}"
             assert torch.isfinite(loss_dict[key]).all(), f"{key} contains infinite or NaN values"
         
-        print(f"[PASS] Returns-to-go calculation test")
+        logger.info("PASS: " + Returns-to-go calculation test)
         print(f"       Policy loss: {loss_dict['policy_loss'].item():.6f}")
         print(f"       Value loss: {loss_dict['value_loss'].item():.6f}")
         print(f"       Mean advantage: {loss_dict['mean_advantage'].item():.6f}")
         print(f"       Mean return: {loss_dict['mean_return'].item():.6f}")
         
     except Exception as e:
-        print(f"[FAIL] Returns-to-go calculation test failed: {e}")
+        logger.error("FAIL: " + Returns-to-go calculation test failed: {e})
         raise
 
 def test_terminal_cost_handling():
@@ -143,17 +147,17 @@ def test_terminal_cost_handling():
         # Terminal cost should be included in returns calculation
         assert torch.isfinite(loss_dict['total_loss']).all(), "Total loss contains infinite or NaN"
         
-        print(f"[PASS] Terminal cost handling test")
+        logger.info("PASS: " + Terminal cost handling test)
         print(f"       Total loss: {loss_dict['total_loss'].item():.6f}")
         print(f"       Training return (negative): {loss_dict['mean_return'].item():.6f}")
         
         # Test that terminal cost is properly included (non-zero mean return)
         assert abs(loss_dict['mean_return'].item()) > 0.1, "Terminal cost should contribute to returns"
         
-        print(f"[PASS] Terminal cost inclusion verified")
+        logger.info("PASS: " + Terminal cost inclusion verified)
         
     except Exception as e:
-        print(f"[FAIL] Terminal cost handling test failed: {e}")
+        logger.error("FAIL: " + Terminal cost handling test failed: {e})
         raise
 
 def test_advantage_variance_reduction():
@@ -193,20 +197,20 @@ def test_advantage_variance_reduction():
         raw_var = np.var(raw_returns)
         advantage_var = np.var(advantages)
         
-        print(f"[INFO] Raw returns variance: {raw_var:.6f}")
-        print(f"[INFO] Advantage variance: {advantage_var:.6f}")
+        logger.info(Raw returns variance: {raw_var:.6f})
+        logger.info(Advantage variance: {advantage_var:.6f})
         
         if advantage_var > 1e-8:
             ratio = raw_var / advantage_var
-            print(f"[INFO] Variance reduction ratio: {ratio:.2f}x")
+            logger.info(Variance reduction ratio: {ratio:.2f}x)
         else:
-            print(f"[INFO] Advantage variance too small for ratio calculation")
+            logger.info(Advantage variance too small for ratio calculation)
         
         # Advantage should generally have lower variance (though not guaranteed for small samples)
-        print(f"[PASS] Advantage variance reduction test completed")
+        logger.info("PASS: " + Advantage variance reduction test completed)
         
     except Exception as e:
-        print(f"[FAIL] Advantage variance reduction test failed: {e}")
+        logger.error("FAIL: " + Advantage variance reduction test failed: {e})
         raise
 
 def test_training_step():
@@ -258,13 +262,13 @@ def test_training_step():
         assert policy_changed, "Policy parameters did not change during training"
         assert value_changed, "Value function parameters did not change during training"
         
-        print(f"[PASS] Training step test")
+        logger.info("PASS: " + Training step test)
         print(f"       Policy parameters updated: {policy_changed}")
         print(f"       Value function parameters updated: {value_changed}")
         print(f"       Final loss: {total_loss.item():.6f}")
         
     except Exception as e:
-        print(f"[FAIL] Training step test failed: {e}")
+        logger.error("FAIL: " + Training step test failed: {e})
         raise
 
 def run_all_tests():
@@ -288,16 +292,16 @@ def run_all_tests():
             test_func()
             passed += 1
         except Exception as e:
-            print(f"[FAIL] {test_func.__name__} failed: {e}")
+            logger.error("FAIL: " + {test_func.__name__} failed: {e})
             failed += 1
     
     print("\n" + "=" * 60)
     print(f"Test Results: {passed} passed, {failed} failed")
     
     if failed == 0:
-        print("[PASS] All policy loss improvement tests passed!")
+        logger.info("PASS: " + All policy loss improvement tests passed!)
     else:
-        print(f"[FAIL] {failed} tests failed!")
+        logger.error("FAIL: " + {failed} tests failed!)
     
     return failed == 0
 

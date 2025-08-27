@@ -9,9 +9,10 @@ optimized for dense data processing with 20K+ time points.
 import numpy as np
 from scipy.stats import norm
 from typing import Union, Optional
+from utils.logger import get_logger
 import logging
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def black_scholes_delta(S: Union[float, np.ndarray],

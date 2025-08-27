@@ -6,14 +6,19 @@ from tqdm import tqdm
 from typing import Dict, List, Optional
 import numpy as np
 import os
+import logging
 from datetime import datetime
 
 # Import new interfaces (no sys.path needed)
-from common.interfaces import DataResult
+from core.interfaces import DataResult
 from data.data_types import MarketData
 from utils.policy_tracker import global_policy_tracker
-from training.config import TrainingConfig
+from core.config import TrainingConfig
 from models.value_function_network import ValueFunctionNetwork
+from training.loss_calculator import create_advanced_loss_calculator, LossCalculator
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 class Trainer:
     """Trainer for policy network"""
@@ -66,7 +71,26 @@ class Trainer:
         self.entropy_weight = training_config.entropy_weight
         self.base_execution_cost = training_config.base_execution_cost
         self.variable_execution_cost = training_config.variable_execution_cost
-        self.market_impact_scale = getattr(training_config, 'market_impact_scale', 0.01)
+        self.market_impact_scale = training_config.market_impact_scale
+        
+        # Initialize advanced loss calculator with all components from unified config
+        loss_config = {
+            'policy_loss': training_config.policy_loss_weight,
+            'value_loss': training_config.value_loss_weight if use_value_function else 0.0,
+            'entropy_loss': training_config.entropy_weight,
+            'l2_regularization': training_config.l2_regularization_weight
+        }
+        
+        self.loss_calculator = create_advanced_loss_calculator(
+            policy_network=self.policy,
+            value_network=self.value_function,
+            enable_tracking=enable_tracking,
+            device=device,
+            market_impact_scale=training_config.market_impact_scale,
+            base_execution_cost=training_config.base_execution_cost,
+            variable_execution_cost=training_config.variable_execution_cost,
+            config=loss_config
+        )
         
         # Configure policy tracker
         global_policy_tracker.enable_tracking = enable_tracking
@@ -132,296 +156,18 @@ class Trainer:
         print(f"Resumed from epoch {self.start_epoch}")
         return checkpoint
         
-    def compute_policy_loss(self,
-                           data: DataResult) -> torch.Tensor:
-        """
-        Compute policy loss using REINFORCE algorithm with cumulative cost.
-        The reward is the negative of the total cost over the entire trajectory.
-        """
-        prices = data.prices
-        holdings = data.holdings
-        batch_size, n_timesteps, n_assets = prices.shape
-
-        # Initial holding from data
-        current_holding = holdings[:, 0, :].clone()
-
-        log_probs = []
-        rewards = []
-        execution_probs = []  # Collect for entropy calculation
-
-        # Start new episode for tracking (only track first batch item to avoid noise)
-        if self.enable_tracking:
-            global_policy_tracker.start_new_episode({
-                'batch_size': batch_size,
-                'n_timesteps': n_timesteps,
-                'n_assets': n_assets
-            })
-
-        # --- Simulation Step ---
-        # Simulate the policy over the entire sequence to collect trajectories
-        for t in range(n_timesteps):
-            current_price = prices[:, t, :]
-            required_holding = holdings[:, t, :]
-            
-            # Create time features (time_remaining normalized between 0 and 1)
-            time_remaining = torch.full((batch_size, 1), (n_timesteps - t - 1) / n_timesteps, 
-                                      device=prices.device, dtype=prices.dtype)
-            
-            # Use time features if available in data, otherwise use computed time_remaining
-            time_features = data.time_features[:, t, :] if data.time_features is not None else time_remaining
-
-            # Get policy output (execution probability)
-            exec_prob = self.policy(
-                current_holding,
-                required_holding,
-                current_price,
-                time_features=time_features
-            )
-            
-            # Store execution probability for entropy calculation
-            execution_probs.append(exec_prob)
-
-            # Sample action and store log probability
-            # Use a Bernoulli distribution for discrete action sampling
-            dist = torch.distributions.Bernoulli(exec_prob)
-            action = dist.sample()  # action=1 means execute, 0 means wait
-            log_probs.append(dist.log_prob(action))
-
-            # Calculate immediate cost for this step if action is taken
-            holding_change = required_holding - current_holding
-            market_impact_cost = -(holding_change * current_price).sum(dim=-1, keepdim=True)
-            
-            # Add execution cost penalty to encourage selective execution
-            execution_cost = (self.base_execution_cost + 
-                            self.variable_execution_cost * torch.abs(holding_change).sum(dim=-1, keepdim=True))
-            immediate_cost = market_impact_cost + execution_cost
-            
-            # The cost is only incurred if the action is to execute
-            cost_t = action * immediate_cost
-            rewards.append(-cost_t) # Reward is the negative of the cost
-
-            # Record decision for visualization (only first batch item)
-            if self.enable_tracking and batch_size > 0:
-                global_policy_tracker.record_decision(
-                    timestep=t,
-                    execution_probability=exec_prob[0, 0].cpu().item(),
-                    action_taken=bool(action[0, 0].cpu().item()),
-                    current_price=current_price[0, :],
-                    current_holding=current_holding[0, :],
-                    required_holding=required_holding[0, :],
-                    immediate_cost=cost_t[0, 0].cpu().item()
-                )
-
-            # Update holdings based on the sampled action
-            current_holding = action * required_holding + (1 - action) * current_holding
-
-        # --- Terminal Forced Execution Step ---
-        # Add mandatory terminal execution cost to align with value_function.py logic
-        final_price = prices[:, -1, :]
-        final_required_holding = holdings[:, -1, :]
-        final_holding_change = final_required_holding - current_holding
-        final_cost = -(final_holding_change * final_price).sum(dim=-1, keepdim=True)
-        rewards.append(-final_cost)  # Add terminal cost as reward (negative cost)
-
-        # Finalize episode tracking
-        if self.enable_tracking:
-            global_policy_tracker.finalize_episode()
-
-        # --- Loss Calculation Step ---
-        # Stack collected data
-        log_probs = torch.stack(log_probs, dim=1)
-        rewards = torch.stack(rewards, dim=1)
-        execution_probs = torch.stack(execution_probs, dim=1)
-
-        # Calculate the cumulative reward (G_t) for the whole trajectory
-        # In this simplified REINFORCE, we use the total reward for every step
-        total_reward = torch.sum(rewards, dim=1, keepdim=True)
-
-        # Policy gradient loss: - (log_prob * total_reward)
-        # We use .detach() on total_reward as per REINFORCE algorithm
-        policy_loss = -(log_probs * total_reward.detach()).mean()
-        
-        # Add entropy regularization to encourage exploration
-        # Entropy for Bernoulli distribution: -p*log(p) - (1-p)*log(1-p)
-        eps = 1e-8  # Small constant to avoid log(0)
-        entropy = -(execution_probs * torch.log(execution_probs + eps) + 
-                   (1 - execution_probs) * torch.log(1 - execution_probs + eps))
-        entropy_loss = -entropy.mean()  # Negative because we want to maximize entropy
-        
-        # Combine losses
-        total_loss = policy_loss + self.entropy_weight * entropy_loss
-
-        return total_loss
     
     def compute_policy_loss_with_advantage(self,
                                          data: DataResult) -> Dict[str, torch.Tensor]:
         """
-        Improved policy loss computation using returns-to-go and value function baseline.
-        Implements advantage function A(s,a) = returns_to_go - V(s) for reduced variance.
+        Compute policy loss using modular loss calculator with proper mask handling.
+        
+        This method delegates to the LossCalculator for complete policy execution simulation,
+        terminal cost calculation, advantage computation, and final loss calculation.
+        All mask logic and holding updates are handled correctly by the modular components.
         """
-        prices = data.prices
-        holdings = data.holdings
-        batch_size, n_timesteps, n_assets = prices.shape
-        
-        # Initialize tracking variables
-        log_probs = []
-        rewards = []
-        execution_probs = []
-        states = []  # For value function input
-        
-        # Initial holdings - start with first required holding (realistic trading scenario)
-        current_holding = holdings[:, 0, :].clone()  # Start with first timestep's required holding
-        
-        # Start new episode for tracking (only track first batch item to avoid noise)
-        if self.enable_tracking:
-            global_policy_tracker.start_new_episode({
-                'batch_size': batch_size,
-                'n_timesteps': n_timesteps,
-                'n_assets': n_assets
-            })
-        
-        # --- Forward Pass: Collect trajectories ---
-        for t in range(n_timesteps):
-            current_price = prices[:, t, :]
-            required_holding = holdings[:, t, :]
-            
-            # Compute remaining time
-            time_remaining = torch.full((batch_size, 1), (n_timesteps - t - 1) / n_timesteps, device=self.device)
-            
-            # Use time features if available, otherwise use computed time_remaining
-            time_features = data.time_features[:, t, :] if data.time_features is not None else time_remaining
-            
-            # Store state for value function
-            state_input = {
-                'prev_holding': current_holding,
-                'current_holding': required_holding,
-                'price': current_price,
-                'time_features': time_features
-            }
-            states.append(state_input)
-            
-            # Get policy output (execution probability)
-            exec_prob = self.policy(
-                current_holding,
-                required_holding,
-                current_price,
-                time_features=time_features
-            )
-            execution_probs.append(exec_prob)
-            
-            # Sample action and store log probability
-            dist = torch.distributions.Bernoulli(exec_prob)
-            action = dist.sample()
-            log_probs.append(dist.log_prob(action))
-            
-            # Calculate immediate cost
-            holding_change = required_holding - current_holding
-            
-            # For t=0, we already hold the required position, so no real execution needed
-            if t == 0:
-                # At t=0, we already have the required holding, so no cost
-                immediate_cost = torch.zeros(batch_size, 1, device=self.device)
-            else:
-                # Scale market impact to control reward magnitude
-                market_impact_cost = -(holding_change * current_price).sum(dim=-1, keepdim=True) * self.market_impact_scale
-                execution_cost = (self.base_execution_cost + 
-                                self.variable_execution_cost * torch.abs(holding_change).sum(dim=-1, keepdim=True))
-                immediate_cost = market_impact_cost + execution_cost
-            
-            # Cost only incurred if action is to execute
-            cost_t = action * immediate_cost
-            rewards.append(-cost_t)  # Reward is negative cost
-            
-            # Record decision for visualization (only first batch item)
-            if self.enable_tracking and batch_size > 0:
-                global_policy_tracker.record_decision(
-                    timestep=t,
-                    execution_probability=exec_prob[0, 0].cpu().item(),
-                    action_taken=bool(action[0, 0].cpu().item()),
-                    current_price=current_price[0, :],
-                    current_holding=current_holding[0, :],
-                    required_holding=required_holding[0, :],
-                    immediate_cost=immediate_cost[0, 0].cpu().item()
-                )
-            
-            # Update holdings
-            current_holding = action * required_holding + (1 - action) * current_holding
-        
-        # --- Terminal Forced Execution (probability = 1, not affected by policy) ---
-        final_price = prices[:, -1, :]
-        final_required_holding = holdings[:, -1, :]
-        final_holding_change = final_required_holding - current_holding
-        # Terminal cost is ALWAYS incurred (probability = 1) - scale market impact
-        final_cost = -(final_holding_change * final_price).sum(dim=-1, keepdim=True) * self.market_impact_scale
-        rewards.append(-final_cost)
-        
-        # Finalize episode tracking
-        if self.enable_tracking:
-            global_policy_tracker.finalize_episode()
-        
-        # --- Returns-to-go Calculation ---
-        log_probs = torch.stack(log_probs, dim=1)  # (batch, timesteps, 1)
-        rewards = torch.stack(rewards, dim=1)      # (batch, timesteps+1, 1) - includes terminal
-        execution_probs = torch.stack(execution_probs, dim=1)  # (batch, timesteps, 1)
-        
-        # Compute returns-to-go for each timestep
-        returns_to_go = torch.zeros_like(rewards[:, :-1, :])  # Exclude terminal for policy steps
-        
-        # Calculate returns-to-go: G_t = sum(rewards[t:])
-        for t in range(n_timesteps):
-            returns_to_go[:, t, :] = torch.sum(rewards[:, t:], dim=1)
-        
-        # --- Value Function Predictions and Loss ---
-        value_loss = torch.tensor(0.0, device=self.device)
-        if self.use_value_function and self.value_function is not None:
-            # Get value predictions for all states
-            value_predictions = []
-            for t in range(n_timesteps):
-                state = states[t]
-                value_pred = self.value_function(
-                    state['prev_holding'],
-                    state['current_holding'], 
-                    state['price'],
-                    time_features=state['time_features']
-                )
-                value_predictions.append(value_pred)
-            
-            value_predictions = torch.stack(value_predictions, dim=1)  # (batch, timesteps, 1)
-            
-            # Compute value function loss
-            value_loss = self.value_function.compute_value_loss(
-                value_predictions, returns_to_go
-            )
-            
-            # Compute advantages: A(s,a) = returns_to_go - V(s)
-            advantages = returns_to_go - value_predictions.detach()
-        else:
-            # Fallback: use returns-to-go directly (original REINFORCE)
-            advantages = returns_to_go
-        
-        # --- Policy Loss with Advantages ---
-        policy_loss = -(log_probs * advantages.detach()).mean()
-        
-        # --- Entropy Regularization ---
-        eps = 1e-8
-        entropy = -(execution_probs * torch.log(execution_probs + eps) + 
-                   (1 - execution_probs) * torch.log(1 - execution_probs + eps))
-        entropy_loss = -entropy.mean()
-        
-        # --- Combined Loss ---
-        total_loss = policy_loss + self.entropy_weight * entropy_loss
-        if self.use_value_function:
-            value_weight = getattr(self.config, 'value_loss_weight', 0.5)
-            total_loss += value_weight * value_loss
-        
-        return {
-            'total_loss': total_loss,
-            'policy_loss': policy_loss,
-            'value_loss': value_loss,
-            'entropy_loss': entropy_loss,
-            'mean_advantage': advantages.mean(),
-            'mean_return': returns_to_go.mean()
-        }
+        # Delegate to the modular loss calculator
+        return self.loss_calculator.compute_policy_loss_with_advantage(data)
     
     def train_epoch(self, data_loader: DataLoader) -> Dict[str, float]:
         """Train for one epoch"""
@@ -540,3 +286,4 @@ class Trainer:
             'loss': np.mean(losses),
             'loss_std': np.std(losses)
         }
+    

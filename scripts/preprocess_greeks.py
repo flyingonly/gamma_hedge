@@ -15,7 +15,7 @@ from typing import List
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from data.greeks_preprocessor import GreeksPreprocessor
-from common.greeks_config import GreeksPreprocessingConfig
+from core.config import GreeksConfig, create_config
 import numpy as np
 
 def process_weekly_code_with_stats(preprocessor: GreeksPreprocessor, weekly_code: str, force_reprocess: bool = True) -> dict:
@@ -88,7 +88,7 @@ def process_weekly_code_with_stats(preprocessor: GreeksPreprocessor, weekly_code
     
     return stats
 
-def main(resume: bool = False, config: GreeksPreprocessingConfig = None):
+def main(resume: bool = False, config: GreeksConfig = None):
     """Main preprocessing function"""
     print("Greeks Preprocessing Script")
     print("=" * 40)
@@ -96,7 +96,8 @@ def main(resume: bool = False, config: GreeksPreprocessingConfig = None):
     try:
         # Initialize preprocessor
         if config is None:
-            config = GreeksPreprocessingConfig()
+            full_config = create_config()
+            config = full_config.greeks
         preprocessor = GreeksPreprocessor(config)
         
         # Discover all available weekly codes
@@ -149,14 +150,15 @@ def main(resume: bool = False, config: GreeksPreprocessingConfig = None):
         traceback.print_exc()
         sys.exit(1)
 
-def preprocess_specific_codes(weekly_codes: List[str], resume: bool = False, config: GreeksPreprocessingConfig = None):
+def preprocess_specific_codes(weekly_codes: List[str], resume: bool = False, config: GreeksConfig = None):
     """Preprocess specific weekly codes"""
     print(f"Greeks Preprocessing for codes: {weekly_codes}")
     print("=" * 40)
     
     try:
         if config is None:
-            config = GreeksPreprocessingConfig()
+            full_config = create_config()
+            config = full_config.greeks
         preprocessor = GreeksPreprocessor(config)
         
         total_processed = 0
@@ -216,7 +218,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     # Set preprocessing mode in configuration
-    config = GreeksPreprocessingConfig()
+    full_config = create_config()
+    config = full_config.greeks
     config.preprocessing_mode = args.mode
     
     print(f"Using preprocessing mode: {args.mode}")

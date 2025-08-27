@@ -4,8 +4,8 @@ import numpy as np
 from typing import Dict, List, Optional, Tuple, Union
 from dataclasses import dataclass, asdict
 from pathlib import Path
-import logging
 from datetime import datetime
+from utils.logger import get_logger
 
 @dataclass
 class OptionInfo:
@@ -41,7 +41,7 @@ class OptionPortfolioManager:
         self.data_dir = Path(data_dir)
         self.available_options: List[OptionInfo] = []
         self.portfolio_configs: Dict[str, PortfolioConfig] = {}
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
         
         # Initialize available options inventory
         self._scan_available_options()

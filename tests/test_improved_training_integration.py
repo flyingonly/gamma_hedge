@@ -6,14 +6,18 @@ import torch
 import sys
 import os
 import numpy as np
+from utils.logger import get_logger
+
 
 # Add project root to path
+logger = get_logger(__name__)
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from training.trainer import Trainer
-from training.config import TrainingConfig
+from core.config import TrainingConfig
 from models.policy_network import PolicyNetwork
-from common.interfaces import DataResult
+from core.interfaces import DataResult
 
 def test_integration_with_training():
     """Test improved loss calculation in a mini training scenario"""
@@ -164,7 +168,7 @@ def test_backwards_compatibility():
         assert torch.isfinite(loss_dict['policy_loss']).all(), "Policy loss should be valid"
         assert torch.isfinite(loss_dict['entropy_loss']).all(), "Entropy loss should be valid"
         
-        print(f"[PASS] Backwards compatibility test")
+        logger.info("PASS: " + Backwards compatibility test)
         print(f"       Policy loss: {loss_dict['policy_loss'].item():.6f}")
         print(f"       Value loss (disabled): {loss_dict['value_loss'].item():.6f}")
         print(f"       Mean advantage (= returns): {loss_dict['mean_advantage'].item():.6f}")
@@ -172,7 +176,7 @@ def test_backwards_compatibility():
         return True
         
     except Exception as e:
-        print(f"[FAIL] Backwards compatibility test failed: {e}")
+        logger.error("FAIL: " + Backwards compatibility test failed: {e})
         return False
 
 def run_all_integration_tests():
@@ -198,10 +202,10 @@ def run_all_integration_tests():
     print(f"Integration Test Results: {passed} passed, {failed} failed")
     
     if failed == 0:
-        print("[PASS] All integration tests passed!")
+        logger.info("PASS: " + All integration tests passed!)
         return True
     else:
-        print(f"[FAIL] {failed} integration tests failed!")
+        logger.error("FAIL: " + {failed} integration tests failed!)
         return False
 
 if __name__ == "__main__":

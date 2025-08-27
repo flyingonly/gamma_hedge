@@ -6,12 +6,16 @@ import torch
 import sys
 import os
 import numpy as np
+from utils.logger import get_logger
+
 
 # Add project root to path
+logger = get_logger(__name__)
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from training.production_trainer import ProductionTrainer
-from training.config import TrainingConfig
+from core.config import TrainingConfig
 from utils.policy_tracker import global_policy_tracker
 
 def test_regularization_training():
@@ -71,18 +75,18 @@ def test_regularization_training():
                 print(f"\\nAverage hedge ratio: {avg_hedge_ratio:.3f}")
                 
                 if avg_hedge_ratio < 0.95:  # Less than 95% execution
-                    print(f"[PASS] Regularization effective - hedge ratio reduced from 1.0 to {avg_hedge_ratio:.3f}")
+                    logger.info("PASS: " + Regularization effective - hedge ratio reduced from 1.0 to {avg_hedge_ratio:.3f})
                 else:
-                    print(f"[WARN] Hedge ratio still high: {avg_hedge_ratio:.3f} - may need stronger regularization")
+                    logger.warning(Hedge ratio still high: {avg_hedge_ratio:.3f} - may need stronger regularization)
             else:
-                print(f"[WARN] No hedge ratio data available")
+                logger.warning(No hedge ratio data available)
         else:
-            print(f"[WARN] No tracking data available")
+            logger.warning(No tracking data available)
         
         return True
         
     except Exception as e:
-        print(f"[FAIL] Training test failed: {e}")
+        logger.error("FAIL: " + Training test failed: {e})
         import traceback
         traceback.print_exc()
         return False

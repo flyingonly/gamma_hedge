@@ -20,7 +20,7 @@ sys.path.insert(0, project_root)
 from data.options_loader import OptionsDataLoader
 from data.greeks_preprocessor import GreeksPreprocessor
 from data.precomputed_data_loader import PrecomputedGreeksDataset
-from common.greeks_config import GreeksPreprocessingConfig
+from core.config import GreeksConfig
 
 
 class TestUnifiedDataProcessing(unittest.TestCase):
@@ -28,7 +28,9 @@ class TestUnifiedDataProcessing(unittest.TestCase):
     
     def setUp(self):
         """Set up test configuration and instances"""
-        self.config = GreeksPreprocessingConfig()
+        from core.config import create_config
+        full_config = create_config()
+        self.config = full_config.greeks
         self.test_weekly_code = '3CN5'
         self.test_option_key = 'CALL_111.0'
         

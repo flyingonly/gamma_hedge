@@ -34,7 +34,8 @@ class ValueFunctionNetwork(nn.Module):
                 current_holding: torch.Tensor,
                 price: torch.Tensor,
                 history: Optional[torch.Tensor] = None,
-                time_features: Optional[torch.Tensor] = None) -> torch.Tensor:
+                time_features: Optional[torch.Tensor] = None,
+                delta_features: Optional[torch.Tensor] = None) -> torch.Tensor:
         """
         Forward pass to predict value function V(s)
         
@@ -44,6 +45,7 @@ class ValueFunctionNetwork(nn.Module):
             price: Current asset prices A(t_i)
             history: Market history H (optional)
             time_features: Time-based features like time_remaining (optional)
+            delta_features: Delta-based features [current_delta, delta_change, delta_acceleration] (optional)
             
         Returns:
             Expected cumulative reward from current state (single value)
@@ -54,6 +56,8 @@ class ValueFunctionNetwork(nn.Module):
             inputs.append(history)
         if time_features is not None:
             inputs.append(time_features)
+        if delta_features is not None:
+            inputs.append(delta_features)
             
         x = torch.cat(inputs, dim=-1)
         

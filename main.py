@@ -3,8 +3,12 @@ import numpy as np
 import sys
 import os
 import argparse
+from utils.logger import get_logger
+
 
 # Add project root to path
+logger = get_logger(__name__)
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from data.market_simulator import MarketConfig, MarketSimulator
@@ -83,7 +87,14 @@ def main():
         n_assets = config['market'].n_assets
         print("\nInitializing traditional model...")
     
-    input_dim = n_assets * 3 + 1  # prev_holding, current_holding, price + time_remaining
+    # Calculate input dimension using centralized dimension management
+    from core.dimensions import calculate_model_input_dim
+    input_dim = calculate_model_input_dim(
+        n_assets=n_assets,
+        include_history=True,
+        include_time=True,
+        include_delta=True
+    )
     policy_net = PolicyNetwork(
         input_dim=input_dim,
         hidden_dims=config['model'].hidden_dims,
@@ -187,7 +198,7 @@ def main():
             test_prices = test_data.prices.unsqueeze(0)  # Add batch dimension
             test_holdings = test_data.holdings.unsqueeze(0)
         else:
-            print("[WARN] No precomputed test data available, using simulation fallback")
+            logger.warning("No precomputed test data available, using simulation fallback")
             test_simulator = MarketSimulator(config['market'])
             test_prices, test_holdings = test_simulator.generate_batch(1)
     else:

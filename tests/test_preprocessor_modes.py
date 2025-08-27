@@ -5,13 +5,17 @@ Test script for the three preprocessing modes
 
 import sys
 import os
+from utils.logger import get_logger
+
 
 # Add project root to path
+logger = get_logger(__name__)
+
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_root)
 
 from data.greeks_preprocessor import GreeksPreprocessor
-from common.greeks_config import GreeksPreprocessingConfig
+from core.config import GreeksConfig
 from tools.black_scholes import BlackScholesModel
 
 def test_black_scholes_calculate_all():
@@ -37,11 +41,11 @@ def test_black_scholes_calculate_all():
         print(f"  Vega: {result['vega']:.4f}")
         print(f"  Rho: {result['rho']:.4f}")
         
-        print("  [PASS] calculate_all method works correctly")
+        logger.info("PASS: " + calculate_all method works correctly)
         return True
         
     except Exception as e:
-        print(f"  [FAIL] calculate_all method failed: {e}")
+        logger.error("FAIL: " + calculate_all method failed: {e})
         return False
 
 def test_sparse_mode():
@@ -49,12 +53,12 @@ def test_sparse_mode():
     print("\nTesting sparse preprocessing mode...")
     
     try:
-        config = GreeksPreprocessingConfig(preprocessing_mode="sparse")
+        config = GreeksConfig(preprocessing_mode="sparse")
         preprocessor = GreeksPreprocessor(config)
-        print("  [PASS] Sparse mode preprocessor initialized")
+        logger.info("PASS: " + Sparse mode preprocessor initialized)
         return True
     except Exception as e:
-        print(f"  [FAIL] Sparse mode failed: {e}")
+        logger.error("FAIL: " + Sparse mode failed: {e})
         return False
 
 def test_dense_interpolated_mode():
@@ -62,12 +66,12 @@ def test_dense_interpolated_mode():
     print("\nTesting dense_interpolated preprocessing mode...")
     
     try:
-        config = GreeksPreprocessingConfig(preprocessing_mode="dense_interpolated")
+        config = GreeksConfig(preprocessing_mode="dense_interpolated")
         preprocessor = GreeksPreprocessor(config)
-        print("  [PASS] Dense interpolated mode preprocessor initialized")
+        logger.info("PASS: " + Dense interpolated mode preprocessor initialized)
         return True
     except Exception as e:
-        print(f"  [FAIL] Dense interpolated mode failed: {e}")
+        logger.error("FAIL: " + Dense interpolated mode failed: {e})
         return False
 
 def test_dense_daily_recalc_mode():
@@ -75,12 +79,12 @@ def test_dense_daily_recalc_mode():
     print("\nTesting dense_daily_recalc preprocessing mode...")
     
     try:
-        config = GreeksPreprocessingConfig(preprocessing_mode="dense_daily_recalc")
+        config = GreeksConfig(preprocessing_mode="dense_daily_recalc")
         preprocessor = GreeksPreprocessor(config)
-        print("  [PASS] Dense daily recalc mode preprocessor initialized")
+        logger.info("PASS: " + Dense daily recalc mode preprocessor initialized)
         return True
     except Exception as e:
-        print(f"  [FAIL] Dense daily recalc mode failed: {e}")
+        logger.error("FAIL: " + Dense daily recalc mode failed: {e})
         return False
 
 def main():

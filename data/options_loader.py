@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional, Union
 from datetime import datetime, timedelta
+from utils.logger import get_logger
 import logging
 import sys
 import os
@@ -23,7 +24,7 @@ from csv_process.separated_npz_loader import SeparatedNPZLoader
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class OptionsDataLoader:

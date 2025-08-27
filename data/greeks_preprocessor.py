@@ -13,22 +13,29 @@ from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 import json
 import sys
-import logging
 
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from tools.black_scholes import BlackScholesModel
-from common.greeks_config import GreeksPreprocessingConfig
+from core.config import GreeksConfig
 from data.options_loader import OptionsDataLoader
+from utils.logger import get_logger
 
 class GreeksPreprocessor:
     """Unified Greeks preprocessor for all preprocessing modes"""
     
-    def __init__(self, config: Optional[GreeksPreprocessingConfig] = None):
-        self.config = config or GreeksPreprocessingConfig()
+    def __init__(self, config: Optional[GreeksConfig] = None):
+        from core.config import create_config
+        if config is None:
+            full_config = create_config()
+            self.config = full_config.greeks
+        else:
+            self.config = config
         self.bs_model = BlackScholesModel()
-        self.logger = logging.getLogger(__name__)
+        
+        # Use unified logger
+        self.logger = get_logger(__name__)
         self.data_loader = OptionsDataLoader(
             underlying_data_dir=self.config.underlying_data_dir,
             options_data_dir=self.config.options_data_dir,
@@ -197,6 +204,15 @@ class GreeksPreprocessor:
     def _calculate_greeks_for_timestamps(self, timestamps: np.ndarray, data: Dict,
                                        option_type: str, strike: float) -> Dict:
         """Calculate Greeks for specified timestamps"""
+        # Route to appropriate implementation based on mode
+        if self.config.preprocessing_mode == 'dense_daily_recalc':
+            return self._calculate_greeks_daily_recalc(timestamps, data, option_type, strike)
+        else:
+            return self._calculate_greeks_standard(timestamps, data, option_type, strike)
+    
+    def _calculate_greeks_standard(self, timestamps: np.ndarray, data: Dict,
+                                 option_type: str, strike: float) -> Dict:
+        """Standard Greeks calculation for sparse and dense_interpolated modes"""
         n_points = len(timestamps)
         result = {
             'timestamps': np.zeros(n_points),
@@ -266,6 +282,163 @@ class GreeksPreprocessor:
             result[key] = result[key][:valid_count]
             
         return result
+    
+    def _calculate_greeks_daily_recalc(self, timestamps: np.ndarray, data: Dict,
+                                     option_type: str, strike: float) -> Dict:
+        """
+        Dense daily recalc: Full calculation at trading day start, gamma-based delta updates intraday
+        Algorithm: delta_new = delta_old + gamma * (S_new - S_old)
+        """
+        from datetime import datetime
+        
+        n_points = len(timestamps)
+        result = {
+            'timestamps': np.zeros(n_points),
+            'underlying_prices': np.zeros(n_points), 
+            'option_prices': np.zeros(n_points),
+            'delta': np.zeros(n_points),
+            'gamma': np.zeros(n_points),
+            'theta': np.zeros(n_points),
+            'vega': np.zeros(n_points),
+            'implied_volatility': np.zeros(n_points)
+        }
+        
+        risk_free_rate = self.config.risk_free_rate
+        time_to_expiry = self.config.time_to_expiry_days / 365.0
+        valid_count = 0
+        
+        # Group timestamps by trading day
+        daily_groups = self._group_timestamps_by_trading_day(timestamps)
+        
+        print(f"  Processing {len(daily_groups)} trading days with daily recalc algorithm")
+        
+        for date_key, day_timestamps in daily_groups.items():
+            # Process each trading day
+            day_result = self._process_trading_day_recalc(
+                day_timestamps, data, option_type, strike, 
+                risk_free_rate, time_to_expiry
+            )
+            
+            # Add day results to overall results
+            day_count = len(day_result['timestamps'])
+            if day_count > 0:
+                end_idx = valid_count + day_count
+                for key in result:
+                    result[key][valid_count:end_idx] = day_result[key]
+                valid_count += day_count
+        
+        print(f"  Daily recalc success rate: {valid_count}/{n_points} ({valid_count/n_points*100:.1f}%)")
+        
+        # Trim arrays
+        for key in result:
+            result[key] = result[key][:valid_count]
+            
+        return result
+    
+    def _group_timestamps_by_trading_day(self, timestamps: np.ndarray) -> Dict[str, np.ndarray]:
+        """Group timestamps by trading day (YYYY-MM-DD)"""
+        daily_groups = {}
+        
+        for ts in timestamps:
+            try:
+                dt = datetime.fromtimestamp(ts)
+                date_key = dt.strftime('%Y-%m-%d')
+                
+                if date_key not in daily_groups:
+                    daily_groups[date_key] = []
+                daily_groups[date_key].append(ts)
+            except Exception:
+                continue
+        
+        # Convert to sorted numpy arrays
+        for date_key in daily_groups:
+            daily_groups[date_key] = np.array(sorted(daily_groups[date_key]))
+        
+        return daily_groups
+    
+    def _process_trading_day_recalc(self, day_timestamps: np.ndarray, data: Dict,
+                                  option_type: str, strike: float, 
+                                  risk_free_rate: float, time_to_expiry: float) -> Dict:
+        """
+        Process single trading day with daily recalc algorithm:
+        1. Full calculation at day start
+        2. Gamma-based delta updates for intraday points
+        """
+        day_count = len(day_timestamps)
+        day_result = {
+            'timestamps': np.zeros(day_count),
+            'underlying_prices': np.zeros(day_count), 
+            'option_prices': np.zeros(day_count),
+            'delta': np.zeros(day_count),
+            'gamma': np.zeros(day_count),
+            'theta': np.zeros(day_count),
+            'vega': np.zeros(day_count),
+            'implied_volatility': np.zeros(day_count)
+        }
+        
+        valid_day_count = 0
+        daily_base_greeks = None
+        daily_base_price = None
+        
+        for i, timestamp in enumerate(day_timestamps):
+            try:
+                # Get underlying price
+                underlying_price = self._get_price_at_timestamp(
+                    timestamp, data['underlying_timestamps'], data['underlying_prices']
+                )
+                if underlying_price is None:
+                    continue
+                
+                # Get/estimate option price
+                option_price = self._get_price_at_timestamp(
+                    timestamp, data['option_timestamps'], data['option_prices']
+                )
+                if option_price is None:
+                    # Estimate using Black-Scholes
+                    volatility = self._get_volatility_estimate(data, timestamp)
+                    option_price = self.bs_model.option_price(
+                        underlying_price, strike, time_to_expiry, 
+                        risk_free_rate, volatility, option_type.lower()
+                    )
+                
+                # Calculate volatility
+                volatility = self._get_volatility_estimate(data, timestamp)
+                volatility = np.clip(volatility, self.config.min_volatility, self.config.max_volatility)
+                
+                if daily_base_greeks is None:
+                    # First point of day: Full Black-Scholes calculation
+                    daily_base_greeks = self.bs_model.calculate_all(
+                        underlying_price, strike, time_to_expiry, 
+                        risk_free_rate, volatility, option_type.lower()
+                    )
+                    daily_base_price = underlying_price
+                    current_greeks = daily_base_greeks.copy()
+                else:
+                    # Intraday point: Use gamma approximation for delta, keep other Greeks from daily base
+                    price_change = underlying_price - daily_base_price
+                    current_greeks = daily_base_greeks.copy()
+                    current_greeks['delta'] = daily_base_greeks['delta'] + daily_base_greeks['gamma'] * price_change
+                
+                # Store results
+                day_result['timestamps'][valid_day_count] = timestamp
+                day_result['underlying_prices'][valid_day_count] = underlying_price
+                day_result['option_prices'][valid_day_count] = option_price
+                day_result['delta'][valid_day_count] = current_greeks['delta']
+                day_result['gamma'][valid_day_count] = current_greeks['gamma']
+                day_result['theta'][valid_day_count] = current_greeks['theta']
+                day_result['vega'][valid_day_count] = current_greeks['vega']
+                day_result['implied_volatility'][valid_day_count] = volatility
+                
+                valid_day_count += 1
+                
+            except Exception as e:
+                continue
+        
+        # Trim day results
+        for key in day_result:
+            day_result[key] = day_result[key][:valid_day_count]
+            
+        return day_result
     
     def _get_price_at_timestamp(self, target_ts: float, timestamps: np.ndarray, prices: np.ndarray) -> Optional[float]:
         """Get price at timestamp with tolerance"""

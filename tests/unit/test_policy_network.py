@@ -15,7 +15,7 @@ sys.path.insert(0, str(project_root))
 import torch
 import torch.nn as nn
 from tests.test_config import TEST_CONFIG, create_mock_market_data
-from common.interfaces import DataResult
+from core.interfaces import DataResult
 
 def test_policy_network_creation():
     """Test policy network creation and basic functionality"""

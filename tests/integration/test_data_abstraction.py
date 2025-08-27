@@ -22,7 +22,7 @@ def test_data_result_interface():
     print("-" * 40)
     
     try:
-        from common.interfaces import DataResult
+        from core.interfaces import DataResult
         
         # Create mock data
         prices, holdings = create_mock_market_data()
@@ -77,7 +77,7 @@ def test_adapters():
     
     try:
         from data.data_types import MarketData
-        from common.interfaces import DataResult
+        from core.interfaces import DataResult
         
         # Create test data in DataResult format directly
         prices, holdings = create_mock_market_data(n_samples=1)
@@ -109,7 +109,7 @@ def test_dataset_integration():
     try:
         from data.data_loader import TradingDataset, create_data_loader
         from data.market_simulator import MarketSimulator
-        from data.config import MarketConfig
+        from core.config import MarketConfig
         from torch.utils.data import DataLoader
         
         # Create market config
@@ -131,7 +131,7 @@ def test_dataset_integration():
         
         # Test dataset indexing
         sample = dataset[0]
-        from common.interfaces import DataResult
+        from core.interfaces import DataResult
         assert isinstance(sample, DataResult), "Dataset should return DataResult"
         assert 'dataset_type' in sample.metadata, "Metadata missing"
         print("✅ TradingDataset integration passed")
@@ -183,7 +183,7 @@ def test_delta_hedge_integration():
         
         if len(dataset) > 0:
             sample = dataset[0]
-            from common.interfaces import DataResult
+            from core.interfaces import DataResult
             assert isinstance(sample, DataResult), "DeltaHedgeDataset should return DataResult"
             assert sample.metadata['dataset_type'] == 'delta_hedge', "Metadata incorrect"
             print("✅ Delta hedge dataset integration passed")
@@ -207,7 +207,7 @@ def test_training_integration():
         from training.trainer import Trainer
         from models.policy_network import PolicyNetwork
         from data.data_loader import create_data_loader
-        from data.config import MarketConfig
+        from core.config import MarketConfig
         
         # Create small test configuration
         config = MarketConfig(

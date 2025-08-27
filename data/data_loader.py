@@ -11,8 +11,8 @@ import os
 
 # New interface imports (no sys.path manipulation needed)
 from .market_simulator import MarketSimulator
-from .config import MarketConfig
-from common.interfaces import DataResult, DatasetInterface, DataProviderInterface
+from core.interfaces import DataResult, DatasetInterface, DataProviderInterface
+from core.config import MarketConfig
 from common.exceptions import DataProviderError, MissingDependencyError
 
 # Data types for backward compatibility  

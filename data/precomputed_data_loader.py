@@ -11,12 +11,14 @@ import torch
 from typing import Dict, List, Optional, Tuple
 from pathlib import Path
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 import pandas as pd
 
-from common.interfaces import DataResult, DatasetInterface
+from core.interfaces import DataResult, DatasetInterface
+from utils.historical_features import HistoricalFeatureCalculator
+from utils.logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class PrecomputedGreeksDataset(DatasetInterface):
@@ -63,6 +65,9 @@ class PrecomputedGreeksDataset(DatasetInterface):
         self.split_ratios = split_ratios
         self.align_to_daily = align_to_daily
         self.min_daily_sequences = min_daily_sequences
+        
+        # Historical feature calculator
+        self.feature_calculator = HistoricalFeatureCalculator()
         
         # Storage for converted training sequences
         self.training_sequences: List[DataResult] = []
@@ -144,13 +149,17 @@ class PrecomputedGreeksDataset(DatasetInterface):
         # Calculate portfolio delta for each timestamp
         portfolio_deltas, underlying_prices = self._calculate_portfolio_deltas(option_data, common_timestamps)
         
+        # Extract delta features for enhanced time sensitivity
+        delta_features = self._extract_delta_features(option_data, common_timestamps)
+        
         # Choose sequence creation strategy
         if self.align_to_daily:
             # Create daily-aligned sequences
             logger.info("Creating daily-aligned sequences")
             data_arrays = {
                 'prices': underlying_prices,
-                'deltas': portfolio_deltas
+                'deltas': portfolio_deltas,
+                'delta_features': delta_features
             }
             daily_groups = self._group_by_trading_date(common_timestamps, data_arrays)
             sequences = self._create_daily_aligned_sequences(daily_groups)
@@ -158,7 +167,7 @@ class PrecomputedGreeksDataset(DatasetInterface):
             # Use traditional sliding window approach
             logger.info("Creating sliding window sequences")
             sequences = self._create_sliding_window_sequences(
-                common_timestamps, portfolio_deltas, underlying_prices
+                common_timestamps, portfolio_deltas, underlying_prices, delta_features
             )
         
         # Apply time-based split
@@ -198,10 +207,91 @@ class PrecomputedGreeksDataset(DatasetInterface):
         
         return portfolio_deltas, underlying_prices
     
+    def _extract_delta_features(self, option_data: Dict[str, Dict], common_timestamps: np.ndarray) -> np.ndarray:
+        """Extract delta-based features for enhanced time sensitivity"""
+        n_timestamps = len(common_timestamps)
+        
+        # Initialize delta features array
+        # Features: [current_delta, delta_change, delta_acceleration]
+        delta_features = np.zeros((n_timestamps, 3))
+        
+        # Calculate portfolio deltas first
+        portfolio_deltas, _ = self._calculate_portfolio_deltas(option_data, common_timestamps)
+        
+        # Feature 1: Current portfolio delta (normalized by position size)
+        total_position = sum(abs(data['position']) for data in option_data.values())
+        normalized_delta = portfolio_deltas / max(total_position, 1e-6)
+        delta_features[:, 0] = normalized_delta
+        
+        # Feature 2: Delta change rate (first derivative)
+        if n_timestamps > 1:
+            delta_change = np.gradient(portfolio_deltas)
+            # Normalize by time interval (assuming timestamps are in seconds)
+            time_diffs = np.gradient(common_timestamps)
+            time_diffs = np.where(time_diffs > 0, time_diffs, 1.0)  # Avoid division by zero
+            delta_change_rate = delta_change / time_diffs
+            delta_features[:, 1] = delta_change_rate
+        
+        # Feature 3: Delta acceleration (second derivative)
+        if n_timestamps > 2:
+            delta_acceleration = np.gradient(delta_features[:, 1])
+            delta_features[:, 2] = delta_acceleration
+        
+        return delta_features
+    
+    def _calculate_intraday_time_features(self, timestamps: np.ndarray) -> np.ndarray:
+        """Calculate intraday time features based on time to market close"""
+        time_features = np.zeros(len(timestamps))
+        
+        # Market close time (assuming US market: 4:00 PM ET = 16:00)
+        market_close_time = time(16, 0)  # 4:00 PM
+        
+        for i, ts in enumerate(timestamps):
+            try:
+                # Convert timestamp to datetime
+                if isinstance(ts, (int, float)):
+                    dt = datetime.fromtimestamp(ts)
+                else:
+                    dt = pd.to_datetime(ts)
+                
+                # Get current time within the trading day
+                current_time = dt.time()
+                
+                # Calculate seconds from market open (9:30 AM = 09:30) to close (4:00 PM = 16:00)
+                market_open_seconds = 9.5 * 3600  # 9:30 AM in seconds
+                market_close_seconds = 16 * 3600   # 4:00 PM in seconds
+                total_trading_seconds = market_close_seconds - market_open_seconds
+                
+                # Current time in seconds from midnight
+                current_seconds = current_time.hour * 3600 + current_time.minute * 60 + current_time.second
+                
+                # Calculate time remaining to market close
+                if current_seconds <= market_open_seconds:
+                    # Before market open - full day remaining
+                    time_remaining_ratio = 1.0
+                elif current_seconds >= market_close_seconds:
+                    # After market close - no time remaining
+                    time_remaining_ratio = 0.0
+                else:
+                    # During market hours - calculate proportion remaining
+                    elapsed_trading_seconds = current_seconds - market_open_seconds
+                    time_remaining_ratio = 1.0 - (elapsed_trading_seconds / total_trading_seconds)
+                    time_remaining_ratio = max(0.0, min(1.0, time_remaining_ratio))  # Clamp to [0,1]
+                
+                time_features[i] = time_remaining_ratio
+                
+            except Exception as e:
+                logger.warning(f"Failed to parse timestamp {ts}: {e}")
+                # Fallback to linear decay if timestamp parsing fails
+                time_features[i] = 1.0 - (i / len(timestamps))
+        
+        return time_features.reshape(-1, 1)
+    
     def _create_sliding_window_sequences(self, 
                                        common_timestamps: np.ndarray,
                                        portfolio_deltas: np.ndarray,
-                                       underlying_prices: np.ndarray) -> List[DataResult]:
+                                       underlying_prices: np.ndarray,
+                                       delta_features: np.ndarray) -> List[DataResult]:
         """Create sequences using traditional sliding window"""
         sequences = []
         
@@ -216,7 +306,7 @@ class PrecomputedGreeksDataset(DatasetInterface):
         # Generate training sequences using sliding window
         num_sequences = max(1, len(common_timestamps) - actual_seq_length + 1)
         
-        logger.debug(f"Creating {num_sequences} sliding window sequences of length {actual_seq_length}")
+        # logger.debug(f"Creating {num_sequences} sliding window sequences of length {actual_seq_length}")
         
         for seq_idx in range(num_sequences):
             try:
@@ -227,26 +317,44 @@ class PrecomputedGreeksDataset(DatasetInterface):
                 seq_timestamps = common_timestamps[start_idx:end_idx]
                 seq_prices = underlying_prices[start_idx:end_idx].reshape(-1, 1)
                 seq_deltas = portfolio_deltas[start_idx:end_idx].reshape(-1, 1)
+                seq_delta_features = delta_features[start_idx:end_idx]  # Shape: (seq_len, 3)
                 
-                # Create time features
-                time_features = np.linspace(1.0, 0.0, actual_seq_length).reshape(-1, 1)
+                # Create intraday time features based on actual timestamps
+                time_features = self._calculate_intraday_time_features(seq_timestamps)
                 
                 # Convert to tensors
                 prices_tensor = torch.from_numpy(seq_prices).float()
                 holdings_tensor = torch.from_numpy(seq_deltas).float()
                 time_features_tensor = torch.from_numpy(time_features).float()
+                delta_features_tensor = torch.from_numpy(seq_delta_features).float()
                 
-                # Create DataResult
+                # Calculate historical features
+                # Create simulated execution history (assume partial execution based on delta changes)
+                execution_history = self._estimate_execution_history(holdings_tensor)
+                historical_features = self.feature_calculator.calculate_features(
+                    prices_tensor, holdings_tensor, execution_history, delta_features_tensor
+                )
+                history_features_tensor = historical_features.to_tensor()
+                
+                
+                # Create DataResult with delta features
                 data_result = DataResult(
                     prices=prices_tensor,
                     holdings=holdings_tensor,
                     time_features=time_features_tensor,
+                    history_features=history_features_tensor,
+                    delta_features=delta_features_tensor,
                     metadata={
                         'sequence_index': seq_idx,
                         'start_timestamp': seq_timestamps[0],
                         'end_timestamp': seq_timestamps[-1],
                         'mean_delta': np.mean(seq_deltas),
                         'price_range': (np.min(seq_prices), np.max(seq_prices)),
+                        'delta_stats': {
+                            'mean_normalized_delta': np.mean(seq_delta_features[:, 0]),
+                            'mean_delta_change_rate': np.mean(seq_delta_features[:, 1]),
+                            'mean_delta_acceleration': np.mean(seq_delta_features[:, 2])
+                        },
                         'is_daily_aligned': False
                     }
                 )
@@ -296,10 +404,12 @@ class PrecomputedGreeksDataset(DatasetInterface):
                 if date_key not in daily_groups:
                     daily_groups[date_key] = {
                         'indices': [],
+                        'timestamps': [],
                         'data': {key: [] for key in data_arrays.keys()}
                     }
                 
                 daily_groups[date_key]['indices'].append(i)
+                daily_groups[date_key]['timestamps'].append(ts)
                 for key, array in data_arrays.items():
                     daily_groups[date_key]['data'][key].append(array[i])
                     
@@ -317,33 +427,51 @@ class PrecomputedGreeksDataset(DatasetInterface):
             indices = group_data['indices']
             
             if len(indices) < self.min_daily_sequences:
-                logger.debug(f"Skipping date {date_key}: only {len(indices)} data points (min: {self.min_daily_sequences})")
+                # logger.debug(f"Skipping date {date_key}: only {len(indices)} data points (min: {self.min_daily_sequences})")
                 continue
             
             try:
                 # Extract data for this date
                 prices = np.array(group_data['data']['prices']).reshape(-1, 1)
                 deltas = np.array(group_data['data']['deltas']).reshape(-1, 1)
+                delta_features_data = np.array(group_data['data']['delta_features'])  # Shape: (seq_len, 3)
+                timestamps_data = np.array(group_data['timestamps'])
                 
-                # Create time features (normalized within the day)
+                # Create intraday time features based on actual timestamps
+                time_features = self._calculate_intraday_time_features(timestamps_data)
                 seq_length = len(prices)
-                time_features = np.linspace(1.0, 0.0, seq_length).reshape(-1, 1)
                 
                 # Convert to tensors
                 prices_tensor = torch.from_numpy(prices).float()
                 holdings_tensor = torch.from_numpy(deltas).float()
                 time_features_tensor = torch.from_numpy(time_features).float()
+                delta_features_tensor = torch.from_numpy(delta_features_data).float()
                 
-                # Create DataResult
+                # Calculate historical features
+                execution_history = self._estimate_execution_history(holdings_tensor)
+                historical_features = self.feature_calculator.calculate_features(
+                    prices_tensor, holdings_tensor, execution_history, delta_features_tensor
+                )
+                history_features_tensor = historical_features.to_tensor()
+                
+                
+                # Create DataResult with delta features
                 data_result = DataResult(
                     prices=prices_tensor,
                     holdings=holdings_tensor,
                     time_features=time_features_tensor,
+                    history_features=history_features_tensor,
+                    delta_features=delta_features_tensor,
                     metadata={
                         'trading_date': date_key,
                         'sequence_length': seq_length,
                         'mean_delta': np.mean(deltas),
                         'price_range': (np.min(prices), np.max(prices)),
+                        'delta_stats': {
+                            'mean_normalized_delta': np.mean(delta_features_data[:, 0]),
+                            'mean_delta_change_rate': np.mean(delta_features_data[:, 1]),
+                            'mean_delta_acceleration': np.mean(delta_features_data[:, 2])
+                        },
                         'is_daily_aligned': True
                     }
                 )
@@ -392,6 +520,48 @@ class PrecomputedGreeksDataset(DatasetInterface):
                    f"(ratios: train={train_ratio:.2f}, val={val_ratio:.2f}, test={test_ratio:.2f})")
         
         return split_sequences
+    
+    def _estimate_execution_history(self, holdings_tensor: torch.Tensor) -> torch.Tensor:
+        """
+        Estimate execution history from holdings changes.
+        
+        Since we don't have actual execution history, we simulate it based on
+        how much the required holdings change between timesteps.
+        
+        Args:
+            holdings_tensor: Required holdings sequence (seq_len, n_assets)
+            
+        Returns:
+            Estimated binary execution history (seq_len, n_assets)
+        """
+        seq_len = holdings_tensor.shape[0]
+        
+        # Calculate holdings changes
+        if seq_len <= 1:
+            # For single timestep, assume execution occurred
+            return torch.ones_like(holdings_tensor)
+        
+        holdings_changes = torch.diff(holdings_tensor, dim=0)
+        
+        # Estimate execution probability based on magnitude of required change
+        # Larger changes are more likely to trigger execution
+        change_magnitudes = torch.abs(holdings_changes)
+        
+        # Normalize by the maximum change to get probabilities
+        max_change = torch.max(change_magnitudes) if torch.max(change_magnitudes) > 0 else 1.0
+        execution_probs = change_magnitudes / max_change
+        
+        # Add some baseline execution probability and cap at 1.0
+        execution_probs = torch.clamp(execution_probs + 0.2, 0.0, 1.0)
+        
+        # Sample binary execution decisions
+        execution_history = torch.bernoulli(execution_probs)
+        
+        # Add initial timestep (assume no execution at start)
+        initial_execution = torch.zeros(1, holdings_tensor.shape[1], dtype=holdings_tensor.dtype)
+        execution_history = torch.cat([initial_execution, execution_history], dim=0)
+        
+        return execution_history
     
     def __len__(self) -> int:
         """Dataset size"""

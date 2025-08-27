@@ -12,6 +12,21 @@ This is a **gamma hedging and optimal execution research project** that combines
 
 The codebase implements reinforcement learning approaches to optimize trade execution timing and minimize market impact costs.
 
+## 🚧 ARCHITECTURE REFACTOR IN PROGRESS (2025-08-25)
+**IMPORTANT**: A major modular architecture refactor is currently underway to simplify the system, eliminate configuration fragmentation, and establish clean module interfaces. During this transition:
+- Follow the new modular design principles outlined in MASTER_DOCUMENTATION.md
+- All changes must maintain backward compatibility until refactor completion
+- Update documentation in real-time with code changes
+- Prioritize KISS/YAGNI/SOLID principles in all modifications
+
+## ⚠️ TEMPORARY MODIFICATIONS (2025-08-26)
+**VALUE LOSS DISABLED**: Value loss component temporarily disabled in `training/trainer.py` for debugging cost-loss relationship analysis.
+- **Issue Identified**: Value loss dominated total loss (25+ out of 34.49), making cost changes invisible
+- **Current State**: Loss: 0.48, Cost: 0.04 - now proportional and interpretable
+- **Impact**: Training focuses on pure policy optimization without value function learning
+- **Location**: `compute_policy_loss_with_advantage()` method, lines 554-556 commented out
+- **Restore When**: Value function learning issues are resolved or alternative approach implemented
+
 ## Common Commands
 
 ### Training and Execution
@@ -176,6 +191,68 @@ pip install -r requirements.txt
 - Training uses policy gradients with immediate cost as reward signal
 - Checkpoints are saved to `checkpoints/` directory automatically
 - All random seeds are set for reproducibility (seed=42)
+
+## Unified Logging System (2025-08-27)
+
+The project now uses a **unified logging system** that replaces the previous fragmented logging approach, providing consistent formatting and configurable log levels across all modules.
+
+### Key Features
+- **Configurable Log Levels**: DEBUG, INFO, WARNING, ERROR, CRITICAL with global threshold filtering
+- **Thread-Safe Singleton**: Single logger instance across the entire application
+- **Configuration Integration**: Seamlessly integrated with the unified configuration system
+- **Backward Compatibility**: All existing functionality preserved
+
+### Usage
+```python
+from utils.logger import get_logger, configure_logging, set_log_level
+
+# Get logger instance (recommended pattern)
+logger = get_logger(__name__)
+
+# Use standard logging methods
+logger.debug("Detailed diagnostic information")
+logger.info("General information about program execution")
+logger.warning("Warning about potential issues")
+logger.error("Error conditions that don't stop execution")
+logger.critical("Critical errors that may stop execution")
+
+# Configure logging globally
+configure_logging(log_level="INFO", log_file="logs/app.log")
+
+# Quick log level changes
+set_log_level("DEBUG")
+```
+
+### Configuration
+Logging behavior is controlled through the unified configuration system:
+
+```json
+{
+  "logging": {
+    "log_level": "INFO",
+    "log_file": null,
+    "log_format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "console_output": true,
+    "file_output": false
+  }
+}
+```
+
+### Command Line Control
+Most scripts now support logging configuration via CLI:
+```bash
+# Set log level
+python scripts/run_production_training.py --log-level DEBUG
+
+# Enable file logging
+python scripts/run_production_training.py --log-file logs/training.log
+```
+
+### Migration Notes
+- **172 print statements** converted to appropriate logger calls
+- **19 modules** updated to use unified logger
+- All `print([INFO])`, `print([ERROR])` style statements now use proper logging levels
+- Data output and user interface print statements preserved unchanged
 
 ## Unified Precomputed Greeks Training System
 

@@ -120,13 +120,29 @@ class PolicyTracker:
         
         self.current_episode_decisions.append(decision)
     
+    def record_terminal_cost(self, terminal_cost: float):
+        """Record terminal forced execution cost for the current episode"""
+        if not self.enable_tracking or not self.current_episode_decisions:
+            return
+        
+        # Store terminal cost in episode metadata
+        if not hasattr(self, '_current_terminal_cost'):
+            self._current_terminal_cost = 0.0
+        self._current_terminal_cost += terminal_cost
+    
     def finalize_episode(self, metadata: Optional[Dict] = None):
         """Finalize current episode and prepare for analysis"""
         if not self.enable_tracking or not self.current_episode_decisions:
             return
         
+        # Include terminal cost in episode metadata
+        episode_meta = metadata or {}
+        if hasattr(self, '_current_terminal_cost'):
+            episode_meta['terminal_cost'] = self._current_terminal_cost
+            self._current_terminal_cost = 0.0  # Reset for next episode
+        
         self.all_episodes.append(self.current_episode_decisions.copy())
-        self.episode_metadata.append(metadata or {})
+        self.episode_metadata.append(episode_meta)
         self.current_episode_decisions = []
     
     def get_latest_episode(self) -> List[HedgeDecision]:
@@ -167,6 +183,16 @@ class PolicyTracker:
         wait_points = [d for d in decisions if not d.action_taken]
         
         total_cost = sum(d.immediate_cost for d in decisions if d.action_taken)
+        
+        # Add terminal cost if available
+        if episode_idx is not None and episode_idx < len(self.episode_metadata):
+            terminal_cost = self.episode_metadata[episode_idx].get('terminal_cost', 0)
+        elif len(self.episode_metadata) > 0:
+            terminal_cost = self.episode_metadata[-1].get('terminal_cost', 0)
+        else:
+            terminal_cost = 0
+        
+        total_cost += terminal_cost
         
         summary = {
             'total_decisions': len(decisions),

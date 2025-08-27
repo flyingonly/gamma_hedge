@@ -15,10 +15,11 @@ from datetime import datetime
 import json
 import logging
 from collections import defaultdict
+from utils.logger import get_logger
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class DataQualityStatistics:

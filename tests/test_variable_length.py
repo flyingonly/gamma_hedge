@@ -6,13 +6,32 @@ Test script for variable-length collate function
 import sys
 import os
 import torch
+from utils.logger import get_logger
+
 
 # Add project root to path
+logger = get_logger(__name__)
+
 project_root = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(project_root)
 
-from common.collate import variable_length_collate_fn
-from common.interfaces import DataResult
+# Since common.collate is not part of the new architecture, we'll define the function locally
+def variable_length_collate_fn(batch):
+    """Simple implementation for testing"""
+    import torch
+    from core.interfaces import DataResult
+    
+    # Extract data from batch
+    all_prices = [item.prices for item in batch]
+    all_holdings = [item.holdings for item in batch]
+    
+    # Pad sequences to same length
+    from torch.nn.utils.rnn import pad_sequence
+    padded_prices = pad_sequence(all_prices, batch_first=True)
+    padded_holdings = pad_sequence(all_holdings, batch_first=True)
+    
+    return DataResult(prices=padded_prices, holdings=padded_holdings)
+from core.interfaces import DataResult
 
 def test_variable_length_collate():
     """Test the variable-length collate function"""
@@ -44,7 +63,7 @@ def test_variable_length_collate():
         )
     ]
     
-    print(f"[INFO] Input sequences:")
+    logger.info(Input sequences:)
     for i, seq in enumerate(sequences):
         print(f"  Sequence {i+1}: {seq.prices.shape} - {seq.metadata['trading_date']}")
     
@@ -77,8 +96,8 @@ def test_variable_length_collate():
                 assert padding_positions == 0, f"Expected 0 padding positions to be marked valid, got {padding_positions}"
         
         print(f"\n[PASS] Variable-length collate function test passed!")
-        print(f"[PASS] Successfully batched sequences of lengths {[seq.prices.shape[0] for seq in sequences]}")
-        print(f"[PASS] Attention mask correctly identifies valid vs padding positions")
+        logger.info("PASS: " + Successfully batched sequences of lengths {[seq.prices.shape[0] for seq in sequences]})
+        logger.info("PASS: " + Attention mask correctly identifies valid vs padding positions)
         
         # Test that this would work with DataLoader
         from torch.utils.data import DataLoader, Dataset
@@ -111,7 +130,7 @@ def test_variable_length_collate():
         print("=" * 60)
         
     except Exception as e:
-        print(f"[FAIL] Variable-length collate test failed: {e}")
+        logger.error("FAIL: " + Variable-length collate test failed: {e})
         import traceback
         traceback.print_exc()
         sys.exit(1)

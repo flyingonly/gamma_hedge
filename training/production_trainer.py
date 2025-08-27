@@ -1,10 +1,10 @@
 import time
-import logging
 import traceback
 from typing import Dict, Optional, Any, Tuple
 from pathlib import Path
 import torch
 from datetime import datetime
+from utils.logger import get_logger
 import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from models.policy_network import PolicyNetwork
 from training.trainer import Trainer
 from training.training_monitor import TrainingMonitor, TrainingMetrics
-from training.config import TrainingConfig
+from core.config import TrainingConfig
 from data.option_portfolio_manager import OptionPortfolioManager
 from data.data_loader import create_delta_data_loader
 from utils.policy_tracker import global_policy_tracker
@@ -49,7 +49,7 @@ class ProductionTrainer:
         self.current_config: Optional[Dict] = None
         
         # Setup logging
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
         
         # Alert callbacks
         self._setup_alert_system()
@@ -157,22 +157,36 @@ class ProductionTrainer:
             )
             
             # Create validation data loader (smaller batch size for memory efficiency)
-            # Use validation_batch_size_factor from training config if available
-            val_batch_size_factor = getattr(training_config, 'validation_batch_size_factor', 0.5)
-            val_batch_size = max(1, int(batch_size * val_batch_size_factor))
-            val_loader = create_delta_data_loader(
-                batch_size=val_batch_size,
-                option_positions=positions,
-                sequence_length=sequence_length,
-                preprocessing_mode=preprocessing_mode,
-                data_split='val',
-                split_ratios=split_ratios,
-                align_to_daily=align_to_daily,
-                min_daily_sequences=getattr(training_config, 'min_daily_sequences', 1)
-            )
+            # Create validation loader only if validation split > 0
+            val_loader = None
+            if len(split_ratios) > 1 and split_ratios[1] > 0:
+                # Use validation_batch_size_factor from training config if available
+                val_batch_size_factor = getattr(training_config, 'validation_batch_size_factor', 0.5)
+                val_batch_size = max(1, int(batch_size * val_batch_size_factor))
+                try:
+                    val_loader = create_delta_data_loader(
+                        batch_size=val_batch_size,
+                        option_positions=positions,
+                        sequence_length=sequence_length,
+                        preprocessing_mode=preprocessing_mode,
+                        data_split='val',
+                        split_ratios=split_ratios,
+                        align_to_daily=align_to_daily,
+                        min_daily_sequences=getattr(training_config, 'min_daily_sequences', 1)
+                    )
+                except ValueError as e:
+                    if "num_samples=0" in str(e):
+                        self.logger.warning("No validation data available, training without validation")
+                        val_loader = None
+                    else:
+                        raise
             
             self.logger.info(f"Training data loader created: batch_size={batch_size}")
-            self.logger.info(f"Validation data loader created: batch_size={val_batch_size}")
+            if val_loader is not None:
+                val_batch_size = max(1, int(batch_size * getattr(training_config, 'validation_batch_size_factor', 0.5)))
+                self.logger.info(f"Validation data loader created: batch_size={val_batch_size}")
+            else:
+                self.logger.info("No validation data loader created (validation split = 0)")
             
             return train_loader, val_loader
             
@@ -202,10 +216,24 @@ class ProductionTrainer:
         if model_config:
             default_config.update(model_config)
         
-        # Calculate input dimension
-        # For now, assume single asset (can be extended for multi-asset)
+        # Calculate input dimension using centralized dimension management
+        from core.dimensions import get_dimension_calculator
+        
+        # For now, assume single asset (can be extended for multi-asset)  
         n_assets = 1
-        input_dim = n_assets * 3 + 1  # prev_holding, current_holding, price + time_features
+        
+        # Get dimension calculator and compute input dimensions
+        dim_calculator = get_dimension_calculator(n_assets)
+        dim_spec = dim_calculator.calculate_model_input_dim(
+            include_history=True,
+            include_time=True, 
+            include_delta=True
+        )
+        
+        input_dim = dim_spec.total
+        
+        self.logger.info(f"Model input dimensions calculated: {dim_spec}")
+        self.logger.debug(f"Dimension breakdown: {dim_spec.to_dict()}")
         
         self.logger.info(f"Creating model with input_dim={input_dim}")
         self.logger.info(f"Model config: {default_config}")
@@ -336,19 +364,24 @@ class ProductionTrainer:
                 train_metrics = self.current_trainer.train_epoch(train_loader)
                 self.logger.info(f"[INFO] Epoch {epoch + 1} training completed - Loss: {train_metrics['loss']:.6f}")
                 
-                # Validation step (controlled by validation_interval)
+                # Validation step (controlled by validation_interval and data availability)
                 validation_interval = getattr(training_config, 'validation_interval', 1)
-                if (epoch + 1) % validation_interval == 0:
+                if (epoch + 1) % validation_interval == 0 and val_loader is not None:
                     self.logger.info("[INFO] Starting validation...")
                     val_metrics = self.current_trainer.evaluate(val_loader)
                     self.logger.info(f"[INFO] Validation completed - Loss: {val_metrics['loss']:.6f}")
                 else:
-                    # Skip validation but use previous validation metrics if available
-                    val_metrics = history[-1] if history and any(k.startswith('val_') for k in history[-1].keys()) else {'loss': float('inf')}
-                    val_metrics = {k.replace('val_', ''): v for k, v in val_metrics.items() if k.startswith('val_')}
-                    if not val_metrics:
-                        val_metrics = {'loss': float('inf')}
-                    self.logger.info(f"[INFO] Skipping validation (interval={validation_interval})")
+                    # Skip validation - either due to interval or no validation data
+                    val_metrics = {'loss': float('inf')}
+                    if val_loader is None:
+                        self.logger.info("[INFO] Skipping validation (no validation data)")
+                    else:
+                        self.logger.info(f"[INFO] Skipping validation (interval={validation_interval})")
+                        # Use previous validation metrics if available
+                        if history and any(k.startswith('val_') for k in history[-1].keys()):
+                            prev_val_metrics = {k.replace('val_', ''): v for k, v in history[-1].items() if k.startswith('val_')}
+                            if prev_val_metrics:
+                                val_metrics = prev_val_metrics
                 
                 epoch_time = time.time() - epoch_start_time
                 

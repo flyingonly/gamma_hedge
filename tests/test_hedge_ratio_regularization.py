@@ -6,14 +6,18 @@ import torch
 from unittest.mock import MagicMock
 import sys
 import os
+from utils.logger import get_logger
+
 
 # Add project root to path
+logger = get_logger(__name__)
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from training.trainer import Trainer
-from training.config import TrainingConfig
+from core.config import TrainingConfig
 from models.policy_network import PolicyNetwork
-from common.interfaces import DataResult
+from core.interfaces import DataResult
 
 def test_trainer_regularization_parameters():
     """Test that Trainer accepts regularization parameters through TrainingConfig"""
@@ -40,7 +44,7 @@ def test_trainer_regularization_parameters():
     assert trainer.base_execution_cost == 0.002
     assert trainer.variable_execution_cost == 0.0002
     
-    print("[PASS] Trainer regularization parameters test")
+    logger.info("PASS: " + Trainer regularization parameters test)
 
 def test_entropy_calculation():
     """Test that entropy regularization is computed correctly"""
@@ -75,10 +79,10 @@ def test_entropy_calculation():
         assert loss.dim() == 0
         assert torch.isfinite(loss).item()
         
-        print(f"[PASS] Entropy calculation test - Loss: {loss.item():.6f}")
+        logger.info("PASS: " + Entropy calculation test - Loss: {loss.item():.6f})
         
     except Exception as e:
-        print(f"[FAIL] Entropy calculation test failed: {e}")
+        logger.error("FAIL: " + Entropy calculation test failed: {e})
         raise
 
 def test_execution_cost_penalty():
@@ -125,15 +129,15 @@ def test_execution_cost_penalty():
         loss_low = trainer_low_cost.compute_policy_loss(data)
         loss_high = trainer_high_cost.compute_policy_loss(data)
         
-        print(f"[INFO] Low cost loss: {loss_low.item():.6f}")
-        print(f"[INFO] High cost loss: {loss_high.item():.6f}")
+        logger.info(Low cost loss: {loss_low.item():.6f})
+        logger.info(High cost loss: {loss_high.item():.6f})
         
         # High execution cost should generally lead to different loss
         # (might be higher or lower depending on policy behavior)
-        print(f"[PASS] Execution cost penalty test - costs affect loss calculation")
+        logger.info("PASS: " + Execution cost penalty test - costs affect loss calculation)
         
     except Exception as e:
-        print(f"[FAIL] Execution cost penalty test failed: {e}")
+        logger.error("FAIL: " + Execution cost penalty test failed: {e})
         raise
 
 def test_integration_with_policy_tracker():
@@ -165,10 +169,10 @@ def test_integration_with_policy_tracker():
         # Should complete without errors
         assert torch.isfinite(loss).item()
         
-        print(f"[PASS] Policy tracker integration test")
+        logger.info("PASS: " + Policy tracker integration test)
         
     except Exception as e:
-        print(f"[FAIL] Policy tracker integration test failed: {e}")
+        logger.error("FAIL: " + Policy tracker integration test failed: {e})
         raise
 
 if __name__ == "__main__":
@@ -182,9 +186,9 @@ if __name__ == "__main__":
         test_integration_with_policy_tracker()
         
         print("=" * 50)
-        print("[PASS] All regularization tests passed!")
+        logger.info("PASS: " + All regularization tests passed!)
         
     except Exception as e:
         print("=" * 50)
-        print(f"[FAIL] Test suite failed: {e}")
+        logger.error("FAIL: " + Test suite failed: {e})
         sys.exit(1)

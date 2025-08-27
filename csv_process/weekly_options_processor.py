@@ -6,11 +6,12 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import openpyxl
 from typing import Dict, List, Tuple, Optional
+from utils.logger import get_logger
 import logging
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class WeeklyOptionsProcessor:
