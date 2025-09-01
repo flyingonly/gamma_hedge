@@ -279,11 +279,20 @@ class AdvantageCalculationComponent(LossComponent):
             # Calculate advantage: A(s,a) = returns_to_go - V(s)
             advantages = returns_to_go - value_predictions.detach()
             
-            # Value function loss
-            value_loss = torch.nn.functional.mse_loss(value_predictions, returns_to_go.detach())
+            # Normalize advantages per batch (time-wise) to stabilize scale
+            adv_mean = advantages.mean(dim=1, keepdim=True)
+            adv_std = advantages.std(dim=1, keepdim=True) + 1e-6
+            advantages = advantages / adv_std
+            
+            # Value function loss (Huber) for robustness
+            value_loss = torch.nn.functional.smooth_l1_loss(value_predictions, returns_to_go.detach())
         else:
             # Use returns-to-go directly as advantages (no baseline)
             advantages = returns_to_go
+            # Normalize advantages per batch (time-wise)
+            adv_mean = advantages.mean(dim=1, keepdim=True)
+            adv_std = advantages.std(dim=1, keepdim=True) + 1e-6
+            advantages = advantages / adv_std
         
         # Policy gradient loss
         policy_loss = -(log_probs * advantages.detach()).mean()
@@ -511,16 +520,117 @@ class LossCalculator:
         policy_loss = advantage_results['policy_loss']
         value_loss = advantage_results['value_loss']
         
-        # TEMPORARILY DISABLED VALUE LOSS (2025-08-26) for debugging cost-loss relationship
-        # ANALYSIS RESULT: Value loss was dominating total loss (25+ out of 34.49 total)
-        # With value loss disabled: Loss: 0.48, Cost: 0.04 - now in reasonable proportion
-        # Original problem: Cost changes invisible in loss due to value loss dominance
+        # Add debug logging for loss component distributions
+        from utils.logger import get_logger
+        logger = get_logger(__name__)
+        
+        # RE-ENABLED VALUE LOSS with improved training stability from advantage normalization
+        # Previous issue: Value loss dominated (25+ out of 34.49), making cost changes invisible
+        # Resolution: Advantage normalization should stabilize value learning and loss proportions
+        
+        # === Plan 1: entropy gating by advantage (reduce exploration where |A| is big) ===
+        advantages_tensor = advantage_results.get('advantages')
+        base_entropy_w = self.weights.get('entropy_loss', 0.01)
+        entropy_gate_k = self.weights.get('entropy_gate_k', 3.0)
+        if advantages_tensor is not None:
+            # Do not backprop through the gate; reduce exploration where |A| is big
+            adv_abs = advantages_tensor.detach().abs()
+            entropy_gate = (1.0 - torch.sigmoid(entropy_gate_k * adv_abs)).mean()
+            effective_entropy_w = base_entropy_w * entropy_gate
+        else:
+            effective_entropy_w = base_entropy_w
+        
+        # === Plan 2: sharpness regularizer to pull probs away from 0.5 when |A| is large ===
+        probs = execution_results.get('execution_probs')
+        lambda_sharp = self.weights.get('sharpness_regularizer', 0.0)
+        if probs is not None and advantages_tensor is not None and lambda_sharp > 0.0:
+            with torch.no_grad():
+                w = advantages_tensor.detach().abs()
+            sharp_term = - (w * (probs - 0.5).pow(2)).mean()
+        else:
+            sharp_term = torch.tensor(0.0, device=policy_loss.device)
+        
+        # === Temporal Edge-Aware Regularizer (TEAR) ===
+        # Encourage changes over time WHEN advantage changes, discourage when it doesn't.
+        lambda_temporal_push = self.weights.get('temporal_push', 0.0)
+        lambda_temporal_smooth = self.weights.get('temporal_smooth', 0.0)
+        if probs is not None and advantages_tensor is not None and (lambda_temporal_push > 0.0 or lambda_temporal_smooth > 0.0):
+            # probs, advantages: [B,T,1]
+            if probs.dim() == 3 and advantages_tensor.dim() == 3 and probs.size(1) > 1:
+                dp = (probs[:, 1:, :] - probs[:, :-1, :])  # Execution probability temporal difference
+                dA = (advantages_tensor[:, 1:, :] - advantages_tensor[:, :-1, :]).abs().detach()  # Advantage value changes
+                # Normalize dA to [0, ~] per batch for stability
+                dA_norm = dA / (dA.mean(dim=1, keepdim=True) + 1e-6)
+                # Push term: encourage |dp|^2 to be large when |dA| is large
+                temporal_gain = - (dA_norm * (dp ** 2)).mean()  # Encourage execution probability changes when advantage changes
+                # Smooth term: discourage unnecessary oscillation overall
+                tv_penalty = (dp ** 2).mean()  # Total variation penalty to avoid excessive oscillation
+            else:
+                temporal_gain = torch.tensor(0.0, device=policy_loss.device)
+                tv_penalty = torch.tensor(0.0, device=policy_loss.device)
+        else:
+            temporal_gain = torch.tensor(0.0, device=policy_loss.device)
+            tv_penalty = torch.tensor(0.0, device=policy_loss.device)
+        
         total_loss = (
             self.weights.get('policy_loss', 1.0) * policy_loss +
-            # self.weights.get('value_loss', 0.5) * value_loss +  # DISABLED
-            self.weights.get('entropy_loss', 0.01) * entropy_loss +
-            self.weights.get('l2_regularization', 0.0001) * l2_loss
+            # self.weights.get('value_loss', 0.5) * value_loss +
+            effective_entropy_w * entropy_loss +
+            self.weights.get('l2_regularization', 0.0001) * l2_loss +
+            lambda_sharp * sharp_term +
+            lambda_temporal_push * temporal_gain +
+            lambda_temporal_smooth * tv_penalty
         )
+        
+        # Log detailed loss component analysis
+        logger.debug("=== LOSS COMPONENT ANALYSIS ===")
+        logger.debug(f"Policy Loss: {policy_loss.item():.6f} (weight: {self.weights.get('policy_loss', 1.0):.4f})")
+        logger.debug(f"Value Loss: {value_loss.item():.6f} (weight: 0.0 - DISABLED)")
+        logger.debug(f"Entropy Loss: {entropy_loss.item():.6f} (effective weight: {effective_entropy_w:.4f})")
+        logger.debug(f"L2 Regularization: {l2_loss.item():.6f} (weight: {self.weights.get('l2_regularization', 0.0001):.6f})")
+        logger.debug(f"Sharpness Regularizer: {sharp_term.item():.6f} (weight: {lambda_sharp:.4f})")
+        logger.debug(f"Temporal Push: {temporal_gain.item():.6f} (weight: {lambda_temporal_push:.4f})")
+        logger.debug(f"Temporal Smooth: {tv_penalty.item():.6f} (weight: {lambda_temporal_smooth:.4f})")
+        logger.debug(f"Total Loss: {total_loss.item():.6f}")
+        
+        # Log weighted contributions
+        policy_contribution = self.weights.get('policy_loss', 1.0) * policy_loss.item()
+        entropy_contribution = effective_entropy_w * entropy_loss.item()
+        l2_contribution = self.weights.get('l2_regularization', 0.0001) * l2_loss.item()
+        sharp_contribution = lambda_sharp * sharp_term.item()
+        temporal_push_contribution = lambda_temporal_push * temporal_gain.item()
+        temporal_smooth_contribution = lambda_temporal_smooth * tv_penalty.item()
+        
+        logger.debug("=== WEIGHTED CONTRIBUTIONS ===")
+        logger.debug(f"Policy: {policy_contribution:.6f} ({100*policy_contribution/total_loss.item():.2f}%)")
+        logger.debug(f"Entropy: {entropy_contribution:.6f} ({100*entropy_contribution/total_loss.item():.2f}%)")
+        logger.debug(f"L2 Reg: {l2_contribution:.6f} ({100*l2_contribution/total_loss.item():.2f}%)")
+        logger.debug(f"Sharpness: {sharp_contribution:.6f} ({100*sharp_contribution/total_loss.item():.2f}%)")
+        logger.debug(f"Temporal Push: {temporal_push_contribution:.6f} ({100*temporal_push_contribution/total_loss.item():.2f}%)")
+        logger.debug(f"Temporal Smooth: {temporal_smooth_contribution:.6f} ({100*temporal_smooth_contribution/total_loss.item():.2f}%)")
+        
+        # Log advantage statistics if available
+        if advantage_results.get('advantages') is not None:
+            advantages = advantage_results['advantages']
+            logger.debug("=== ADVANTAGE STATISTICS ===")
+            logger.debug(f"Advantages - Mean: {advantages.mean().item():.6f}, Std: {advantages.std().item():.6f}")
+            logger.debug(f"Advantages - Min: {advantages.min().item():.6f}, Max: {advantages.max().item():.6f}")
+            
+            # Log entropy gating information
+            if advantages_tensor is not None:
+                adv_abs_mean = advantages_tensor.detach().abs().mean().item()
+                entropy_gate_value = (1.0 - torch.sigmoid(entropy_gate_k * advantages_tensor.detach().abs())).mean().item()
+                logger.debug(f"Entropy Gate - |A| mean: {adv_abs_mean:.6f}, Gate value: {entropy_gate_value:.4f}")
+                logger.debug(f"Entropy Gate - Base weight: {base_entropy_w:.4f}, Effective weight: {effective_entropy_w:.4f}")
+        
+        # Log execution probability statistics if available
+        if execution_results.get('execution_probs') is not None:
+            exec_probs = execution_results['execution_probs']
+            logger.debug("=== EXECUTION PROBABILITY STATISTICS ===")
+            logger.debug(f"Execution Probs - Mean: {exec_probs.mean().item():.6f}, Std: {exec_probs.std().item():.6f}")
+            logger.debug(f"Execution Probs - Min: {exec_probs.min().item():.6f}, Max: {exec_probs.max().item():.6f}")
+        
+        logger.debug("=== END LOSS ANALYSIS ===")
         
         return {
             'total_loss': total_loss,
@@ -528,6 +638,10 @@ class LossCalculator:
             'value_loss': value_loss,
             'entropy_loss': entropy_loss,
             'l2_regularization': l2_loss,
+            'sharpness_regularizer': sharp_term,
+            'temporal_push': temporal_gain,
+            'temporal_smooth': tv_penalty,
+            'entropy_weight_effective': effective_entropy_w,
             'advantages': advantage_results.get('advantages'),
             'returns_to_go': advantage_results.get('returns_to_go')
         }
@@ -564,7 +678,11 @@ def create_advanced_loss_calculator(policy_network: nn.Module,
         'policy_loss': 1.0,
         'value_loss': 0.5 if value_network is not None else 0.0,
         'entropy_loss': 0.01,
-        'l2_regularization': 0.0001
+        'l2_regularization': 0.0001,
+        'sharpness_regularizer': 0.1,
+        'entropy_gate_k': 3.0,
+        'temporal_push': 0.05,
+        'temporal_smooth': 0.01
     }
     
     if config:
@@ -617,7 +735,11 @@ def create_default_loss_calculator(policy_network: nn.Module,
         'policy_loss': 1.0,
         'value_loss': 0.5,
         'entropy_loss': 0.01,
-        'l2_regularization': 0.0001
+        'l2_regularization': 0.0001,
+        'sharpness_regularizer': 0.1,
+        'entropy_gate_k': 3.0,
+        'temporal_push': 0.05,
+        'temporal_smooth': 0.01
     }
     
     if config:

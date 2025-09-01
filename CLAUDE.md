@@ -298,9 +298,9 @@ data/
 
 ### Usage
 
-**Dual-Mode Dataset Creation**:
+**Multiple Preprocessing Mode Support**:
 ```python
-from data.data_loader import create_delta_data_loader, create_underlying_dense_data_loader
+from data.data_loader import create_delta_data_loader
 
 # Option positions format
 option_positions = {
@@ -309,27 +309,28 @@ option_positions = {
     '3IN5/CALL_106.5': 2.0,    # Long 2 calls from different underlying
 }
 
-# Method 1: Sparse mode (traditional - 46 data points)
+# Method 1: Sparse mode (traditional - ~50 data points per option)
 sparse_loader = create_delta_data_loader(
     batch_size=32,
     option_positions=option_positions,
     sequence_length=100,
-    underlying_dense_mode=False
+    preprocessing_mode="sparse"
 )
 
-# Method 2: Dense mode (recommended - 20,335+ data points, 442x increase)
+# Method 2: Dense interpolated mode (recommended - 20,335+ data points)
 dense_loader = create_delta_data_loader(
     batch_size=32,
     option_positions=option_positions,
     sequence_length=1000,
-    underlying_dense_mode=True
+    preprocessing_mode="dense_interpolated"
 )
 
-# Method 3: Dense mode convenience function
-dense_loader = create_underlying_dense_data_loader(
+# Method 3: Dense daily recalc mode (realistic trading scenario)
+recalc_loader = create_delta_data_loader(
     batch_size=32,
     option_positions=option_positions,
-    sequence_length=1000
+    sequence_length=1000,
+    preprocessing_mode="dense_daily_recalc"
 )
 ```
 

@@ -211,38 +211,6 @@ class BaseDataProcessor(ABC):
         pass
 
 
-class BaseTrainer(ABC):
-    """Base class for model trainers"""
-    
-    def __init__(self, device: str = "cpu"):
-        self.device = torch.device(device)
-        self.training_history = []
-    
-    @abstractmethod
-    def train_step(self, batch: TrainingData) -> Dict[str, float]:
-        """Execute single training step"""
-        pass
-    
-    @abstractmethod
-    def validation_step(self, batch: TrainingData) -> Dict[str, float]:
-        """Execute single validation step"""
-        pass
-    
-    def save_checkpoint(self, path: str, metadata: Dict[str, Any] = None):
-        """Save training checkpoint"""
-        checkpoint_data = {
-            'training_history': self.training_history,
-            'metadata': metadata or {}
-        }
-        torch.save(checkpoint_data, path)
-    
-    def load_checkpoint(self, path: str) -> Dict[str, Any]:
-        """Load training checkpoint"""
-        checkpoint_data = torch.load(path, map_location=self.device)
-        self.training_history = checkpoint_data.get('training_history', [])
-        return checkpoint_data.get('metadata', {})
-
-
 # Backward compatibility classes
 
 @dataclass

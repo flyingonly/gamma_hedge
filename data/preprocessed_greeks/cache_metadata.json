@@ -1,0 +1,3049 @@
+{
+  "3CN5/CALL_111.0": {
+    "processed_time": "2025-08-22T14:48:33.282579",
+    "raw_file_mtime": 1755556671.1834154,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_111.0_greeks.npz"
+  },
+  "3CN5/CALL_111.5": {
+    "processed_time": "2025-08-22T14:45:56.569435",
+    "raw_file_mtime": 1755556671.1854153,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_111.5_greeks.npz"
+  },
+  "3CN5/CALL_112.0": {
+    "processed_time": "2025-08-22T14:45:56.723603",
+    "raw_file_mtime": 1755556671.1877027,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_112.0_greeks.npz"
+  },
+  "3CN5/CALL_112.5": {
+    "processed_time": "2025-08-22T14:45:56.910677",
+    "raw_file_mtime": 1755556671.1899576,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_112.5_greeks.npz"
+  },
+  "3CN5/CALL_113.0": {
+    "processed_time": "2025-08-22T14:45:57.121834",
+    "raw_file_mtime": 1755556671.191958,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_113.0_greeks.npz"
+  },
+  "3CN5/CALL_113.5": {
+    "processed_time": "2025-08-22T14:45:57.283800",
+    "raw_file_mtime": 1755556671.1929588,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_113.5_greeks.npz"
+  },
+  "3CN5/CALL_114.0": {
+    "processed_time": "2025-08-22T14:45:57.458423",
+    "raw_file_mtime": 1755556671.1949592,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_114.0_greeks.npz"
+  },
+  "3CN5/CALL_114.5": {
+    "processed_time": "2025-08-22T14:45:57.581693",
+    "raw_file_mtime": 1755556671.1974702,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_114.5_greeks.npz"
+  },
+  "3CN5/CALL_115.0": {
+    "processed_time": "2025-08-22T14:45:57.679841",
+    "raw_file_mtime": 1755556671.1984708,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_115.0_greeks.npz"
+  },
+  "3CN5/CALL_115.5": {
+    "processed_time": "2025-08-22T14:45:57.750519",
+    "raw_file_mtime": 1755556671.2004704,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_115.5_greeks.npz"
+  },
+  "3CN5/CALL_116.0": {
+    "processed_time": "2025-08-22T14:45:57.821515",
+    "raw_file_mtime": 1755556671.2024703,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_116.0_greeks.npz"
+  },
+  "3CN5/CALL_116.5": {
+    "processed_time": "2025-08-22T14:45:57.892723",
+    "raw_file_mtime": 1755556671.2034688,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_116.5_greeks.npz"
+  },
+  "3CN5/CALL_117.0": {
+    "processed_time": "2025-08-22T14:45:57.912318",
+    "raw_file_mtime": 1755556671.2054706,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_117.0_greeks.npz"
+  },
+  "3CN5/CALL_117.5": {
+    "processed_time": "2025-08-22T14:45:57.936778",
+    "raw_file_mtime": 1755556671.20647,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_117.5_greeks.npz"
+  },
+  "3CN5/CALL_118.0": {
+    "processed_time": "2025-08-22T14:45:57.951472",
+    "raw_file_mtime": 1755556671.207735,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_118.0_greeks.npz"
+  },
+  "3CN5/CALL_118.5": {
+    "processed_time": "2025-08-22T14:45:57.966283",
+    "raw_file_mtime": 1755556671.2097409,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_118.5_greeks.npz"
+  },
+  "3CN5/CALL_119.0": {
+    "processed_time": "2025-08-22T14:45:57.974288",
+    "raw_file_mtime": 1755556671.2107406,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_119.0_greeks.npz"
+  },
+  "3CN5/CALL_120.5": {
+    "processed_time": "2025-08-22T14:45:57.981415",
+    "raw_file_mtime": 1755556671.21174,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_120.5_greeks.npz"
+  },
+  "3CN5/CALL_121.0": {
+    "processed_time": "2025-08-22T14:45:57.989918",
+    "raw_file_mtime": 1755556671.2137399,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\CALL_121.0_greeks.npz"
+  },
+  "3CN5/PUT_109.5": {
+    "processed_time": "2025-08-22T14:45:57.997192",
+    "raw_file_mtime": 1755556668.8502212,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_109.5_greeks.npz"
+  },
+  "3CN5/PUT_110.0": {
+    "processed_time": "2025-08-22T14:45:58.003893",
+    "raw_file_mtime": 1755556668.8512242,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_110.0_greeks.npz"
+  },
+  "3CN5/PUT_111.0": {
+    "processed_time": "2025-08-22T14:45:58.164359",
+    "raw_file_mtime": 1755556671.5309422,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_111.0_greeks.npz"
+  },
+  "3CN5/PUT_111.5": {
+    "processed_time": "2025-08-22T14:45:58.361136",
+    "raw_file_mtime": 1755556671.532942,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_111.5_greeks.npz"
+  },
+  "3CN5/PUT_112.0": {
+    "processed_time": "2025-08-22T14:45:58.662566",
+    "raw_file_mtime": 1755556671.5349438,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_112.0_greeks.npz"
+  },
+  "3CN5/PUT_112.5": {
+    "processed_time": "2025-08-22T14:45:58.886428",
+    "raw_file_mtime": 1755556671.536448,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_112.5_greeks.npz"
+  },
+  "3CN5/PUT_113.0": {
+    "processed_time": "2025-08-22T14:45:59.075943",
+    "raw_file_mtime": 1755556671.5375605,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_113.0_greeks.npz"
+  },
+  "3CN5/PUT_113.5": {
+    "processed_time": "2025-08-22T14:45:59.173190",
+    "raw_file_mtime": 1755556671.5395951,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_113.5_greeks.npz"
+  },
+  "3CN5/PUT_114.0": {
+    "processed_time": "2025-08-22T14:45:59.234123",
+    "raw_file_mtime": 1755556671.5406008,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_114.0_greeks.npz"
+  },
+  "3CN5/PUT_114.5": {
+    "processed_time": "2025-08-22T14:45:59.292767",
+    "raw_file_mtime": 1755556671.5425968,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_114.5_greeks.npz"
+  },
+  "3CN5/PUT_115.0": {
+    "processed_time": "2025-08-22T14:45:59.352053",
+    "raw_file_mtime": 1755556671.5435977,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_115.0_greeks.npz"
+  },
+  "3CN5/PUT_115.5": {
+    "processed_time": "2025-08-22T14:45:59.414288",
+    "raw_file_mtime": 1755556671.5455968,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_115.5_greeks.npz"
+  },
+  "3CN5/PUT_116.0": {
+    "processed_time": "2025-08-22T14:45:59.485355",
+    "raw_file_mtime": 1755556671.5465991,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_116.0_greeks.npz"
+  },
+  "3CN5/PUT_116.5": {
+    "processed_time": "2025-08-22T14:45:59.542007",
+    "raw_file_mtime": 1755556671.54764,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_116.5_greeks.npz"
+  },
+  "3CN5/PUT_117.0": {
+    "processed_time": "2025-08-22T14:45:59.585285",
+    "raw_file_mtime": 1755556671.5506406,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_117.0_greeks.npz"
+  },
+  "3CN5/PUT_117.5": {
+    "processed_time": "2025-08-22T14:45:59.629633",
+    "raw_file_mtime": 1755556671.5526402,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_117.5_greeks.npz"
+  },
+  "3CN5/PUT_118.0": {
+    "processed_time": "2025-08-22T14:45:59.649722",
+    "raw_file_mtime": 1755556671.5536406,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_118.0_greeks.npz"
+  },
+  "3CN5/PUT_118.5": {
+    "processed_time": "2025-08-22T14:45:59.668100",
+    "raw_file_mtime": 1755556671.5546408,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_118.5_greeks.npz"
+  },
+  "3CN5/PUT_119.0": {
+    "processed_time": "2025-08-22T14:45:59.696212",
+    "raw_file_mtime": 1755556671.557159,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_119.0_greeks.npz"
+  },
+  "3CN5/PUT_119.5": {
+    "processed_time": "2025-08-22T14:45:59.715961",
+    "raw_file_mtime": 1755556671.5581644,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_119.5_greeks.npz"
+  },
+  "3CN5/PUT_120.0": {
+    "processed_time": "2025-08-22T14:45:59.742425",
+    "raw_file_mtime": 1755556671.5601628,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_120.0_greeks.npz"
+  },
+  "3CN5/PUT_120.5": {
+    "processed_time": "2025-08-22T14:45:59.762379",
+    "raw_file_mtime": 1755556671.5611584,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_120.5_greeks.npz"
+  },
+  "3CN5/PUT_121.0": {
+    "processed_time": "2025-08-22T14:45:59.787185",
+    "raw_file_mtime": 1755556671.5621626,
+    "output_file": "data\\preprocessed_greeks\\3CN5\\PUT_121.0_greeks.npz"
+  },
+  "3CQ5/CALL_111.0": {
+    "processed_time": "2025-08-22T14:34:42.908056",
+    "raw_file_mtime": 1755556670.42659,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_111.0_greeks.npz"
+  },
+  "3CQ5/CALL_111.5": {
+    "processed_time": "2025-08-22T14:34:43.704260",
+    "raw_file_mtime": 1755556670.428686,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_111.5_greeks.npz"
+  },
+  "3CQ5/CALL_112.0": {
+    "processed_time": "2025-08-22T14:34:44.531719",
+    "raw_file_mtime": 1755556670.4296858,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_112.0_greeks.npz"
+  },
+  "3CQ5/CALL_112.5": {
+    "processed_time": "2025-08-22T14:34:45.366279",
+    "raw_file_mtime": 1755556670.4316857,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_112.5_greeks.npz"
+  },
+  "3CQ5/CALL_113.0": {
+    "processed_time": "2025-08-22T14:34:46.185967",
+    "raw_file_mtime": 1755556670.4336855,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_113.0_greeks.npz"
+  },
+  "3CQ5/CALL_113.5": {
+    "processed_time": "2025-08-22T14:34:47.011952",
+    "raw_file_mtime": 1755556670.4346852,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_113.5_greeks.npz"
+  },
+  "3CQ5/CALL_114.0": {
+    "processed_time": "2025-08-22T14:34:47.843783",
+    "raw_file_mtime": 1755556670.4361904,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_114.0_greeks.npz"
+  },
+  "3CQ5/CALL_114.5": {
+    "processed_time": "2025-08-22T14:34:48.674526",
+    "raw_file_mtime": 1755556670.4381962,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_114.5_greeks.npz"
+  },
+  "3CQ5/CALL_115.0": {
+    "processed_time": "2025-08-22T14:34:49.514634",
+    "raw_file_mtime": 1755556670.4391973,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_115.0_greeks.npz"
+  },
+  "3CQ5/CALL_115.5": {
+    "processed_time": "2025-08-22T14:34:50.313710",
+    "raw_file_mtime": 1755556670.4411962,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_115.5_greeks.npz"
+  },
+  "3CQ5/CALL_116.0": {
+    "processed_time": "2025-08-22T14:34:51.153282",
+    "raw_file_mtime": 1755556670.4431956,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_116.0_greeks.npz"
+  },
+  "3CQ5/CALL_116.5": {
+    "processed_time": "2025-08-22T14:34:51.978483",
+    "raw_file_mtime": 1755556670.4441943,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_116.5_greeks.npz"
+  },
+  "3CQ5/CALL_117.0": {
+    "processed_time": "2025-08-22T14:34:52.794082",
+    "raw_file_mtime": 1755556670.446194,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_117.0_greeks.npz"
+  },
+  "3CQ5/CALL_117.5": {
+    "processed_time": "2025-08-22T14:34:53.587457",
+    "raw_file_mtime": 1755556670.4477062,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_117.5_greeks.npz"
+  },
+  "3CQ5/CALL_118.0": {
+    "processed_time": "2025-08-22T14:34:54.391102",
+    "raw_file_mtime": 1755556670.449278,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_118.0_greeks.npz"
+  },
+  "3CQ5/CALL_118.5": {
+    "processed_time": "2025-08-22T14:34:55.236726",
+    "raw_file_mtime": 1755556670.4502785,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_118.5_greeks.npz"
+  },
+  "3CQ5/CALL_119.0": {
+    "processed_time": "2025-08-22T14:34:56.069186",
+    "raw_file_mtime": 1755556670.4522803,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_119.0_greeks.npz"
+  },
+  "3CQ5/CALL_119.5": {
+    "processed_time": "2025-08-22T14:34:56.898883",
+    "raw_file_mtime": 1755556670.4532816,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_119.5_greeks.npz"
+  },
+  "3CQ5/CALL_120.0": {
+    "processed_time": "2025-08-22T14:34:57.735225",
+    "raw_file_mtime": 1755556670.455281,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_120.0_greeks.npz"
+  },
+  "3CQ5/CALL_120.5": {
+    "processed_time": "2025-08-22T14:34:58.557254",
+    "raw_file_mtime": 1755556670.4567862,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_120.5_greeks.npz"
+  },
+  "3CQ5/CALL_121.0": {
+    "processed_time": "2025-08-22T14:34:59.406933",
+    "raw_file_mtime": 1755556670.458796,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\CALL_121.0_greeks.npz"
+  },
+  "3CQ5/PUT_111.0": {
+    "processed_time": "2025-08-22T14:35:00.239137",
+    "raw_file_mtime": 1755556670.7624218,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_111.0_greeks.npz"
+  },
+  "3CQ5/PUT_111.5": {
+    "processed_time": "2025-08-22T14:35:01.062459",
+    "raw_file_mtime": 1755556670.7634182,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_111.5_greeks.npz"
+  },
+  "3CQ5/PUT_112.0": {
+    "processed_time": "2025-08-22T14:35:01.868395",
+    "raw_file_mtime": 1755556670.7644193,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_112.0_greeks.npz"
+  },
+  "3CQ5/PUT_112.5": {
+    "processed_time": "2025-08-22T14:35:02.676241",
+    "raw_file_mtime": 1755556670.7669218,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_112.5_greeks.npz"
+  },
+  "3CQ5/PUT_113.0": {
+    "processed_time": "2025-08-22T14:35:03.479598",
+    "raw_file_mtime": 1755556670.7679286,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_113.0_greeks.npz"
+  },
+  "3CQ5/PUT_113.5": {
+    "processed_time": "2025-08-22T14:35:04.297831",
+    "raw_file_mtime": 1755556670.7699277,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_113.5_greeks.npz"
+  },
+  "3CQ5/PUT_114.0": {
+    "processed_time": "2025-08-22T14:35:05.100391",
+    "raw_file_mtime": 1755556670.771431,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_114.0_greeks.npz"
+  },
+  "3CQ5/PUT_114.5": {
+    "processed_time": "2025-08-22T14:35:05.921418",
+    "raw_file_mtime": 1755556670.774437,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_114.5_greeks.npz"
+  },
+  "3CQ5/PUT_115.0": {
+    "processed_time": "2025-08-22T14:35:06.737690",
+    "raw_file_mtime": 1755556670.7769516,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_115.0_greeks.npz"
+  },
+  "3CQ5/PUT_115.5": {
+    "processed_time": "2025-08-22T14:35:07.567749",
+    "raw_file_mtime": 1755556670.7779582,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_115.5_greeks.npz"
+  },
+  "3CQ5/PUT_116.0": {
+    "processed_time": "2025-08-22T14:35:08.430034",
+    "raw_file_mtime": 1755556670.779958,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_116.0_greeks.npz"
+  },
+  "3CQ5/PUT_116.5": {
+    "processed_time": "2025-08-22T14:35:09.243693",
+    "raw_file_mtime": 1755556670.7809582,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_116.5_greeks.npz"
+  },
+  "3CQ5/PUT_117.0": {
+    "processed_time": "2025-08-22T14:35:10.046830",
+    "raw_file_mtime": 1755556670.782957,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_117.0_greeks.npz"
+  },
+  "3CQ5/PUT_117.5": {
+    "processed_time": "2025-08-22T14:35:10.839410",
+    "raw_file_mtime": 1755556670.7839582,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_117.5_greeks.npz"
+  },
+  "3CQ5/PUT_118.0": {
+    "processed_time": "2025-08-22T14:35:11.658632",
+    "raw_file_mtime": 1755556670.7874732,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_118.0_greeks.npz"
+  },
+  "3CQ5/PUT_118.5": {
+    "processed_time": "2025-08-22T14:35:12.478450",
+    "raw_file_mtime": 1755556670.788479,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_118.5_greeks.npz"
+  },
+  "3CQ5/PUT_119.0": {
+    "processed_time": "2025-08-22T14:35:13.290417",
+    "raw_file_mtime": 1755556670.790474,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_119.0_greeks.npz"
+  },
+  "3CQ5/PUT_119.5": {
+    "processed_time": "2025-08-22T14:35:14.095146",
+    "raw_file_mtime": 1755556670.791475,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_119.5_greeks.npz"
+  },
+  "3CQ5/PUT_120.0": {
+    "processed_time": "2025-08-22T14:35:14.904521",
+    "raw_file_mtime": 1755556670.7934737,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_120.0_greeks.npz"
+  },
+  "3CQ5/PUT_120.5": {
+    "processed_time": "2025-08-22T14:35:15.704360",
+    "raw_file_mtime": 1755556670.7944736,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_120.5_greeks.npz"
+  },
+  "3CQ5/PUT_121.0": {
+    "processed_time": "2025-08-22T14:35:16.516026",
+    "raw_file_mtime": 1755556670.7964735,
+    "output_file": "data\\preprocessed_greeks\\3CQ5\\PUT_121.0_greeks.npz"
+  },
+  "3IN5/CALL_106.5": {
+    "processed_time": "2025-08-22T14:35:17.300758",
+    "raw_file_mtime": 1755556671.924364,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_106.5_greeks.npz"
+  },
+  "3IN5/CALL_106.75": {
+    "processed_time": "2025-08-22T14:35:18.095804",
+    "raw_file_mtime": 1755556671.9263632,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_106.75_greeks.npz"
+  },
+  "3IN5/CALL_107.0": {
+    "processed_time": "2025-08-22T14:35:18.924050",
+    "raw_file_mtime": 1755556671.927684,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_107.0_greeks.npz"
+  },
+  "3IN5/CALL_107.25": {
+    "processed_time": "2025-08-22T14:35:19.753894",
+    "raw_file_mtime": 1755556671.9296875,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_107.25_greeks.npz"
+  },
+  "3IN5/CALL_107.5": {
+    "processed_time": "2025-08-22T14:35:20.594411",
+    "raw_file_mtime": 1755556671.9306905,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_107.5_greeks.npz"
+  },
+  "3IN5/CALL_107.75": {
+    "processed_time": "2025-08-22T14:35:21.477111",
+    "raw_file_mtime": 1755556671.9316869,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_107.75_greeks.npz"
+  },
+  "3IN5/CALL_108.0": {
+    "processed_time": "2025-08-22T14:35:22.270189",
+    "raw_file_mtime": 1755556671.9336855,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_108.0_greeks.npz"
+  },
+  "3IN5/CALL_108.25": {
+    "processed_time": "2025-08-22T14:35:23.062718",
+    "raw_file_mtime": 1755556671.934688,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_108.25_greeks.npz"
+  },
+  "3IN5/CALL_108.5": {
+    "processed_time": "2025-08-22T14:35:23.859149",
+    "raw_file_mtime": 1755556671.9361973,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_108.5_greeks.npz"
+  },
+  "3IN5/CALL_108.75": {
+    "processed_time": "2025-08-22T14:35:24.629697",
+    "raw_file_mtime": 1755556671.938204,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_108.75_greeks.npz"
+  },
+  "3IN5/CALL_109.0": {
+    "processed_time": "2025-08-22T14:35:25.389951",
+    "raw_file_mtime": 1755556671.9392042,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_109.0_greeks.npz"
+  },
+  "3IN5/CALL_109.25": {
+    "processed_time": "2025-08-22T14:35:26.196939",
+    "raw_file_mtime": 1755556671.9412036,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_109.25_greeks.npz"
+  },
+  "3IN5/CALL_109.5": {
+    "processed_time": "2025-08-22T14:35:26.990905",
+    "raw_file_mtime": 1755556671.9422045,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_109.5_greeks.npz"
+  },
+  "3IN5/CALL_109.75": {
+    "processed_time": "2025-08-22T14:35:27.785457",
+    "raw_file_mtime": 1755556671.944207,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_109.75_greeks.npz"
+  },
+  "3IN5/CALL_110.0": {
+    "processed_time": "2025-08-22T14:35:28.546585",
+    "raw_file_mtime": 1755556671.9452028,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_110.0_greeks.npz"
+  },
+  "3IN5/CALL_110.25": {
+    "processed_time": "2025-08-22T14:35:29.344527",
+    "raw_file_mtime": 1755556669.188464,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_110.25_greeks.npz"
+  },
+  "3IN5/CALL_110.5": {
+    "processed_time": "2025-08-22T14:35:30.134808",
+    "raw_file_mtime": 1755556671.9462037,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_110.5_greeks.npz"
+  },
+  "3IN5/CALL_111.0": {
+    "processed_time": "2025-08-22T14:35:30.915091",
+    "raw_file_mtime": 1755556671.94827,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\CALL_111.0_greeks.npz"
+  },
+  "3IN5/PUT_107.5": {
+    "processed_time": "2025-08-22T14:35:31.693716",
+    "raw_file_mtime": 1755556672.0862372,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_107.5_greeks.npz"
+  },
+  "3IN5/PUT_107.75": {
+    "processed_time": "2025-08-22T14:35:32.463584",
+    "raw_file_mtime": 1755556672.0885067,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_107.75_greeks.npz"
+  },
+  "3IN5/PUT_108.0": {
+    "processed_time": "2025-08-22T14:35:33.245687",
+    "raw_file_mtime": 1755556672.0915048,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_108.0_greeks.npz"
+  },
+  "3IN5/PUT_108.25": {
+    "processed_time": "2025-08-22T14:35:34.029132",
+    "raw_file_mtime": 1755556672.0935056,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_108.25_greeks.npz"
+  },
+  "3IN5/PUT_108.5": {
+    "processed_time": "2025-08-22T14:35:34.835376",
+    "raw_file_mtime": 1755556672.0945094,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_108.5_greeks.npz"
+  },
+  "3IN5/PUT_108.75": {
+    "processed_time": "2025-08-22T14:35:35.614010",
+    "raw_file_mtime": 1755556672.0965064,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_108.75_greeks.npz"
+  },
+  "3IN5/PUT_109.0": {
+    "processed_time": "2025-08-22T14:35:36.399957",
+    "raw_file_mtime": 1755556672.0980165,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_109.0_greeks.npz"
+  },
+  "3IN5/PUT_109.25": {
+    "processed_time": "2025-08-22T14:35:37.178011",
+    "raw_file_mtime": 1755556672.099015,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_109.25_greeks.npz"
+  },
+  "3IN5/PUT_109.5": {
+    "processed_time": "2025-08-22T14:35:37.953228",
+    "raw_file_mtime": 1755556672.1000147,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_109.5_greeks.npz"
+  },
+  "3IN5/PUT_109.75": {
+    "processed_time": "2025-08-22T14:35:38.771551",
+    "raw_file_mtime": 1755556672.102019,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_109.75_greeks.npz"
+  },
+  "3IN5/PUT_110.0": {
+    "processed_time": "2025-08-22T14:35:39.544032",
+    "raw_file_mtime": 1755556672.103016,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_110.0_greeks.npz"
+  },
+  "3IN5/PUT_110.5": {
+    "processed_time": "2025-08-22T14:35:40.328278",
+    "raw_file_mtime": 1755556672.1050172,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_110.5_greeks.npz"
+  },
+  "3IN5/PUT_110.75": {
+    "processed_time": "2025-08-22T14:35:41.129910",
+    "raw_file_mtime": 1755556672.1065216,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_110.75_greeks.npz"
+  },
+  "3IN5/PUT_111.0": {
+    "processed_time": "2025-08-22T14:35:41.906468",
+    "raw_file_mtime": 1755556672.1085272,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_111.0_greeks.npz"
+  },
+  "3IN5/PUT_111.25": {
+    "processed_time": "2025-08-22T14:35:42.676356",
+    "raw_file_mtime": 1755556672.109527,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_111.25_greeks.npz"
+  },
+  "3IN5/PUT_111.5": {
+    "processed_time": "2025-08-22T14:35:43.466822",
+    "raw_file_mtime": 1755556672.110526,
+    "output_file": "data\\preprocessed_greeks\\3IN5\\PUT_111.5_greeks.npz"
+  },
+  "3IQ5/CALL_106.5": {
+    "processed_time": "2025-08-22T14:35:44.246739",
+    "raw_file_mtime": 1755556673.3681645,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_106.5_greeks.npz"
+  },
+  "3IQ5/CALL_107.0": {
+    "processed_time": "2025-08-22T14:35:45.041093",
+    "raw_file_mtime": 1755556673.3701577,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_107.0_greeks.npz"
+  },
+  "3IQ5/CALL_107.25": {
+    "processed_time": "2025-08-22T14:35:45.834082",
+    "raw_file_mtime": 1755556673.372159,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_107.25_greeks.npz"
+  },
+  "3IQ5/CALL_107.5": {
+    "processed_time": "2025-08-22T14:35:46.627558",
+    "raw_file_mtime": 1755556673.373662,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_107.5_greeks.npz"
+  },
+  "3IQ5/CALL_107.75": {
+    "processed_time": "2025-08-22T14:35:47.415182",
+    "raw_file_mtime": 1755556673.374668,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_107.75_greeks.npz"
+  },
+  "3IQ5/CALL_108.0": {
+    "processed_time": "2025-08-22T14:35:48.185689",
+    "raw_file_mtime": 1755556673.3761747,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_108.0_greeks.npz"
+  },
+  "3IQ5/CALL_108.25": {
+    "processed_time": "2025-08-22T14:35:48.996091",
+    "raw_file_mtime": 1755556673.3781805,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_108.25_greeks.npz"
+  },
+  "3IQ5/CALL_108.5": {
+    "processed_time": "2025-08-22T14:35:49.782358",
+    "raw_file_mtime": 1755556673.37918,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_108.5_greeks.npz"
+  },
+  "3IQ5/CALL_108.75": {
+    "processed_time": "2025-08-22T14:35:50.557660",
+    "raw_file_mtime": 1755556673.3811798,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_108.75_greeks.npz"
+  },
+  "3IQ5/CALL_109.0": {
+    "processed_time": "2025-08-22T14:35:51.312447",
+    "raw_file_mtime": 1755556673.3821828,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_109.0_greeks.npz"
+  },
+  "3IQ5/CALL_109.25": {
+    "processed_time": "2025-08-22T14:35:52.137486",
+    "raw_file_mtime": 1755556673.3841803,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_109.25_greeks.npz"
+  },
+  "3IQ5/CALL_109.5": {
+    "processed_time": "2025-08-22T14:35:52.909976",
+    "raw_file_mtime": 1755556673.38518,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_109.5_greeks.npz"
+  },
+  "3IQ5/CALL_109.75": {
+    "processed_time": "2025-08-22T14:35:53.706863",
+    "raw_file_mtime": 1755556673.3861847,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_109.75_greeks.npz"
+  },
+  "3IQ5/CALL_110.0": {
+    "processed_time": "2025-08-22T14:35:54.479892",
+    "raw_file_mtime": 1755556673.3877108,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_110.0_greeks.npz"
+  },
+  "3IQ5/CALL_110.25": {
+    "processed_time": "2025-08-22T14:35:55.270273",
+    "raw_file_mtime": 1755556673.389729,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\CALL_110.25_greeks.npz"
+  },
+  "3IQ5/PUT_106.5": {
+    "processed_time": "2025-08-22T14:35:56.050898",
+    "raw_file_mtime": 1755556673.5255027,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_106.5_greeks.npz"
+  },
+  "3IQ5/PUT_106.75": {
+    "processed_time": "2025-08-22T14:35:56.825784",
+    "raw_file_mtime": 1755556673.527007,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_106.75_greeks.npz"
+  },
+  "3IQ5/PUT_107.0": {
+    "processed_time": "2025-08-22T14:35:57.592467",
+    "raw_file_mtime": 1755556673.528279,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_107.0_greeks.npz"
+  },
+  "3IQ5/PUT_107.25": {
+    "processed_time": "2025-08-22T14:35:58.389409",
+    "raw_file_mtime": 1755556673.5312817,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_107.25_greeks.npz"
+  },
+  "3IQ5/PUT_107.5": {
+    "processed_time": "2025-08-22T14:35:59.168550",
+    "raw_file_mtime": 1755556673.5342796,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_107.5_greeks.npz"
+  },
+  "3IQ5/PUT_107.75": {
+    "processed_time": "2025-08-22T14:35:59.954553",
+    "raw_file_mtime": 1755556673.5362804,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_107.75_greeks.npz"
+  },
+  "3IQ5/PUT_108.0": {
+    "processed_time": "2025-08-22T14:36:00.709839",
+    "raw_file_mtime": 1755556673.537704,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_108.0_greeks.npz"
+  },
+  "3IQ5/PUT_108.25": {
+    "processed_time": "2025-08-22T14:36:01.507068",
+    "raw_file_mtime": 1755556673.5397048,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_108.25_greeks.npz"
+  },
+  "3IQ5/PUT_108.5": {
+    "processed_time": "2025-08-22T14:36:02.278009",
+    "raw_file_mtime": 1755556673.540706,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_108.5_greeks.npz"
+  },
+  "3IQ5/PUT_108.75": {
+    "processed_time": "2025-08-22T14:36:03.057697",
+    "raw_file_mtime": 1755556673.5427043,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_108.75_greeks.npz"
+  },
+  "3IQ5/PUT_109.0": {
+    "processed_time": "2025-08-22T14:36:03.844348",
+    "raw_file_mtime": 1755556673.5437045,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_109.0_greeks.npz"
+  },
+  "3IQ5/PUT_109.25": {
+    "processed_time": "2025-08-22T14:36:04.602429",
+    "raw_file_mtime": 1755556673.544705,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_109.25_greeks.npz"
+  },
+  "3IQ5/PUT_109.5": {
+    "processed_time": "2025-08-22T14:36:05.494749",
+    "raw_file_mtime": 1755556673.547213,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_109.5_greeks.npz"
+  },
+  "3IQ5/PUT_109.75": {
+    "processed_time": "2025-08-22T14:36:06.374959",
+    "raw_file_mtime": 1755556673.5482144,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_109.75_greeks.npz"
+  },
+  "3IQ5/PUT_110.0": {
+    "processed_time": "2025-08-22T14:36:07.175971",
+    "raw_file_mtime": 1755556673.5492258,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_110.0_greeks.npz"
+  },
+  "3IQ5/PUT_110.25": {
+    "processed_time": "2025-08-22T14:36:07.989233",
+    "raw_file_mtime": 1755556673.5512214,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_110.25_greeks.npz"
+  },
+  "3IQ5/PUT_110.5": {
+    "processed_time": "2025-08-22T14:36:08.784423",
+    "raw_file_mtime": 1755556673.5522194,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_110.5_greeks.npz"
+  },
+  "3IQ5/PUT_110.75": {
+    "processed_time": "2025-08-22T14:36:09.581686",
+    "raw_file_mtime": 1755556673.5542195,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_110.75_greeks.npz"
+  },
+  "3IQ5/PUT_111.0": {
+    "processed_time": "2025-08-22T14:36:10.481697",
+    "raw_file_mtime": 1755556673.5552225,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_111.0_greeks.npz"
+  },
+  "3IQ5/PUT_111.25": {
+    "processed_time": "2025-08-22T14:36:11.406708",
+    "raw_file_mtime": 1755556673.5562196,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_111.25_greeks.npz"
+  },
+  "3IQ5/PUT_111.5": {
+    "processed_time": "2025-08-22T14:36:12.215692",
+    "raw_file_mtime": 1755556673.5575256,
+    "output_file": "data\\preprocessed_greeks\\3IQ5\\PUT_111.5_greeks.npz"
+  },
+  "3MN5/CALL_109.75": {
+    "processed_time": "2025-08-22T14:36:12.998598",
+    "raw_file_mtime": 1755556673.7961962,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_109.75_greeks.npz"
+  },
+  "3MN5/CALL_110.0": {
+    "processed_time": "2025-08-22T14:36:13.751919",
+    "raw_file_mtime": 1755556673.798231,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_110.0_greeks.npz"
+  },
+  "3MN5/CALL_110.25": {
+    "processed_time": "2025-08-22T14:36:14.544442",
+    "raw_file_mtime": 1755556673.799239,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_110.25_greeks.npz"
+  },
+  "3MN5/CALL_110.5": {
+    "processed_time": "2025-08-22T14:36:15.322179",
+    "raw_file_mtime": 1755556673.8012319,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_110.5_greeks.npz"
+  },
+  "3MN5/CALL_110.75": {
+    "processed_time": "2025-08-22T14:36:16.143067",
+    "raw_file_mtime": 1755556673.803231,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_110.75_greeks.npz"
+  },
+  "3MN5/CALL_111.0": {
+    "processed_time": "2025-08-22T14:36:16.994401",
+    "raw_file_mtime": 1755556673.8042307,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_111.0_greeks.npz"
+  },
+  "3MN5/CALL_111.25": {
+    "processed_time": "2025-08-22T14:36:17.764029",
+    "raw_file_mtime": 1755556673.8062308,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_111.25_greeks.npz"
+  },
+  "3MN5/CALL_111.5": {
+    "processed_time": "2025-08-22T14:36:18.555804",
+    "raw_file_mtime": 1755556673.8081162,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_111.5_greeks.npz"
+  },
+  "3MN5/CALL_111.75": {
+    "processed_time": "2025-08-22T14:36:19.324212",
+    "raw_file_mtime": 1755556673.8101218,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_111.75_greeks.npz"
+  },
+  "3MN5/CALL_112.0": {
+    "processed_time": "2025-08-22T14:36:20.114663",
+    "raw_file_mtime": 1755556673.8111212,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_112.0_greeks.npz"
+  },
+  "3MN5/CALL_112.25": {
+    "processed_time": "2025-08-22T14:36:20.892063",
+    "raw_file_mtime": 1755556673.812122,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_112.25_greeks.npz"
+  },
+  "3MN5/CALL_112.5": {
+    "processed_time": "2025-08-22T14:36:21.666480",
+    "raw_file_mtime": 1755556673.8141215,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_112.5_greeks.npz"
+  },
+  "3MN5/CALL_112.75": {
+    "processed_time": "2025-08-22T14:36:22.427261",
+    "raw_file_mtime": 1755556673.815122,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_112.75_greeks.npz"
+  },
+  "3MN5/CALL_113.0": {
+    "processed_time": "2025-08-22T14:36:23.212855",
+    "raw_file_mtime": 1755556673.8166268,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_113.0_greeks.npz"
+  },
+  "3MN5/CALL_113.25": {
+    "processed_time": "2025-08-22T14:36:23.973724",
+    "raw_file_mtime": 1755556673.8186376,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_113.25_greeks.npz"
+  },
+  "3MN5/CALL_113.75": {
+    "processed_time": "2025-08-22T14:36:24.748191",
+    "raw_file_mtime": 1755556673.8196383,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_113.75_greeks.npz"
+  },
+  "3MN5/CALL_114.25": {
+    "processed_time": "2025-08-22T14:36:25.544410",
+    "raw_file_mtime": 1755556673.820639,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_114.25_greeks.npz"
+  },
+  "3MN5/CALL_114.5": {
+    "processed_time": "2025-08-22T14:36:26.343008",
+    "raw_file_mtime": 1755556673.8226383,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_114.5_greeks.npz"
+  },
+  "3MN5/CALL_114.75": {
+    "processed_time": "2025-08-22T14:36:27.141388",
+    "raw_file_mtime": 1755556673.8236382,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\CALL_114.75_greeks.npz"
+  },
+  "3MN5/PUT_108.25": {
+    "processed_time": "2025-08-22T14:36:27.936489",
+    "raw_file_mtime": 1755556670.0575893,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_108.25_greeks.npz"
+  },
+  "3MN5/PUT_109.75": {
+    "processed_time": "2025-08-22T14:36:28.730145",
+    "raw_file_mtime": 1755556674.0402193,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_109.75_greeks.npz"
+  },
+  "3MN5/PUT_110.0": {
+    "processed_time": "2025-08-22T14:36:29.560741",
+    "raw_file_mtime": 1755556674.0412223,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_110.0_greeks.npz"
+  },
+  "3MN5/PUT_110.25": {
+    "processed_time": "2025-08-22T14:36:30.357487",
+    "raw_file_mtime": 1755556674.0432196,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_110.25_greeks.npz"
+  },
+  "3MN5/PUT_110.5": {
+    "processed_time": "2025-08-22T14:36:31.129269",
+    "raw_file_mtime": 1755556674.0452247,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_110.5_greeks.npz"
+  },
+  "3MN5/PUT_110.75": {
+    "processed_time": "2025-08-22T14:36:31.905312",
+    "raw_file_mtime": 1755556674.0462196,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_110.75_greeks.npz"
+  },
+  "3MN5/PUT_111.0": {
+    "processed_time": "2025-08-22T14:36:32.706937",
+    "raw_file_mtime": 1755556674.0483472,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_111.0_greeks.npz"
+  },
+  "3MN5/PUT_111.25": {
+    "processed_time": "2025-08-22T14:36:33.522275",
+    "raw_file_mtime": 1755556674.04935,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_111.25_greeks.npz"
+  },
+  "3MN5/PUT_111.5": {
+    "processed_time": "2025-08-22T14:36:34.350824",
+    "raw_file_mtime": 1755556674.0513482,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_111.5_greeks.npz"
+  },
+  "3MN5/PUT_111.75": {
+    "processed_time": "2025-08-22T14:36:35.350368",
+    "raw_file_mtime": 1755556674.0523472,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_111.75_greeks.npz"
+  },
+  "3MN5/PUT_112.0": {
+    "processed_time": "2025-08-22T14:36:36.241020",
+    "raw_file_mtime": 1755556674.054348,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_112.0_greeks.npz"
+  },
+  "3MN5/PUT_112.25": {
+    "processed_time": "2025-08-22T14:36:37.174170",
+    "raw_file_mtime": 1755556674.0553463,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_112.25_greeks.npz"
+  },
+  "3MN5/PUT_112.5": {
+    "processed_time": "2025-08-22T14:36:37.989262",
+    "raw_file_mtime": 1755556674.0568533,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_112.5_greeks.npz"
+  },
+  "3MN5/PUT_112.75": {
+    "processed_time": "2025-08-22T14:36:38.755835",
+    "raw_file_mtime": 1755556674.0578597,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_112.75_greeks.npz"
+  },
+  "3MN5/PUT_113.0": {
+    "processed_time": "2025-08-22T14:36:39.519906",
+    "raw_file_mtime": 1755556674.0598636,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_113.0_greeks.npz"
+  },
+  "3MN5/PUT_113.25": {
+    "processed_time": "2025-08-22T14:36:40.357930",
+    "raw_file_mtime": 1755556674.0608642,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_113.25_greeks.npz"
+  },
+  "3MN5/PUT_113.5": {
+    "processed_time": "2025-08-22T14:36:41.142899",
+    "raw_file_mtime": 1755556674.0618656,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_113.5_greeks.npz"
+  },
+  "3MN5/PUT_113.75": {
+    "processed_time": "2025-08-22T14:36:41.992638",
+    "raw_file_mtime": 1755556674.0638652,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_113.75_greeks.npz"
+  },
+  "3MN5/PUT_114.0": {
+    "processed_time": "2025-08-22T14:36:42.771724",
+    "raw_file_mtime": 1755556674.064864,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_114.0_greeks.npz"
+  },
+  "3MN5/PUT_114.25": {
+    "processed_time": "2025-08-22T14:36:43.718754",
+    "raw_file_mtime": 1755556674.0663693,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_114.25_greeks.npz"
+  },
+  "3MN5/PUT_114.5": {
+    "processed_time": "2025-08-22T14:36:44.587138",
+    "raw_file_mtime": 1755556674.0683744,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_114.5_greeks.npz"
+  },
+  "3MN5/PUT_114.75": {
+    "processed_time": "2025-08-22T14:36:45.488733",
+    "raw_file_mtime": 1755556674.070376,
+    "output_file": "data\\preprocessed_greeks\\3MN5\\PUT_114.75_greeks.npz"
+  },
+  "3MQ5/CALL_109.75": {
+    "processed_time": "2025-08-22T14:36:46.271650",
+    "raw_file_mtime": 1755556672.578722,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_109.75_greeks.npz"
+  },
+  "3MQ5/CALL_110.0": {
+    "processed_time": "2025-08-22T14:36:47.143626",
+    "raw_file_mtime": 1755556672.580723,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_110.0_greeks.npz"
+  },
+  "3MQ5/CALL_110.25": {
+    "processed_time": "2025-08-22T14:36:48.342874",
+    "raw_file_mtime": 1755556672.5817213,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_110.25_greeks.npz"
+  },
+  "3MQ5/CALL_110.5": {
+    "processed_time": "2025-08-22T14:36:49.569870",
+    "raw_file_mtime": 1755556672.5837207,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_110.5_greeks.npz"
+  },
+  "3MQ5/CALL_110.75": {
+    "processed_time": "2025-08-22T14:36:50.785332",
+    "raw_file_mtime": 1755556672.5847266,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_110.75_greeks.npz"
+  },
+  "3MQ5/CALL_111.0": {
+    "processed_time": "2025-08-22T14:36:52.124918",
+    "raw_file_mtime": 1755556672.5862331,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_111.0_greeks.npz"
+  },
+  "3MQ5/CALL_111.25": {
+    "processed_time": "2025-08-22T14:36:53.651901",
+    "raw_file_mtime": 1755556672.5882409,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_111.25_greeks.npz"
+  },
+  "3MQ5/CALL_111.5": {
+    "processed_time": "2025-08-20T14:22:19.078943",
+    "raw_file_mtime": 1755556672.5892463,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_111.5_greeks.npz"
+  },
+  "3MQ5/CALL_111.75": {
+    "processed_time": "2025-08-20T14:22:19.234866",
+    "raw_file_mtime": 1755556672.59124,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_111.75_greeks.npz"
+  },
+  "3MQ5/CALL_112.0": {
+    "processed_time": "2025-08-20T14:22:19.515412",
+    "raw_file_mtime": 1755556672.5932398,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_112.0_greeks.npz"
+  },
+  "3MQ5/CALL_112.25": {
+    "processed_time": "2025-08-20T14:22:19.701770",
+    "raw_file_mtime": 1755556672.5942397,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_112.25_greeks.npz"
+  },
+  "3MQ5/CALL_112.5": {
+    "processed_time": "2025-08-20T14:22:19.879031",
+    "raw_file_mtime": 1755556672.5962398,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_112.5_greeks.npz"
+  },
+  "3MQ5/CALL_112.75": {
+    "processed_time": "2025-08-20T14:22:19.989289",
+    "raw_file_mtime": 1755556672.5975,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_112.75_greeks.npz"
+  },
+  "3MQ5/CALL_113.0": {
+    "processed_time": "2025-08-20T14:22:20.098268",
+    "raw_file_mtime": 1755556672.5985005,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_113.0_greeks.npz"
+  },
+  "3MQ5/CALL_113.25": {
+    "processed_time": "2025-08-20T14:22:20.180001",
+    "raw_file_mtime": 1755556672.6005003,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_113.25_greeks.npz"
+  },
+  "3MQ5/CALL_113.5": {
+    "processed_time": "2025-08-20T14:22:20.255052",
+    "raw_file_mtime": 1755556672.601504,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_113.5_greeks.npz"
+  },
+  "3MQ5/CALL_113.75": {
+    "processed_time": "2025-08-20T14:22:20.285264",
+    "raw_file_mtime": 1755556672.6034994,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_113.75_greeks.npz"
+  },
+  "3MQ5/CALL_114.0": {
+    "processed_time": "2025-08-20T14:22:20.339798",
+    "raw_file_mtime": 1755556672.6044998,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_114.0_greeks.npz"
+  },
+  "3MQ5/CALL_114.25": {
+    "processed_time": "2025-08-20T14:22:20.386142",
+    "raw_file_mtime": 1755556672.6065001,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_114.25_greeks.npz"
+  },
+  "3MQ5/CALL_114.5": {
+    "processed_time": "2025-08-20T14:22:20.411452",
+    "raw_file_mtime": 1755556672.6075244,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_114.5_greeks.npz"
+  },
+  "3MQ5/CALL_114.75": {
+    "processed_time": "2025-08-20T14:22:20.438204",
+    "raw_file_mtime": 1755556672.6095307,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\CALL_114.75_greeks.npz"
+  },
+  "3MQ5/PUT_109.75": {
+    "processed_time": "2025-08-20T14:22:20.479476",
+    "raw_file_mtime": 1755556672.909826,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_109.75_greeks.npz"
+  },
+  "3MQ5/PUT_110.0": {
+    "processed_time": "2025-08-20T14:22:20.533671",
+    "raw_file_mtime": 1755556672.9108236,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_110.0_greeks.npz"
+  },
+  "3MQ5/PUT_110.25": {
+    "processed_time": "2025-08-20T14:22:20.576834",
+    "raw_file_mtime": 1755556672.912824,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_110.25_greeks.npz"
+  },
+  "3MQ5/PUT_110.5": {
+    "processed_time": "2025-08-20T14:22:20.649463",
+    "raw_file_mtime": 1755556672.9138303,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_110.5_greeks.npz"
+  },
+  "3MQ5/PUT_110.75": {
+    "processed_time": "2025-08-20T14:22:20.744725",
+    "raw_file_mtime": 1755556672.914823,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_110.75_greeks.npz"
+  },
+  "3MQ5/PUT_111.0": {
+    "processed_time": "2025-08-20T14:22:20.877026",
+    "raw_file_mtime": 1755556672.916332,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_111.0_greeks.npz"
+  },
+  "3MQ5/PUT_111.25": {
+    "processed_time": "2025-08-20T14:22:20.993388",
+    "raw_file_mtime": 1755556672.9183373,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_111.25_greeks.npz"
+  },
+  "3MQ5/PUT_111.5": {
+    "processed_time": "2025-08-20T14:22:21.224712",
+    "raw_file_mtime": 1755556672.9203386,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_111.5_greeks.npz"
+  },
+  "3MQ5/PUT_111.75": {
+    "processed_time": "2025-08-20T14:22:21.540259",
+    "raw_file_mtime": 1755556672.922339,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_111.75_greeks.npz"
+  },
+  "3MQ5/PUT_112.0": {
+    "processed_time": "2025-08-20T14:22:21.763206",
+    "raw_file_mtime": 1755556672.923341,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_112.0_greeks.npz"
+  },
+  "3MQ5/PUT_112.25": {
+    "processed_time": "2025-08-20T14:22:21.902080",
+    "raw_file_mtime": 1755556672.9253385,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_112.25_greeks.npz"
+  },
+  "3MQ5/PUT_112.5": {
+    "processed_time": "2025-08-20T14:22:22.023534",
+    "raw_file_mtime": 1755556672.9263427,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_112.5_greeks.npz"
+  },
+  "3MQ5/PUT_112.75": {
+    "processed_time": "2025-08-20T14:22:22.107347",
+    "raw_file_mtime": 1755556672.9274087,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_112.75_greeks.npz"
+  },
+  "3MQ5/PUT_113.0": {
+    "processed_time": "2025-08-20T14:22:22.163069",
+    "raw_file_mtime": 1755556672.9294086,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_113.0_greeks.npz"
+  },
+  "3MQ5/PUT_113.25": {
+    "processed_time": "2025-08-20T14:22:22.209400",
+    "raw_file_mtime": 1755556672.9314098,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_113.25_greeks.npz"
+  },
+  "3MQ5/PUT_113.5": {
+    "processed_time": "2025-08-20T14:22:22.259035",
+    "raw_file_mtime": 1755556672.932408,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_113.5_greeks.npz"
+  },
+  "3MQ5/PUT_113.75": {
+    "processed_time": "2025-08-20T14:22:22.300665",
+    "raw_file_mtime": 1755556672.933409,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_113.75_greeks.npz"
+  },
+  "3MQ5/PUT_114.0": {
+    "processed_time": "2025-08-20T14:22:22.340698",
+    "raw_file_mtime": 1755556672.9344096,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_114.0_greeks.npz"
+  },
+  "3MQ5/PUT_114.25": {
+    "processed_time": "2025-08-20T14:22:22.385702",
+    "raw_file_mtime": 1755556672.936409,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_114.25_greeks.npz"
+  },
+  "3MQ5/PUT_114.5": {
+    "processed_time": "2025-08-20T14:22:22.421721",
+    "raw_file_mtime": 1755556672.9376159,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_114.5_greeks.npz"
+  },
+  "3MQ5/PUT_114.75": {
+    "processed_time": "2025-08-20T14:22:22.458249",
+    "raw_file_mtime": 1755556672.9396315,
+    "output_file": "data\\preprocessed_greeks\\3MQ5\\PUT_114.75_greeks.npz"
+  },
+  "3WN5/CALL_103.25": {
+    "processed_time": "2025-08-20T14:22:22.497362",
+    "raw_file_mtime": 1755556672.200926,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_103.25_greeks.npz"
+  },
+  "3WN5/CALL_103.5": {
+    "processed_time": "2025-08-20T14:22:22.530344",
+    "raw_file_mtime": 1755556672.2029252,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_103.5_greeks.npz"
+  },
+  "3WN5/CALL_103.625": {
+    "processed_time": "2025-08-20T14:22:22.574806",
+    "raw_file_mtime": 1755556672.2039328,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_103.625_greeks.npz"
+  },
+  "3WN5/CALL_103.75": {
+    "processed_time": "2025-08-20T14:22:22.619615",
+    "raw_file_mtime": 1755556672.2049272,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_103.75_greeks.npz"
+  },
+  "3WN5/CALL_103.875": {
+    "processed_time": "2025-08-20T14:22:22.655356",
+    "raw_file_mtime": 1755556672.2074375,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_103.875_greeks.npz"
+  },
+  "3WN5/CALL_104.0": {
+    "processed_time": "2025-08-20T14:22:22.683745",
+    "raw_file_mtime": 1755556672.2094386,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_104.0_greeks.npz"
+  },
+  "3WN5/CALL_104.125": {
+    "processed_time": "2025-08-20T14:22:22.710755",
+    "raw_file_mtime": 1755556672.2104383,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_104.125_greeks.npz"
+  },
+  "3WN5/CALL_105.0": {
+    "processed_time": "2025-08-20T14:22:22.738540",
+    "raw_file_mtime": 1755556672.2124376,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\CALL_105.0_greeks.npz"
+  },
+  "3WN5/PUT_103.25": {
+    "processed_time": "2025-08-20T14:22:22.765513",
+    "raw_file_mtime": 1755556672.283599,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\PUT_103.25_greeks.npz"
+  },
+  "3WN5/PUT_103.375": {
+    "processed_time": "2025-08-20T14:22:22.793058",
+    "raw_file_mtime": 1755556672.2856007,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\PUT_103.375_greeks.npz"
+  },
+  "3WN5/PUT_103.5": {
+    "processed_time": "2025-08-20T14:22:22.850514",
+    "raw_file_mtime": 1755556672.2871099,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\PUT_103.5_greeks.npz"
+  },
+  "3WN5/PUT_103.625": {
+    "processed_time": "2025-08-20T14:22:22.885981",
+    "raw_file_mtime": 1755556672.2881145,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\PUT_103.625_greeks.npz"
+  },
+  "3WN5/PUT_103.75": {
+    "processed_time": "2025-08-20T14:22:22.913575",
+    "raw_file_mtime": 1755556672.290114,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\PUT_103.75_greeks.npz"
+  },
+  "3WN5/PUT_104.0": {
+    "processed_time": "2025-08-20T14:22:22.943668",
+    "raw_file_mtime": 1755556672.2911143,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\PUT_104.0_greeks.npz"
+  },
+  "3WN5/PUT_104.125": {
+    "processed_time": "2025-08-20T14:22:22.971034",
+    "raw_file_mtime": 1755556672.2931156,
+    "output_file": "data\\preprocessed_greeks\\3WN5\\PUT_104.125_greeks.npz"
+  },
+  "3WQ5/CALL_102.875": {
+    "processed_time": "2025-08-20T14:22:23.000068",
+    "raw_file_mtime": 1755556673.0105777,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_102.875_greeks.npz"
+  },
+  "3WQ5/CALL_103.375": {
+    "processed_time": "2025-08-20T14:22:23.028335",
+    "raw_file_mtime": 1755556673.0115685,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_103.375_greeks.npz"
+  },
+  "3WQ5/CALL_103.5": {
+    "processed_time": "2025-08-20T14:22:23.057014",
+    "raw_file_mtime": 1755556673.013574,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_103.5_greeks.npz"
+  },
+  "3WQ5/CALL_103.625": {
+    "processed_time": "2025-08-20T14:22:23.085284",
+    "raw_file_mtime": 1755556673.0155678,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_103.625_greeks.npz"
+  },
+  "3WQ5/CALL_103.75": {
+    "processed_time": "2025-08-20T14:22:23.121015",
+    "raw_file_mtime": 1755556673.017766,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_103.75_greeks.npz"
+  },
+  "3WQ5/CALL_103.875": {
+    "processed_time": "2025-08-20T14:22:23.163417",
+    "raw_file_mtime": 1755556673.0187716,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_103.875_greeks.npz"
+  },
+  "3WQ5/CALL_104.0": {
+    "processed_time": "2025-08-20T14:22:23.221573",
+    "raw_file_mtime": 1755556673.0207713,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_104.0_greeks.npz"
+  },
+  "3WQ5/CALL_104.125": {
+    "processed_time": "2025-08-20T14:22:23.265610",
+    "raw_file_mtime": 1755556673.0227702,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_104.125_greeks.npz"
+  },
+  "3WQ5/CALL_104.25": {
+    "processed_time": "2025-08-20T14:22:23.294780",
+    "raw_file_mtime": 1755556673.0237708,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_104.25_greeks.npz"
+  },
+  "3WQ5/CALL_104.375": {
+    "processed_time": "2025-08-20T14:22:23.322459",
+    "raw_file_mtime": 1755556673.0247707,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_104.375_greeks.npz"
+  },
+  "3WQ5/CALL_104.5": {
+    "processed_time": "2025-08-20T14:22:23.353447",
+    "raw_file_mtime": 1755556673.027281,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_104.5_greeks.npz"
+  },
+  "3WQ5/CALL_104.625": {
+    "processed_time": "2025-08-20T14:22:23.381588",
+    "raw_file_mtime": 1755556673.0282896,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_104.625_greeks.npz"
+  },
+  "3WQ5/CALL_105.0": {
+    "processed_time": "2025-08-20T14:22:23.411064",
+    "raw_file_mtime": 1755556673.0302823,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_105.0_greeks.npz"
+  },
+  "3WQ5/CALL_105.125": {
+    "processed_time": "2025-08-20T14:22:23.441419",
+    "raw_file_mtime": 1755556673.0312862,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\CALL_105.125_greeks.npz"
+  },
+  "3WQ5/PUT_103.0": {
+    "processed_time": "2025-08-20T14:22:23.469084",
+    "raw_file_mtime": 1755556673.0951142,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_103.0_greeks.npz"
+  },
+  "3WQ5/PUT_103.25": {
+    "processed_time": "2025-08-20T14:22:23.496206",
+    "raw_file_mtime": 1755556673.0976248,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_103.25_greeks.npz"
+  },
+  "3WQ5/PUT_103.375": {
+    "processed_time": "2025-08-20T14:22:23.526142",
+    "raw_file_mtime": 1755556673.098631,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_103.375_greeks.npz"
+  },
+  "3WQ5/PUT_103.5": {
+    "processed_time": "2025-08-20T14:22:23.554490",
+    "raw_file_mtime": 1755556673.099624,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_103.5_greeks.npz"
+  },
+  "3WQ5/PUT_103.625": {
+    "processed_time": "2025-08-20T14:22:23.586892",
+    "raw_file_mtime": 1755556673.1016243,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_103.625_greeks.npz"
+  },
+  "3WQ5/PUT_103.75": {
+    "processed_time": "2025-08-20T14:22:23.619741",
+    "raw_file_mtime": 1755556673.1026237,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_103.75_greeks.npz"
+  },
+  "3WQ5/PUT_103.875": {
+    "processed_time": "2025-08-20T14:22:23.661651",
+    "raw_file_mtime": 1755556673.1046257,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_103.875_greeks.npz"
+  },
+  "3WQ5/PUT_104.0": {
+    "processed_time": "2025-08-20T14:22:23.700265",
+    "raw_file_mtime": 1755556673.1061301,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_104.0_greeks.npz"
+  },
+  "3WQ5/PUT_104.125": {
+    "processed_time": "2025-08-20T14:22:23.736204",
+    "raw_file_mtime": 1755556673.107136,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_104.125_greeks.npz"
+  },
+  "3WQ5/PUT_104.25": {
+    "processed_time": "2025-08-20T14:22:23.765414",
+    "raw_file_mtime": 1755556673.1094255,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_104.25_greeks.npz"
+  },
+  "3WQ5/PUT_104.375": {
+    "processed_time": "2025-08-20T14:22:23.791909",
+    "raw_file_mtime": 1755556673.1104274,
+    "output_file": "data\\preprocessed_greeks\\3WQ5\\PUT_104.375_greeks.npz"
+  },
+  "3CN5_CALL_111.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_111.0_greeks.npz"
+  },
+  "3CN5_CALL_111.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_111.5_greeks.npz"
+  },
+  "3CN5_CALL_112.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_112.0_greeks.npz"
+  },
+  "3CN5_CALL_112.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_112.5_greeks.npz"
+  },
+  "3CN5_CALL_113.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_113.0_greeks.npz"
+  },
+  "3CN5_CALL_113.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 113.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_113.5_greeks.npz"
+  },
+  "3CN5_CALL_114.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 114.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_114.0_greeks.npz"
+  },
+  "3CN5_CALL_114.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_114.5_greeks.npz"
+  },
+  "3CN5_CALL_115.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 115.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_115.0_greeks.npz"
+  },
+  "3CN5_CALL_115.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 115.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_115.5_greeks.npz"
+  },
+  "3CN5_CALL_116.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 116.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_116.0_greeks.npz"
+  },
+  "3CN5_CALL_116.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 116.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_116.5_greeks.npz"
+  },
+  "3CN5_CALL_117.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 117.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_117.0_greeks.npz"
+  },
+  "3CN5_CALL_117.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 117.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_117.5_greeks.npz"
+  },
+  "3CN5_CALL_118.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 118.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_118.0_greeks.npz"
+  },
+  "3CN5_CALL_118.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 118.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_118.5_greeks.npz"
+  },
+  "3CN5_CALL_119.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 119.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_119.0_greeks.npz"
+  },
+  "3CN5_CALL_120.5": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 120.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_120.5_greeks.npz"
+  },
+  "3CN5_CALL_121.0": {
+    "weekly_code": "3CN5",
+    "option_type": "CALL",
+    "strike": 121.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\CALL_121.0_greeks.npz"
+  },
+  "3CN5_PUT_109.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 109.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_109.5_greeks.npz"
+  },
+  "3CN5_PUT_110.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_110.0_greeks.npz"
+  },
+  "3CN5_PUT_111.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_111.0_greeks.npz"
+  },
+  "3CN5_PUT_111.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_111.5_greeks.npz"
+  },
+  "3CN5_PUT_112.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_112.0_greeks.npz"
+  },
+  "3CN5_PUT_112.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_112.5_greeks.npz"
+  },
+  "3CN5_PUT_113.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_113.0_greeks.npz"
+  },
+  "3CN5_PUT_113.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 113.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_113.5_greeks.npz"
+  },
+  "3CN5_PUT_114.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 114.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_114.0_greeks.npz"
+  },
+  "3CN5_PUT_114.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_114.5_greeks.npz"
+  },
+  "3CN5_PUT_115.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 115.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_115.0_greeks.npz"
+  },
+  "3CN5_PUT_115.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 115.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_115.5_greeks.npz"
+  },
+  "3CN5_PUT_116.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 116.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_116.0_greeks.npz"
+  },
+  "3CN5_PUT_116.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 116.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_116.5_greeks.npz"
+  },
+  "3CN5_PUT_117.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 117.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_117.0_greeks.npz"
+  },
+  "3CN5_PUT_117.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 117.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_117.5_greeks.npz"
+  },
+  "3CN5_PUT_118.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 118.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_118.0_greeks.npz"
+  },
+  "3CN5_PUT_118.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 118.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_118.5_greeks.npz"
+  },
+  "3CN5_PUT_119.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 119.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_119.0_greeks.npz"
+  },
+  "3CN5_PUT_119.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 119.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_119.5_greeks.npz"
+  },
+  "3CN5_PUT_120.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 120.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_120.0_greeks.npz"
+  },
+  "3CN5_PUT_120.5": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 120.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_120.5_greeks.npz"
+  },
+  "3CN5_PUT_121.0": {
+    "weekly_code": "3CN5",
+    "option_type": "PUT",
+    "strike": 121.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CN5\\PUT_121.0_greeks.npz"
+  },
+  "3CQ5_CALL_111.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_111.0_greeks.npz"
+  },
+  "3CQ5_CALL_111.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_111.5_greeks.npz"
+  },
+  "3CQ5_CALL_112.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_112.0_greeks.npz"
+  },
+  "3CQ5_CALL_112.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_112.5_greeks.npz"
+  },
+  "3CQ5_CALL_113.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_113.0_greeks.npz"
+  },
+  "3CQ5_CALL_113.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 113.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_113.5_greeks.npz"
+  },
+  "3CQ5_CALL_114.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 114.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_114.0_greeks.npz"
+  },
+  "3CQ5_CALL_114.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_114.5_greeks.npz"
+  },
+  "3CQ5_CALL_115.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 115.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_115.0_greeks.npz"
+  },
+  "3CQ5_CALL_115.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 115.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_115.5_greeks.npz"
+  },
+  "3CQ5_CALL_116.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 116.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_116.0_greeks.npz"
+  },
+  "3CQ5_CALL_116.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 116.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_116.5_greeks.npz"
+  },
+  "3CQ5_CALL_117.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 117.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_117.0_greeks.npz"
+  },
+  "3CQ5_CALL_117.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 117.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_117.5_greeks.npz"
+  },
+  "3CQ5_CALL_118.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 118.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_118.0_greeks.npz"
+  },
+  "3CQ5_CALL_118.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 118.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_118.5_greeks.npz"
+  },
+  "3CQ5_CALL_119.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 119.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_119.0_greeks.npz"
+  },
+  "3CQ5_CALL_119.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 119.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_119.5_greeks.npz"
+  },
+  "3CQ5_CALL_120.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 120.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_120.0_greeks.npz"
+  },
+  "3CQ5_CALL_120.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 120.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_120.5_greeks.npz"
+  },
+  "3CQ5_CALL_121.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "CALL",
+    "strike": 121.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\CALL_121.0_greeks.npz"
+  },
+  "3CQ5_PUT_111.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_111.0_greeks.npz"
+  },
+  "3CQ5_PUT_111.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_111.5_greeks.npz"
+  },
+  "3CQ5_PUT_112.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_112.0_greeks.npz"
+  },
+  "3CQ5_PUT_112.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_112.5_greeks.npz"
+  },
+  "3CQ5_PUT_113.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_113.0_greeks.npz"
+  },
+  "3CQ5_PUT_113.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 113.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_113.5_greeks.npz"
+  },
+  "3CQ5_PUT_114.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 114.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_114.0_greeks.npz"
+  },
+  "3CQ5_PUT_114.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_114.5_greeks.npz"
+  },
+  "3CQ5_PUT_115.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 115.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_115.0_greeks.npz"
+  },
+  "3CQ5_PUT_115.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 115.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_115.5_greeks.npz"
+  },
+  "3CQ5_PUT_116.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 116.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_116.0_greeks.npz"
+  },
+  "3CQ5_PUT_116.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 116.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_116.5_greeks.npz"
+  },
+  "3CQ5_PUT_117.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 117.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_117.0_greeks.npz"
+  },
+  "3CQ5_PUT_117.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 117.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_117.5_greeks.npz"
+  },
+  "3CQ5_PUT_118.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 118.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_118.0_greeks.npz"
+  },
+  "3CQ5_PUT_118.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 118.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_118.5_greeks.npz"
+  },
+  "3CQ5_PUT_119.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 119.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_119.0_greeks.npz"
+  },
+  "3CQ5_PUT_119.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 119.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_119.5_greeks.npz"
+  },
+  "3CQ5_PUT_120.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 120.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_120.0_greeks.npz"
+  },
+  "3CQ5_PUT_120.5": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 120.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_120.5_greeks.npz"
+  },
+  "3CQ5_PUT_121.0": {
+    "weekly_code": "3CQ5",
+    "option_type": "PUT",
+    "strike": 121.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3CQ5\\PUT_121.0_greeks.npz"
+  },
+  "3IN5_CALL_106.5": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 106.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_106.5_greeks.npz"
+  },
+  "3IN5_CALL_106.75": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 106.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_106.75_greeks.npz"
+  },
+  "3IN5_CALL_107.0": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 107.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_107.0_greeks.npz"
+  },
+  "3IN5_CALL_107.25": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 107.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_107.25_greeks.npz"
+  },
+  "3IN5_CALL_107.5": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 107.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_107.5_greeks.npz"
+  },
+  "3IN5_CALL_107.75": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 107.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_107.75_greeks.npz"
+  },
+  "3IN5_CALL_108.0": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 108.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_108.0_greeks.npz"
+  },
+  "3IN5_CALL_108.25": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 108.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_108.25_greeks.npz"
+  },
+  "3IN5_CALL_108.5": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 108.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_108.5_greeks.npz"
+  },
+  "3IN5_CALL_108.75": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 108.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_108.75_greeks.npz"
+  },
+  "3IN5_CALL_109.0": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 109.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_109.0_greeks.npz"
+  },
+  "3IN5_CALL_109.25": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 109.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_109.25_greeks.npz"
+  },
+  "3IN5_CALL_109.5": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 109.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_109.5_greeks.npz"
+  },
+  "3IN5_CALL_109.75": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_109.75_greeks.npz"
+  },
+  "3IN5_CALL_110.0": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_110.0_greeks.npz"
+  },
+  "3IN5_CALL_110.25": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 110.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_110.25_greeks.npz"
+  },
+  "3IN5_CALL_110.5": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 110.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_110.5_greeks.npz"
+  },
+  "3IN5_CALL_111.0": {
+    "weekly_code": "3IN5",
+    "option_type": "CALL",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\CALL_111.0_greeks.npz"
+  },
+  "3IN5_PUT_107.5": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 107.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_107.5_greeks.npz"
+  },
+  "3IN5_PUT_107.75": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 107.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_107.75_greeks.npz"
+  },
+  "3IN5_PUT_108.0": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 108.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_108.0_greeks.npz"
+  },
+  "3IN5_PUT_108.25": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 108.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_108.25_greeks.npz"
+  },
+  "3IN5_PUT_108.5": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 108.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_108.5_greeks.npz"
+  },
+  "3IN5_PUT_108.75": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 108.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_108.75_greeks.npz"
+  },
+  "3IN5_PUT_109.0": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 109.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_109.0_greeks.npz"
+  },
+  "3IN5_PUT_109.25": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 109.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_109.25_greeks.npz"
+  },
+  "3IN5_PUT_109.5": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 109.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_109.5_greeks.npz"
+  },
+  "3IN5_PUT_109.75": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_109.75_greeks.npz"
+  },
+  "3IN5_PUT_110.0": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_110.0_greeks.npz"
+  },
+  "3IN5_PUT_110.5": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 110.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_110.5_greeks.npz"
+  },
+  "3IN5_PUT_110.75": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 110.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_110.75_greeks.npz"
+  },
+  "3IN5_PUT_111.0": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_111.0_greeks.npz"
+  },
+  "3IN5_PUT_111.25": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 111.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_111.25_greeks.npz"
+  },
+  "3IN5_PUT_111.5": {
+    "weekly_code": "3IN5",
+    "option_type": "PUT",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IN5\\PUT_111.5_greeks.npz"
+  },
+  "3IQ5_CALL_106.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 106.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_106.5_greeks.npz"
+  },
+  "3IQ5_CALL_107.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 107.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_107.0_greeks.npz"
+  },
+  "3IQ5_CALL_107.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 107.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_107.25_greeks.npz"
+  },
+  "3IQ5_CALL_107.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 107.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_107.5_greeks.npz"
+  },
+  "3IQ5_CALL_107.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 107.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_107.75_greeks.npz"
+  },
+  "3IQ5_CALL_108.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 108.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_108.0_greeks.npz"
+  },
+  "3IQ5_CALL_108.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 108.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_108.25_greeks.npz"
+  },
+  "3IQ5_CALL_108.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 108.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_108.5_greeks.npz"
+  },
+  "3IQ5_CALL_108.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 108.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_108.75_greeks.npz"
+  },
+  "3IQ5_CALL_109.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 109.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_109.0_greeks.npz"
+  },
+  "3IQ5_CALL_109.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 109.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_109.25_greeks.npz"
+  },
+  "3IQ5_CALL_109.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 109.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_109.5_greeks.npz"
+  },
+  "3IQ5_CALL_109.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_109.75_greeks.npz"
+  },
+  "3IQ5_CALL_110.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_110.0_greeks.npz"
+  },
+  "3IQ5_CALL_110.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "CALL",
+    "strike": 110.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\CALL_110.25_greeks.npz"
+  },
+  "3IQ5_PUT_106.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 106.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_106.5_greeks.npz"
+  },
+  "3IQ5_PUT_106.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 106.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_106.75_greeks.npz"
+  },
+  "3IQ5_PUT_107.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 107.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_107.0_greeks.npz"
+  },
+  "3IQ5_PUT_107.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 107.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_107.25_greeks.npz"
+  },
+  "3IQ5_PUT_107.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 107.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_107.5_greeks.npz"
+  },
+  "3IQ5_PUT_107.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 107.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_107.75_greeks.npz"
+  },
+  "3IQ5_PUT_108.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 108.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_108.0_greeks.npz"
+  },
+  "3IQ5_PUT_108.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 108.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_108.25_greeks.npz"
+  },
+  "3IQ5_PUT_108.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 108.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_108.5_greeks.npz"
+  },
+  "3IQ5_PUT_108.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 108.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_108.75_greeks.npz"
+  },
+  "3IQ5_PUT_109.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 109.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_109.0_greeks.npz"
+  },
+  "3IQ5_PUT_109.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 109.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_109.25_greeks.npz"
+  },
+  "3IQ5_PUT_109.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 109.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_109.5_greeks.npz"
+  },
+  "3IQ5_PUT_109.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_109.75_greeks.npz"
+  },
+  "3IQ5_PUT_110.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_110.0_greeks.npz"
+  },
+  "3IQ5_PUT_110.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 110.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_110.25_greeks.npz"
+  },
+  "3IQ5_PUT_110.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 110.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_110.5_greeks.npz"
+  },
+  "3IQ5_PUT_110.75": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 110.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_110.75_greeks.npz"
+  },
+  "3IQ5_PUT_111.0": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_111.0_greeks.npz"
+  },
+  "3IQ5_PUT_111.25": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 111.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_111.25_greeks.npz"
+  },
+  "3IQ5_PUT_111.5": {
+    "weekly_code": "3IQ5",
+    "option_type": "PUT",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3IQ5\\PUT_111.5_greeks.npz"
+  },
+  "3MN5_CALL_109.75": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_109.75_greeks.npz"
+  },
+  "3MN5_CALL_110.0": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_110.0_greeks.npz"
+  },
+  "3MN5_CALL_110.25": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 110.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_110.25_greeks.npz"
+  },
+  "3MN5_CALL_110.5": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 110.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_110.5_greeks.npz"
+  },
+  "3MN5_CALL_110.75": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 110.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_110.75_greeks.npz"
+  },
+  "3MN5_CALL_111.0": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_111.0_greeks.npz"
+  },
+  "3MN5_CALL_111.25": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 111.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_111.25_greeks.npz"
+  },
+  "3MN5_CALL_111.5": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_111.5_greeks.npz"
+  },
+  "3MN5_CALL_111.75": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 111.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_111.75_greeks.npz"
+  },
+  "3MN5_CALL_112.0": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_112.0_greeks.npz"
+  },
+  "3MN5_CALL_112.25": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 112.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_112.25_greeks.npz"
+  },
+  "3MN5_CALL_112.5": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_112.5_greeks.npz"
+  },
+  "3MN5_CALL_112.75": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 112.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_112.75_greeks.npz"
+  },
+  "3MN5_CALL_113.0": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_113.0_greeks.npz"
+  },
+  "3MN5_CALL_113.25": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 113.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_113.25_greeks.npz"
+  },
+  "3MN5_CALL_113.75": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 113.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_113.75_greeks.npz"
+  },
+  "3MN5_CALL_114.25": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 114.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_114.25_greeks.npz"
+  },
+  "3MN5_CALL_114.5": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_114.5_greeks.npz"
+  },
+  "3MN5_CALL_114.75": {
+    "weekly_code": "3MN5",
+    "option_type": "CALL",
+    "strike": 114.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\CALL_114.75_greeks.npz"
+  },
+  "3MN5_PUT_108.25": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 108.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_108.25_greeks.npz"
+  },
+  "3MN5_PUT_109.75": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_109.75_greeks.npz"
+  },
+  "3MN5_PUT_110.0": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_110.0_greeks.npz"
+  },
+  "3MN5_PUT_110.25": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 110.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_110.25_greeks.npz"
+  },
+  "3MN5_PUT_110.5": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 110.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_110.5_greeks.npz"
+  },
+  "3MN5_PUT_110.75": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 110.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_110.75_greeks.npz"
+  },
+  "3MN5_PUT_111.0": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_111.0_greeks.npz"
+  },
+  "3MN5_PUT_111.25": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 111.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_111.25_greeks.npz"
+  },
+  "3MN5_PUT_111.5": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_111.5_greeks.npz"
+  },
+  "3MN5_PUT_111.75": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 111.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_111.75_greeks.npz"
+  },
+  "3MN5_PUT_112.0": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_112.0_greeks.npz"
+  },
+  "3MN5_PUT_112.25": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 112.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_112.25_greeks.npz"
+  },
+  "3MN5_PUT_112.5": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_112.5_greeks.npz"
+  },
+  "3MN5_PUT_112.75": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 112.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_112.75_greeks.npz"
+  },
+  "3MN5_PUT_113.0": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_113.0_greeks.npz"
+  },
+  "3MN5_PUT_113.25": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 113.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_113.25_greeks.npz"
+  },
+  "3MN5_PUT_113.5": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 113.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_113.5_greeks.npz"
+  },
+  "3MN5_PUT_113.75": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 113.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_113.75_greeks.npz"
+  },
+  "3MN5_PUT_114.0": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 114.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_114.0_greeks.npz"
+  },
+  "3MN5_PUT_114.25": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 114.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_114.25_greeks.npz"
+  },
+  "3MN5_PUT_114.5": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_114.5_greeks.npz"
+  },
+  "3MN5_PUT_114.75": {
+    "weekly_code": "3MN5",
+    "option_type": "PUT",
+    "strike": 114.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MN5\\PUT_114.75_greeks.npz"
+  },
+  "3MQ5_CALL_109.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_109.75_greeks.npz"
+  },
+  "3MQ5_CALL_110.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_110.0_greeks.npz"
+  },
+  "3MQ5_CALL_110.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 110.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_110.25_greeks.npz"
+  },
+  "3MQ5_CALL_110.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 110.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_110.5_greeks.npz"
+  },
+  "3MQ5_CALL_110.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 110.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_110.75_greeks.npz"
+  },
+  "3MQ5_CALL_111.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_111.0_greeks.npz"
+  },
+  "3MQ5_CALL_111.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 111.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_111.25_greeks.npz"
+  },
+  "3MQ5_CALL_111.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_111.5_greeks.npz"
+  },
+  "3MQ5_CALL_111.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 111.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_111.75_greeks.npz"
+  },
+  "3MQ5_CALL_112.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_112.0_greeks.npz"
+  },
+  "3MQ5_CALL_112.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 112.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_112.25_greeks.npz"
+  },
+  "3MQ5_CALL_112.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_112.5_greeks.npz"
+  },
+  "3MQ5_CALL_112.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 112.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_112.75_greeks.npz"
+  },
+  "3MQ5_CALL_113.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_113.0_greeks.npz"
+  },
+  "3MQ5_CALL_113.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 113.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_113.25_greeks.npz"
+  },
+  "3MQ5_CALL_113.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 113.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_113.5_greeks.npz"
+  },
+  "3MQ5_CALL_113.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 113.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_113.75_greeks.npz"
+  },
+  "3MQ5_CALL_114.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 114.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_114.0_greeks.npz"
+  },
+  "3MQ5_CALL_114.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 114.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_114.25_greeks.npz"
+  },
+  "3MQ5_CALL_114.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_114.5_greeks.npz"
+  },
+  "3MQ5_CALL_114.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "CALL",
+    "strike": 114.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\CALL_114.75_greeks.npz"
+  },
+  "3MQ5_PUT_109.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 109.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_109.75_greeks.npz"
+  },
+  "3MQ5_PUT_110.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 110.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_110.0_greeks.npz"
+  },
+  "3MQ5_PUT_110.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 110.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_110.25_greeks.npz"
+  },
+  "3MQ5_PUT_110.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 110.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_110.5_greeks.npz"
+  },
+  "3MQ5_PUT_110.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 110.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_110.75_greeks.npz"
+  },
+  "3MQ5_PUT_111.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 111.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_111.0_greeks.npz"
+  },
+  "3MQ5_PUT_111.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 111.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_111.25_greeks.npz"
+  },
+  "3MQ5_PUT_111.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 111.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_111.5_greeks.npz"
+  },
+  "3MQ5_PUT_111.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 111.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_111.75_greeks.npz"
+  },
+  "3MQ5_PUT_112.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 112.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_112.0_greeks.npz"
+  },
+  "3MQ5_PUT_112.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 112.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_112.25_greeks.npz"
+  },
+  "3MQ5_PUT_112.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 112.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_112.5_greeks.npz"
+  },
+  "3MQ5_PUT_112.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 112.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_112.75_greeks.npz"
+  },
+  "3MQ5_PUT_113.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 113.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_113.0_greeks.npz"
+  },
+  "3MQ5_PUT_113.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 113.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_113.25_greeks.npz"
+  },
+  "3MQ5_PUT_113.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 113.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_113.5_greeks.npz"
+  },
+  "3MQ5_PUT_113.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 113.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_113.75_greeks.npz"
+  },
+  "3MQ5_PUT_114.0": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 114.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_114.0_greeks.npz"
+  },
+  "3MQ5_PUT_114.25": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 114.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_114.25_greeks.npz"
+  },
+  "3MQ5_PUT_114.5": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 114.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_114.5_greeks.npz"
+  },
+  "3MQ5_PUT_114.75": {
+    "weekly_code": "3MQ5",
+    "option_type": "PUT",
+    "strike": 114.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3MQ5\\PUT_114.75_greeks.npz"
+  },
+  "3WN5_CALL_103.25": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 103.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_103.25_greeks.npz"
+  },
+  "3WN5_CALL_103.5": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 103.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_103.5_greeks.npz"
+  },
+  "3WN5_CALL_103.625": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 103.625,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_103.625_greeks.npz"
+  },
+  "3WN5_CALL_103.75": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 103.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_103.75_greeks.npz"
+  },
+  "3WN5_CALL_103.875": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 103.875,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_103.875_greeks.npz"
+  },
+  "3WN5_CALL_104.0": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 104.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_104.0_greeks.npz"
+  },
+  "3WN5_CALL_104.125": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 104.125,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_104.125_greeks.npz"
+  },
+  "3WN5_CALL_105.0": {
+    "weekly_code": "3WN5",
+    "option_type": "CALL",
+    "strike": 105.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\CALL_105.0_greeks.npz"
+  },
+  "3WN5_PUT_103.25": {
+    "weekly_code": "3WN5",
+    "option_type": "PUT",
+    "strike": 103.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\PUT_103.25_greeks.npz"
+  },
+  "3WN5_PUT_103.375": {
+    "weekly_code": "3WN5",
+    "option_type": "PUT",
+    "strike": 103.375,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\PUT_103.375_greeks.npz"
+  },
+  "3WN5_PUT_103.5": {
+    "weekly_code": "3WN5",
+    "option_type": "PUT",
+    "strike": 103.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\PUT_103.5_greeks.npz"
+  },
+  "3WN5_PUT_103.625": {
+    "weekly_code": "3WN5",
+    "option_type": "PUT",
+    "strike": 103.625,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\PUT_103.625_greeks.npz"
+  },
+  "3WN5_PUT_103.75": {
+    "weekly_code": "3WN5",
+    "option_type": "PUT",
+    "strike": 103.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\PUT_103.75_greeks.npz"
+  },
+  "3WN5_PUT_104.0": {
+    "weekly_code": "3WN5",
+    "option_type": "PUT",
+    "strike": 104.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\PUT_104.0_greeks.npz"
+  },
+  "3WN5_PUT_104.125": {
+    "weekly_code": "3WN5",
+    "option_type": "PUT",
+    "strike": 104.125,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WN5\\PUT_104.125_greeks.npz"
+  },
+  "3WQ5_CALL_102.875": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 102.875,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_102.875_greeks.npz"
+  },
+  "3WQ5_CALL_103.375": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 103.375,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_103.375_greeks.npz"
+  },
+  "3WQ5_CALL_103.5": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 103.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_103.5_greeks.npz"
+  },
+  "3WQ5_CALL_103.625": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 103.625,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_103.625_greeks.npz"
+  },
+  "3WQ5_CALL_103.75": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 103.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_103.75_greeks.npz"
+  },
+  "3WQ5_CALL_103.875": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 103.875,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_103.875_greeks.npz"
+  },
+  "3WQ5_CALL_104.0": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 104.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_104.0_greeks.npz"
+  },
+  "3WQ5_CALL_104.125": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 104.125,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_104.125_greeks.npz"
+  },
+  "3WQ5_CALL_104.25": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 104.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_104.25_greeks.npz"
+  },
+  "3WQ5_CALL_104.375": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 104.375,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_104.375_greeks.npz"
+  },
+  "3WQ5_CALL_104.5": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 104.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_104.5_greeks.npz"
+  },
+  "3WQ5_CALL_104.625": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 104.625,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_104.625_greeks.npz"
+  },
+  "3WQ5_CALL_105.0": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 105.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_105.0_greeks.npz"
+  },
+  "3WQ5_CALL_105.125": {
+    "weekly_code": "3WQ5",
+    "option_type": "CALL",
+    "strike": 105.125,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\CALL_105.125_greeks.npz"
+  },
+  "3WQ5_PUT_103.0": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 103.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_103.0_greeks.npz"
+  },
+  "3WQ5_PUT_103.25": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 103.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_103.25_greeks.npz"
+  },
+  "3WQ5_PUT_103.375": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 103.375,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_103.375_greeks.npz"
+  },
+  "3WQ5_PUT_103.5": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 103.5,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_103.5_greeks.npz"
+  },
+  "3WQ5_PUT_103.625": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 103.625,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_103.625_greeks.npz"
+  },
+  "3WQ5_PUT_103.75": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 103.75,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_103.75_greeks.npz"
+  },
+  "3WQ5_PUT_103.875": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 103.875,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_103.875_greeks.npz"
+  },
+  "3WQ5_PUT_104.0": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 104.0,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_104.0_greeks.npz"
+  },
+  "3WQ5_PUT_104.125": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 104.125,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_104.125_greeks.npz"
+  },
+  "3WQ5_PUT_104.25": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 104.25,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_104.25_greeks.npz"
+  },
+  "3WQ5_PUT_104.375": {
+    "weekly_code": "3WQ5",
+    "option_type": "PUT",
+    "strike": 104.375,
+    "output_file": "data/preprocessed_greeks\\dense_daily_recalc\\3WQ5\\PUT_104.375_greeks.npz"
+  }
+}

@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.set_loglevel('warning')
+
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Dict

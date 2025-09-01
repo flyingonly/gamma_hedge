@@ -67,6 +67,14 @@ class TrainingConfig:
     value_loss_weight: float = 0.5
     l2_regularization_weight: float = 0.0001
     
+    # Execution probability variation enhancement parameters
+    sharpness_regularizer: float = 0.1
+    entropy_gate_k: float = 3.0
+    
+    # Temporal Edge-Aware Regularizer (TEAR) parameters
+    temporal_push: float = 0.05
+    temporal_smooth: float = 0.01
+    
     # Time series parameters
     align_to_daily: bool = False
     split_ratios: List[float] = None

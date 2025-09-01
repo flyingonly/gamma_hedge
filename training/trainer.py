@@ -78,7 +78,11 @@ class Trainer:
             'policy_loss': training_config.policy_loss_weight,
             'value_loss': training_config.value_loss_weight if use_value_function else 0.0,
             'entropy_loss': training_config.entropy_weight,
-            'l2_regularization': training_config.l2_regularization_weight
+            'l2_regularization': training_config.l2_regularization_weight,
+            'sharpness_regularizer': training_config.sharpness_regularizer,
+            'entropy_gate_k': training_config.entropy_gate_k,
+            'temporal_push': training_config.temporal_push,
+            'temporal_smooth': training_config.temporal_smooth
         }
         
         self.loss_calculator = create_advanced_loss_calculator(

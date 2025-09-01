@@ -17,7 +17,7 @@ from data.precomputed_data_loader import PrecomputedGreeksDataset
 from models.policy_network import PolicyNetwork
 from training.trainer import Trainer
 from training.evaluator import Evaluator
-from utils.config import get_config, create_unified_config
+from core.config import create_config
 from utils.visualization import plot_training_history, plot_execution_pattern, plot_results
 
 def parse_args():
@@ -59,7 +59,7 @@ def main():
     np.random.seed(42)
     
     # Get unified configuration
-    config = create_unified_config(args)
+    config = create_config(cli_args=vars(args) if args else {})
     
     # Check delta hedge mode
     use_delta_hedge = config['delta_hedge'].enable_delta
