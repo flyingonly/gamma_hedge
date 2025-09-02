@@ -143,7 +143,7 @@ class GreeksConfig:
     preprocessing_mode: str = "sparse"  # sparse, dense_interpolated, dense_daily_recalc
     force_reprocess: bool = True
     resume_from_cache: bool = False
-    risk_free_rate: float = 0.02
+    risk_free_rate: float = 0.0
     dividend_yield: float = 0.0
     time_to_expiry_days: int = 30
     volatility_fallback: float = 0.2

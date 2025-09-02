@@ -13,6 +13,7 @@ from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 import json
 import sys
+from scipy.optimize import brentq
 
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -242,17 +243,18 @@ class GreeksPreprocessor:
                 option_price = self._get_price_at_timestamp(
                     timestamp, data['option_timestamps'], data['option_prices']
                 )
+                # Calculate volatility (try implied first, fallback to historical)
+                volatility = self._get_volatility_estimate(
+                    data, timestamp, underlying_price, option_price, 
+                    strike, time_to_expiry, option_type
+                )
+                
                 if option_price is None:
-                    # Estimate using Black-Scholes
-                    volatility = self._get_volatility_estimate(data, timestamp)
+                    # Estimate using Black-Scholes with calculated volatility
                     option_price = self.bs_model.option_price(
                         underlying_price, strike, time_to_expiry, 
                         risk_free_rate, volatility, option_type.lower()
                     )
-                
-                # Calculate volatility
-                volatility = self._get_volatility_estimate(data, timestamp)
-                volatility = np.clip(volatility, self.config.min_volatility, self.config.max_volatility)
                 
                 # Calculate all Greeks
                 greeks = self.bs_model.calculate_all(
@@ -393,17 +395,18 @@ class GreeksPreprocessor:
                 option_price = self._get_price_at_timestamp(
                     timestamp, data['option_timestamps'], data['option_prices']
                 )
+                # Calculate volatility (try implied first, fallback to historical)
+                volatility = self._get_volatility_estimate(
+                    data, timestamp, underlying_price, option_price, 
+                    strike, time_to_expiry, option_type
+                )
+                
                 if option_price is None:
-                    # Estimate using Black-Scholes
-                    volatility = self._get_volatility_estimate(data, timestamp)
+                    # Estimate using Black-Scholes with calculated volatility
                     option_price = self.bs_model.option_price(
                         underlying_price, strike, time_to_expiry, 
                         risk_free_rate, volatility, option_type.lower()
                     )
-                
-                # Calculate volatility
-                volatility = self._get_volatility_estimate(data, timestamp)
-                volatility = np.clip(volatility, self.config.min_volatility, self.config.max_volatility)
                 
                 if daily_base_greeks is None:
                     # First point of day: Full Black-Scholes calculation
@@ -453,14 +456,55 @@ class GreeksPreprocessor:
             return float(prices[closest_idx])
         return None
     
-    def _get_volatility_estimate(self, data: Dict, timestamp: float) -> float:
-        """Estimate volatility using historical data"""
+    def _get_volatility_estimate(self, data: Dict, timestamp: float, underlying_price: float, 
+                               option_price: Optional[float], strike: float, time_to_expiry: float, 
+                               option_type: str) -> float:
+        """
+        Get volatility estimate, preferring implied volatility from market price if available,
+        falling back to historical volatility
+        """
+        # Try implied volatility first if option price is available
+        if option_price is not None:
+            implied_vol = self._calculate_implied_volatility(
+                option_price, underlying_price, strike, time_to_expiry, option_type
+            )
+            if implied_vol is not None:
+                return implied_vol
+        
+        # Fall back to historical volatility
         try:
             return self._calculate_historical_volatility(
                 data['underlying_timestamps'], data['underlying_prices'], timestamp
             )
         except:
             return self.config.default_volatility
+    
+    def _calculate_implied_volatility(self, market_price: float, S: float, K: float, 
+                                    T: float, option_type: str, max_iterations: int = 100) -> Optional[float]:
+        """
+        Calculate implied volatility from market price using Brent's method
+        """
+        if T <= 0 or market_price <= 0:
+            return None
+        
+        def price_diff(sigma):
+            if sigma <= 0:
+                return float('inf')
+            try:
+                theoretical_price = self.bs_model.option_price(
+                    S, K, T, self.config.risk_free_rate, sigma, option_type.lower()
+                )
+                return theoretical_price - market_price
+            except:
+                return float('inf')
+        
+        try:
+            # Use reasonable bounds for volatility search
+            iv = brentq(price_diff, 0.001, 3.0, maxiter=max_iterations)
+            # Clamp to reasonable range
+            return np.clip(iv, self.config.min_volatility, self.config.max_volatility)
+        except:
+            return None
     
     def _calculate_historical_volatility(self, timestamps: np.ndarray, prices: np.ndarray, target_timestamp: float) -> float:
         """Calculate historical volatility using recent price data"""
